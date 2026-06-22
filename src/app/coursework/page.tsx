@@ -1,0 +1,343 @@
+"use client";
+
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import Link from "next/link";
+import { useState } from "react";
+
+const navLinks = [
+  { label: "About", href: "/#about" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Coursework", href: "/coursework" },
+  { label: "Resume", href: "/#resume" },
+  { label: "Contact", href: "/#contact" },
+] as const;
+
+const courses = [
+  {
+    code: "MGSC 2301",
+    title: "Business Statistics",
+    href: "/coursework/mgsc2301",
+    skills: [
+      "Regression Analysis",
+      "ANOVA",
+      "Hypothesis Testing",
+      "SPSS",
+    ],
+  },
+  {
+    code: "MG 4057",
+    title: "Project Management",
+    href: "/coursework/mg4057",
+    skills: [
+      "WBS",
+      "Gantt Charts",
+      "Risk Management",
+      "Stakeholder Analysis",
+    ],
+  },
+  {
+    code: "AF 3116",
+    title: "Management Accounting",
+    href: "/coursework/af3116",
+    skills: ["Cost Analysis", "Budgeting", "Variance Analysis"],
+  },
+] as const;
+
+const EASE = [0.25, 0.4, 0.25, 1] as const;
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, delay: i * 0.08, ease: EASE },
+  }),
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+};
+
+const viewport = { once: true, margin: "-100px" as const };
+
+function SunMoonIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+    >
+      <path d="M7 17L17 7M17 7H7M17 7V17" />
+    </svg>
+  );
+}
+
+function BackIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      className="transition-transform duration-300 group-hover:-translate-x-0.5"
+    >
+      <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+  );
+}
+
+export default function CourseworkPage() {
+  const [navScrolled, setNavScrolled] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setNavScrolled(latest > 40);
+  });
+
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-black text-[#f5f5f7]">
+      {/* Ambient background */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute top-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#2997ff]/[0.06] blur-[120px]" />
+        <div className="absolute right-0 bottom-1/4 h-[350px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[100px]" />
+        <div
+          className="absolute inset-0 opacity-[0.012]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+      </div>
+
+      {/* Navigation */}
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, ease: EASE }}
+        className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
+          navScrolled
+            ? "border-b border-white/[0.06] bg-black/60 backdrop-blur-2xl"
+            : "bg-transparent"
+        }`}
+      >
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-8 lg:py-5">
+          <Link
+            href="/"
+            className="text-sm font-semibold tracking-[-0.02em] text-[#f5f5f7] transition-opacity hover:opacity-70"
+          >
+            Lokesh Addagiri
+          </Link>
+
+          <div className="hidden items-center gap-9 md:flex">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={`text-[13px] transition-colors duration-200 ${
+                  link.label === "Coursework"
+                    ? "text-[#f5f5f7]"
+                    : "text-[#86868b] hover:text-[#f5f5f7]"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Toggle dark/light mode"
+              className="glass flex h-9 w-9 items-center justify-center rounded-full text-[#86868b] transition-all duration-200 hover:text-[#f5f5f7]"
+            >
+              <SunMoonIcon />
+            </button>
+            <button
+              type="button"
+              aria-label="Open menu"
+              className="glass flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full md:hidden"
+            >
+              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
+              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
+            </button>
+          </div>
+        </nav>
+      </motion.header>
+
+      <main className="relative z-10">
+        {/* Page header */}
+        <section className="px-6 pt-36 pb-20 lg:px-8 lg:pt-44 lg:pb-28">
+          <div className="mx-auto max-w-6xl">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={staggerContainer}
+            >
+              <motion.div custom={0} variants={fadeUp}>
+                <Link
+                  href="/"
+                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                >
+                  <BackIcon />
+                  Back to Home
+                </Link>
+              </motion.div>
+
+              <motion.p
+                custom={1}
+                variants={fadeUp}
+                className="text-[13px] font-medium tracking-[0.22em] text-[#86868b] uppercase"
+              >
+                Coursework
+              </motion.p>
+
+              <motion.h1
+                custom={2}
+                variants={fadeUp}
+                className="mt-4 text-[clamp(2.5rem,7vw,4.5rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-[#f5f5f7]"
+              >
+                Academic Archive
+              </motion.h1>
+
+              <motion.p
+                custom={3}
+                variants={fadeUp}
+                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-[#86868b]"
+              >
+                Every course, project, report, presentation, and major
+                assignment documented throughout my academic journey.
+              </motion.p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Course cards */}
+        <section className="px-6 pb-32 lg:px-8">
+          <div className="mx-auto max-w-6xl">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+              variants={staggerContainer}
+              className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+            >
+              {courses.map((course, i) => (
+                <motion.article
+                  key={course.code}
+                  custom={i}
+                  variants={fadeUp}
+                  whileHover={{ y: -8, transition: { duration: 0.35 } }}
+                  className="glass-strong group relative flex flex-col overflow-hidden rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]"
+                >
+                  <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-[#2997ff]/[0.07] blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+
+                  <p className="text-[13px] font-medium tracking-[0.12em] text-[#2997ff] uppercase">
+                    {course.code}
+                  </p>
+
+                  <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[#f5f5f7]">
+                    {course.title}
+                  </h2>
+
+                  <div className="mt-8 flex-1">
+                    <p className="text-[12px] font-medium tracking-[0.14em] text-[#86868b] uppercase">
+                      Skills
+                    </p>
+                    <ul className="mt-4 space-y-3">
+                      {course.skills.map((skill) => (
+                        <li
+                          key={skill}
+                          className="flex items-center gap-3 text-[15px] text-[#d2d2d7]"
+                        >
+                          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#2997ff]/80" />
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Link
+                    href={course.href}
+                    className="group/btn mt-10 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] text-[15px] font-medium tracking-[-0.01em] text-[#f5f5f7] transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.08]"
+                  >
+                    View Details
+                    <ArrowIcon />
+                  </Link>
+                </motion.article>
+              ))}
+            </motion.div>
+
+            {/* Archive note */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+              variants={fadeUp}
+              custom={0}
+              className="glass mt-16 rounded-3xl px-8 py-10 text-center sm:px-12"
+            >
+              <p className="text-[17px] leading-relaxed text-[#86868b]">
+                More courses will be added as they are completed. Each entry
+                will include projects, reports, presentations, and key
+                assignments.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-white/[0.06] px-6 py-12 lg:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 sm:flex-row">
+          <p className="text-[13px] text-[#86868b]">
+            © {new Date().getFullYear()} Lokesh Addagiri. All rights reserved.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-[13px] text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
