@@ -18,132 +18,96 @@ const navLinks = [
   { label: "Contact", href: "/#contact" },
 ] as const;
 
-/** Project management accent — page-local only */
-const ACCENT = "#8045da";
-const ACCENT_LIGHT = "#a67eef";
-const ACCENT_GLOW = "rgba(128, 69, 218, 0.35)";
-const ACCENT_GLOW_STRONG = "rgba(128, 69, 218, 0.45)";
-const ACCENT_GLOW_HERO = "rgba(128, 69, 218, 0.55)";
-const ACCENT_RGB = "128, 69, 218";
+/** Northeastern-inspired accent — page-local only */
+const ACCENT = "#C8102E";
+const ACCENT_LIGHT = "#E8324A";
+const ACCENT_GLOW = "rgba(200, 16, 46, 0.35)";
 
 const skills = [
-  "Work Breakdown Structures",
-  "Gantt Scheduling",
-  "Stakeholder Analysis",
-  "Risk Management",
-  "Project Planning",
-  "Scope Management",
-  "Project Governance",
-  "Resource Planning",
-  "Implementation Strategy",
+  "Business Calculus",
+  "Optimization",
+  "Derivative Applications",
+  "Marginal Revenue",
+  "Marginal Cost",
+  "Profit Maximization",
+  "Demand Modeling",
+  "Mathematical Modeling",
+  "Market Research",
 ] as const;
 
 const projectHighlights = [
-  "Defined project scope and governance structure",
-  "Created a detailed Work Breakdown Structure",
-  "Built a full project schedule using Microsoft Project",
-  "Developed stakeholder engagement strategies",
-  "Conducted risk identification and prioritization",
-  "Planned deployment, training, and go-live activities",
+  "Designed a hockey-themed Northeastern T-shirt product",
+  "Estimated reachable target market",
+  "Collected survey data from 50 participants",
+  "Built demand, revenue, cost, and profit functions",
+  "Found revenue-maximizing and profit-maximizing prices",
+  "Recommended a final selling price of $20",
 ] as const;
 
 const keyMetrics = [
-  { value: "195", label: "Days" },
-  { value: "55", label: "Tasks" },
-  { value: "5", label: "Phases" },
-  { value: "10", label: "Risks" },
+  { label: "Poll Participants", value: "50", featured: false },
+  { label: "Revenue-Maximizing Price", value: "$17.65", featured: false },
+  { label: "Profit-Maximizing Price", value: "$20.39", featured: false },
+  { label: "Final Recommended Price", value: "$20", featured: true },
 ] as const;
 
-const projectInsights = [
+const galleryImages = [
   {
-    title: "Stakeholder Alignment",
-    description:
-      "Successful projects require managing people and expectations as carefully as schedules and budgets.",
+    src: "/images/coursework/math1231/math1231-shirt-front.png",
+    alt: "Front design of the Northeastern Hockey T-shirt",
+    title: "Front Design",
+    caption:
+      "Minimalist Northeastern Hockey branding used for the primary retail concept.",
+    layout: "portrait" as const,
   },
   {
-    title: "Risk Awareness",
-    description:
-      "Early identification of high-impact risks improves project resilience and decision-making.",
+    src: "/images/coursework/math1231/math1231-shirt-back.png",
+    alt: "Back design of the Northeastern Hockey T-shirt",
+    title: "Back Design",
+    caption:
+      'Heritage-inspired "Home of the Huskies" design created to increase perceived value and fan appeal.',
+    layout: "portrait" as const,
   },
   {
-    title: "Structured Planning",
-    description:
-      "Breaking complex initiatives into manageable tasks creates clarity and improves execution.",
+    src: "/images/coursework/math1231/math1231-demand-curve.png",
+    alt: "Profit function graph for optimal selling price",
+    caption: "Profit function used to identify the optimal selling price.",
+    layout: "landscape" as const,
   },
 ] as const;
 
-const wbsImage = {
-  src: "/images/coursework/mg4057/mg4057-wbs.png",
-  alt: "Work Breakdown Structure for SHMS implementation",
-  caption:
-    "Work Breakdown Structure defining all phases, deliverables, and implementation activities.",
-  layout: "chart" as const,
-} as const;
-
-const ganttImage = {
-  src: "/images/coursework/mg4057/mg4057-gantt.png",
-  alt: "Microsoft Project Gantt schedule for SHMS",
-  caption:
-    "Microsoft Project schedule showing dependencies, milestones, critical activities, and project timeline.",
-  layout: "landscape" as const,
-} as const;
-
-const stakeholderImage = {
-  src: "/images/coursework/mg4057/mg4057-stakeholder-matrix.png",
-  alt: "Stakeholder power-interest matrix for SHMS",
-  title: "Stakeholder Management",
-  caption:
-    "Power-interest framework used to prioritize stakeholder engagement and communication strategies throughout the project lifecycle.",
-  layout: "chart" as const,
-} as const;
-
-const riskImage = {
-  src: "/images/coursework/mg4057/mg4057-risk-matrix.png",
-  alt: "Governance and risk framework for SHMS",
-  title: "Governance Framework",
-  caption:
-    "Governance and oversight framework used to coordinate stakeholders, reporting structures, and project execution.",
-  layout: "chart" as const,
-} as const;
-
-type GalleryImage = {
-  src: string;
-  alt: string;
-  caption: string;
-  layout: "chart" | "landscape" | "portrait";
-  title?: string;
-};
+type GalleryImage = (typeof galleryImages)[number];
 
 const artifacts = [
   {
-    label: "Final Report",
-    icon: "document",
-    href: "/documents/mg4057-shms-final-report.pdf",
+    label: "Full Presentation",
+    icon: "slides",
+    href: "/documents/math1231-tshirt-sales-campaign.pdf",
   },
-  { label: "Work Breakdown Structure", icon: "wbs" },
-  { label: "Gantt Schedule", icon: "gantt" },
-  { label: "Risk Assessment", icon: "risk" },
+  { label: "Demand Analysis", icon: "demand" },
+  { label: "Optimization Graph", icon: "graph" },
+  { label: "Pricing Recommendation", icon: "pricing" },
 ] as const;
 
 const takeaways = [
   {
-    title: "Projects succeed through planning",
+    title: "Calculus can directly support pricing strategy",
     description:
-      "Strong planning creates clarity, alignment, and accountability.",
+      "Derivatives and optimization techniques translated abstract math into a concrete $20 price recommendation grounded in demand and cost functions.",
   },
   {
-    title: "Stakeholders drive outcomes",
+    title: "Market research improves mathematical models",
     description:
-      "Managing stakeholder expectations is critical to project success.",
+      "Survey data from 50 participants gave the demand model real-world validity — without it, optimization would have been purely theoretical.",
   },
   {
-    title: "Risk management creates resilience",
+    title: "Profit optimization is different from revenue optimization",
     description:
-      "Projects perform better when risks are identified and addressed early.",
+      "The revenue-maximizing price ($17.65) and profit-maximizing price ($20.39) diverged, reinforcing that maximizing sales volume is not the same as maximizing bottom-line returns.",
   },
 ] as const;
 
-const PDF_SRC = "/documents/mg4057-shms-final-report.pdf";
+const PDF_SRC = "/documents/math1231-tshirt-sales-campaign.pdf";
 
 const EASE = [0.25, 0.4, 0.25, 1] as const;
 
@@ -219,7 +183,7 @@ function CloseIcon() {
   );
 }
 
-function DocumentIcon() {
+function SlidesIcon() {
   return (
     <svg
       width="20"
@@ -232,13 +196,13 @@ function DocumentIcon() {
       strokeLinejoin="round"
       aria-hidden
     >
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+      <rect x="2" y="3" width="20" height="14" rx="2" />
+      <path d="M8 21h8M12 17v4" />
     </svg>
   );
 }
 
-function WbsIcon() {
+function DemandIcon() {
   return (
     <svg
       width="20"
@@ -251,15 +215,13 @@ function WbsIcon() {
       strokeLinejoin="round"
       aria-hidden
     >
-      <rect x="3" y="3" width="7" height="5" rx="1" />
-      <rect x="14" y="3" width="7" height="5" rx="1" />
-      <rect x="8.5" y="16" width="7" height="5" rx="1" />
-      <path d="M6.5 8v3.5H12v4.5M17.5 8v3.5H12" />
+      <path d="M3 3v18h18" />
+      <path d="M7 16l4-8 4 5 6-9" />
     </svg>
   );
 }
 
-function GanttIcon() {
+function GraphIcon() {
   return (
     <svg
       width="20"
@@ -272,15 +234,14 @@ function GanttIcon() {
       strokeLinejoin="round"
       aria-hidden
     >
-      <path d="M3 6h18M3 12h18M3 18h18" />
-      <rect x="5" y="4.5" width="8" height="3" rx="1" fill="currentColor" fillOpacity="0.2" stroke="currentColor" />
-      <rect x="9" y="10.5" width="10" height="3" rx="1" fill="currentColor" fillOpacity="0.2" stroke="currentColor" />
-      <rect x="7" y="16.5" width="6" height="3" rx="1" fill="currentColor" fillOpacity="0.2" stroke="currentColor" />
+      <path d="M3 20h18" />
+      <path d="M6 16l4-6 4 3 5-8" />
+      <circle cx="18" cy="8" r="1.5" fill="currentColor" />
     </svg>
   );
 }
 
-function RiskIcon() {
+function PricingIcon() {
   return (
     <svg
       width="20"
@@ -293,8 +254,7 @@ function RiskIcon() {
       strokeLinejoin="round"
       aria-hidden
     >
-      <path d="M12 9v4M12 17h.01" />
-      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
     </svg>
   );
 }
@@ -324,93 +284,59 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 
 function artifactIcon(type: string) {
   switch (type) {
-    case "document":
-      return <DocumentIcon />;
-    case "wbs":
-      return <WbsIcon />;
-    case "gantt":
-      return <GanttIcon />;
-    case "risk":
-      return <RiskIcon />;
+    case "slides":
+      return <SlidesIcon />;
+    case "demand":
+      return <DemandIcon />;
+    case "graph":
+      return <GraphIcon />;
+    case "pricing":
+      return <PricingIcon />;
     default:
-      return <DocumentIcon />;
+      return <SlidesIcon />;
   }
-}
-
-function aspectForLayout(
-  layout: GalleryImage["layout"],
-  variant: "default" | "showcase" | "large" | "emphasized" | "compact" = "default",
-) {
-  if (layout === "landscape") {
-    if (variant === "showcase") return "aspect-[16/14]";
-    return "aspect-[16/10]";
-  }
-  if (layout === "chart") {
-    if (variant === "large") return "aspect-[16/11]";
-    if (variant === "compact") return "aspect-[16/9]";
-    if (variant === "emphasized") return "aspect-[10/9]";
-    return "aspect-[4/3]";
-  }
-  return "aspect-[3/4]";
 }
 
 function GalleryCard({
   image,
   index,
   onOpen,
-  variant = "default",
-  glow = "default",
+  featured = false,
+  compact = false,
 }: {
   image: GalleryImage;
   index: number;
   onOpen: (image: GalleryImage) => void;
-  variant?: "default" | "showcase" | "large" | "emphasized" | "compact";
-  glow?: "default" | "strong" | "hero";
+  featured?: boolean;
+  compact?: boolean;
 }) {
-  const aspectClass = aspectForLayout(image.layout, variant);
-  const isShowcase = variant === "showcase";
-
-  const paddingClass = {
-    showcase: "p-1 sm:p-1.5",
-    large: "p-3 sm:p-4",
-    compact: "p-2.5 sm:p-3",
-    emphasized: "p-2.5 sm:p-3",
-    default: "p-4 sm:p-5",
-  }[variant];
-
-  const hoverGlow = {
-    default: ACCENT_GLOW,
-    strong: ACCENT_GLOW_STRONG,
-    hero: ACCENT_GLOW_HERO,
-  }[glow];
-
-  const hoverScale = isShowcase ? 1.015 : 1.012;
+  const aspectClass =
+    image.layout === "landscape"
+      ? compact
+        ? "aspect-[16/6]"
+        : "aspect-[16/10]"
+      : "aspect-[3/4]";
 
   return (
     <motion.button
       type="button"
       custom={index}
       variants={fadeUp}
-      whileHover={{
-        y: -6,
-        scale: hoverScale,
-        transition: { duration: 0.35 },
-      }}
+      whileHover={{ y: -6, transition: { duration: 0.35 } }}
       onClick={() => onOpen(image)}
-      className={`glass-strong group relative w-full overflow-hidden rounded-3xl text-left transition-all duration-500 ${paddingClass}`}
-      style={{ boxShadow: "none" }}
+      className={`glass-strong group relative w-full overflow-hidden rounded-3xl text-left transition-shadow duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)] ${
+        compact ? "p-3 sm:p-4" : "p-4 sm:p-5"
+      } ${featured ? "lg:col-span-2" : ""}`}
+      style={{
+        boxShadow: "none",
+      }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `0 28px 70px ${hoverGlow}`;
+        e.currentTarget.style.boxShadow = `0 24px 60px ${ACCENT_GLOW}`;
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.boxShadow = "none";
       }}
     >
-      {image.title ? (
-        <p className="mb-3 text-[15px] font-semibold tracking-[-0.01em] text-[#f5f5f7]">
-          {image.title}
-        </p>
-      ) : null}
       <div
         className={`relative ${aspectClass} overflow-hidden rounded-2xl bg-black/40`}
       >
@@ -419,17 +345,28 @@ function GalleryCard({
           alt={image.alt}
           fill
           sizes={
-            isShowcase || variant === "large" || variant === "emphasized" || variant === "compact"
-              ? "(max-width: 1024px) 100vw, 1200px"
-              : "(max-width: 1024px) 100vw, 50vw"
+            featured
+              ? "(max-width: 1024px) 100vw, 66vw"
+              : "(max-width: 1024px) 100vw, 33vw"
           }
           className="object-contain transition-transform duration-500 group-hover:scale-[1.03]"
         />
-        <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] transition-all duration-300 group-hover:ring-[#8045da]/30" />
+        <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] transition-all duration-300 group-hover:ring-[#C8102E]/30" />
       </div>
-      <p className="mt-2.5 text-[13px] leading-relaxed text-[#86868b] transition-colors duration-300 group-hover:text-[#d2d2d7]">
-        {image.caption}
-      </p>
+      {"title" in image && image.title ? (
+        <>
+          <p className="mt-4 text-[15px] font-semibold tracking-[-0.01em] text-[#f5f5f7]">
+            {image.title}
+          </p>
+          <p className="mt-2 text-[14px] leading-relaxed text-[#86868b] transition-colors duration-300 group-hover:text-[#d2d2d7]">
+            {image.caption}
+          </p>
+        </>
+      ) : (
+        <p className="mt-3 text-[14px] leading-relaxed text-[#86868b] transition-colors duration-300 group-hover:text-[#d2d2d7]">
+          {image.caption}
+        </p>
+      )}
       <p
         className="mt-2 text-[12px] font-medium tracking-wide uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ color: ACCENT }}
@@ -482,10 +419,11 @@ function ImageLightbox({
               <CloseIcon />
             </button>
             <div
-              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-black/60 ${aspectForLayout(
-                image.layout,
-                image.layout === "landscape" ? "showcase" : "default",
-              )} max-h-[75vh]`}
+              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-black/60 ${
+                image.layout === "landscape"
+                  ? "aspect-[16/10] max-h-[70vh]"
+                  : "aspect-[3/4] max-h-[75vh] max-w-md"
+              }`}
             >
               <Image
                 src={image.src}
@@ -506,7 +444,7 @@ function ImageLightbox({
   );
 }
 
-export default function MG4057Page() {
+export default function MATH1231Page() {
   const [navScrolled, setNavScrolled] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<GalleryImage | null>(null);
   const { scrollY } = useScroll();
@@ -531,6 +469,9 @@ export default function MG4057Page() {
     };
   }, [lightboxImage, closeLightbox]);
 
+  const shirtImages = galleryImages.filter((img) => img.layout === "portrait");
+  const analysisImage = galleryImages.find((img) => img.layout === "landscape");
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-[#f5f5f7]">
       <ImageLightbox image={lightboxImage} onClose={closeLightbox} />
@@ -539,7 +480,7 @@ export default function MG4057Page() {
       <div className="pointer-events-none fixed inset-0 z-0">
         <div
           className="absolute top-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full blur-[120px]"
-          style={{ backgroundColor: "rgba(128, 69, 218, 0.06)" }}
+          style={{ backgroundColor: "rgba(200, 16, 46, 0.06)" }}
         />
         <div className="absolute right-0 bottom-1/3 h-[350px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[100px]" />
         <div
@@ -632,7 +573,7 @@ export default function MG4057Page() {
                 className="text-[13px] font-medium tracking-[0.22em] uppercase"
                 style={{ color: ACCENT }}
               >
-                MG 4057
+                MATH 1231
               </motion.p>
 
               <motion.h1
@@ -640,7 +581,7 @@ export default function MG4057Page() {
                 variants={fadeUp}
                 className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-[#f5f5f7]"
               >
-                Project Management
+                Calculus for Business and Economics
               </motion.h1>
 
               <motion.p
@@ -648,14 +589,14 @@ export default function MG4057Page() {
                 variants={fadeUp}
                 className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-[#86868b]"
               >
-                Planning, scheduling, stakeholder coordination, and risk
-                management for large-scale organizational projects.
+                Applying derivatives, optimization, and mathematical modeling
+                to real business decisions.
               </motion.p>
             </motion.div>
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-16 px-6 pb-24 lg:space-y-24 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-24 px-6 pb-32 lg:space-y-32 lg:px-8">
           {/* Course Overview */}
           <motion.section
             initial="hidden"
@@ -666,20 +607,23 @@ export default function MG4057Page() {
           >
             <SectionLabel>Course Overview</SectionLabel>
             <SectionHeading>
-              Delivering projects through structured planning and execution.
+              Mathematics that powers business decisions.
             </SectionHeading>
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-[#d2d2d7]">
-                MG4057 introduced project management methodologies used to plan,
-                execute, monitor, and close complex projects. The course
-                emphasized scope definition, stakeholder engagement, scheduling,
-                risk management, governance, and project delivery frameworks.
+                MATH 1231 applied calculus to business and economic problems —
+                bridging abstract mathematics with the quantitative tools used
+                in finance, marketing, and operations. The course built a
+                foundation in how rates of change and accumulation inform
+                real-world decision making.
               </p>
               <p className="mt-5 text-[17px] leading-[1.8] text-[#86868b]">
-                Through the Smart Health Monitoring System (SHMS) implementation
-                project, I developed practical experience creating work breakdown
-                structures, project schedules, stakeholder analyses, risk
-                assessments, and implementation plans.
+                Core topics included derivatives, marginal revenue, marginal
+                cost, marginal profit, optimization, antiderivatives, definite
+                integrals, and business/economic applications. Through applied
+                projects, I learned to model demand, analyze revenue and cost
+                functions, and use calculus to find optimal pricing and
+                production strategies.
               </p>
             </div>
           </motion.section>
@@ -707,7 +651,7 @@ export default function MG4057Page() {
                 >
                   <span
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: "rgba(128, 69, 218, 0.12)" }}
+                    style={{ backgroundColor: "rgba(200, 16, 46, 0.12)" }}
                   >
                     <span
                       className="h-2 w-2 rounded-full"
@@ -730,10 +674,9 @@ export default function MG4057Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Capstone Project</SectionLabel>
+            <SectionLabel>Featured Project</SectionLabel>
             <SectionHeading>
-              How do you successfully implement a hospital-wide smart health
-              monitoring system?
+              From survey data to optimal pricing.
             </SectionHeading>
 
             <motion.article
@@ -742,29 +685,28 @@ export default function MG4057Page() {
             >
               <div
                 className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-                style={{ backgroundColor: "rgba(128, 69, 218, 0.1)" }}
+                style={{ backgroundColor: "rgba(200, 16, 46, 0.1)" }}
               />
 
               <span
                 className="inline-flex rounded-full border px-3.5 py-1.5 text-[11px] font-medium tracking-[0.1em] uppercase"
                 style={{
-                  borderColor: "rgba(128, 69, 218, 0.25)",
-                  backgroundColor: "rgba(128, 69, 218, 0.1)",
+                  borderColor: "rgba(200, 16, 46, 0.25)",
+                  backgroundColor: "rgba(200, 16, 46, 0.1)",
                   color: ACCENT_LIGHT,
                 }}
               >
-                Capstone Project
+                Applied Project
               </span>
 
               <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[#f5f5f7]">
-                Smart Health Monitoring System (SHMS) Implementation
+                Northeastern Hockey T-Shirt Sales Campaign
               </h3>
 
               <p className="mt-4 max-w-3xl text-[17px] leading-[1.75] text-[#86868b]">
-                Developed a comprehensive project plan for implementing a Smart
-                Health Monitoring System across a healthcare network, including
-                stakeholder management, risk assessment, scheduling, governance,
-                and deployment planning.
+                Designed and evaluated a Northeastern Hockey T-shirt sales
+                campaign using market research, demand modeling, revenue
+                analysis, cost analysis, and calculus-based optimization.
               </p>
 
               <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
@@ -792,21 +734,39 @@ export default function MG4057Page() {
                   <p className="text-[12px] font-medium tracking-[0.14em] text-[#86868b] uppercase">
                     Key Metrics
                   </p>
-                  <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {keyMetrics.map((metric) => (
                       <div
                         key={metric.label}
-                        className="glass rounded-2xl border border-white/[0.06] px-5 py-5 transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(128,69,218,0.1)]"
+                        className={`rounded-2xl px-5 py-5 transition-shadow duration-300 ${
+                          metric.featured
+                            ? "border border-[#C8102E]/35 bg-[#C8102E]/[0.08] shadow-[0_0_40px_rgba(200,16,46,0.15)]"
+                            : "glass border border-white/[0.06]"
+                        }`}
                       >
+                        <p className="text-[12px] font-medium tracking-wide text-[#86868b]">
+                          {metric.label}
+                        </p>
                         <p
-                          className="text-[clamp(1.75rem,4vw,2.25rem)] font-semibold leading-none tracking-[-0.03em]"
-                          style={{ color: ACCENT_LIGHT }}
+                          className={`mt-2 font-semibold tracking-[-0.02em] ${
+                            metric.featured
+                              ? "text-[clamp(1.5rem,3vw,2rem)]"
+                              : "text-xl"
+                          }`}
+                          style={{
+                            color: metric.featured ? ACCENT_LIGHT : "#f5f5f7",
+                          }}
                         >
                           {metric.value}
                         </p>
-                        <p className="mt-2 text-[12px] font-medium tracking-[0.1em] text-[#86868b] uppercase">
-                          {metric.label}
-                        </p>
+                        {metric.featured && (
+                          <p
+                            className="mt-1 text-[11px] font-medium tracking-wide uppercase"
+                            style={{ color: ACCENT }}
+                          >
+                            Recommended Price
+                          </p>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -815,58 +775,7 @@ export default function MG4057Page() {
             </motion.article>
           </motion.section>
 
-          {/* Project Structure — WBS */}
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={fadeUp}
-            custom={0}
-          >
-            <SectionLabel>Project Structure</SectionLabel>
-            <SectionHeading>Building the project foundation.</SectionHeading>
-
-            <div className="mt-5">
-              <GalleryCard
-                image={wbsImage}
-                index={1}
-                onOpen={setLightboxImage}
-                variant="compact"
-                glow="default"
-              />
-            </div>
-          </motion.section>
-
-          {/* Schedule & Timeline — Gantt centerpiece */}
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={fadeUp}
-            custom={0}
-          >
-            <SectionLabel>Schedule &amp; Timeline</SectionLabel>
-            <SectionHeading>
-              Project scheduling and execution planning.
-            </SectionHeading>
-
-            <div
-              className="mt-6 rounded-3xl p-px shadow-[0_0_80px_rgba(128,69,218,0.22)]"
-              style={{
-                background: `linear-gradient(135deg, rgba(${ACCENT_RGB},0.55), rgba(${ACCENT_RGB},0.08))`,
-              }}
-            >
-              <GalleryCard
-                image={ganttImage}
-                index={1}
-                onOpen={setLightboxImage}
-                variant="showcase"
-                glow="hero"
-              />
-            </div>
-          </motion.section>
-
-          {/* Project Governance & Risk Management */}
+          {/* Project Design & Analysis Gallery */}
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -874,87 +783,63 @@ export default function MG4057Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Governance &amp; Risk</SectionLabel>
-              <SectionHeading>Project Governance &amp; Risk Management</SectionHeading>
-              <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-[#86868b]">
-                Stakeholder prioritization, governance structures, and oversight
-                frameworks used to support communication, risk management, and
-                decision-making throughout the SHMS implementation.
-              </p>
+              <SectionLabel>Project Design &amp; Analysis</SectionLabel>
+              <SectionHeading>
+                Turning survey data into a complete product and pricing strategy.
+              </SectionHeading>
             </motion.div>
 
-            <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
-              <GalleryCard
-                image={stakeholderImage}
-                index={1}
-                onOpen={setLightboxImage}
-                variant="compact"
-                glow="strong"
-              />
-              <GalleryCard
-                image={riskImage}
-                index={2}
-                onOpen={setLightboxImage}
-                variant="compact"
-                glow="strong"
-              />
-            </div>
-          </motion.section>
-
-          {/* Project Insights */}
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Project Insights</SectionLabel>
-              <SectionHeading>Project Management Insights</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
-              {projectInsights.map((insight, i) => (
-                <motion.div
-                  key={insight.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{
-                    y: -6,
-                    scale: 1.015,
-                    transition: { duration: 0.3 },
-                  }}
-                  className="glass-strong relative overflow-hidden rounded-3xl border border-[#8045da]/20 p-7 transition-all duration-500 sm:p-8"
-                  style={{ boxShadow: "none" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow =
-                      "0 24px 60px rgba(128, 69, 218, 0.2)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = "none";
-                  }}
-                >
-                  <div
-                    className="pointer-events-none absolute inset-x-0 top-0 h-px"
-                    style={{
-                      background: `linear-gradient(90deg, transparent, rgba(${ACCENT_RGB},0.5), transparent)`,
-                    }}
-                  />
-                  <p
-                    className="text-[13px] font-semibold tracking-[0.14em] uppercase"
-                    style={{ color: ACCENT_LIGHT }}
-                  >
-                    {insight.title}
-                  </p>
-                  <p className="mt-4 text-[15px] leading-[1.7] text-[#d2d2d7]">
-                    {insight.description}
-                  </p>
-                </motion.div>
+            <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
+              {shirtImages.map((image, i) => (
+                <GalleryCard
+                  key={image.src}
+                  image={image}
+                  index={i + 1}
+                  onOpen={setLightboxImage}
+                />
               ))}
             </div>
+
+            {analysisImage && (
+              <>
+                <div className="mt-5">
+                  <GalleryCard
+                    image={analysisImage}
+                    index={3}
+                    onOpen={setLightboxImage}
+                    featured
+                    compact
+                  />
+                </div>
+
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewport}
+                  variants={fadeUp}
+                  custom={4}
+                  className="glass-strong mt-5 rounded-3xl border border-[#C8102E]/20 p-6 sm:p-8"
+                >
+                  <p
+                    className="text-[13px] font-medium tracking-[0.14em] uppercase"
+                    style={{ color: ACCENT }}
+                  >
+                    Optimization Result
+                  </p>
+                  <p className="mt-4 text-[17px] leading-[1.75] text-[#86868b]">
+                    Using demand, revenue, cost, and profit functions derived
+                    from survey data, the profit-maximizing price was calculated
+                    at $20.39, while the revenue-maximizing price was $17.65.
+                    After balancing profitability and practical consumer pricing
+                    considerations, a final recommended selling price of $20 was
+                    selected.
+                  </p>
+                </motion.div>
+              </>
+            )}
           </motion.section>
 
-          {/* Full Project Report */}
+          {/* Embedded Slideshow — unchanged structure */}
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -962,19 +847,12 @@ export default function MG4057Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Full Project Report</SectionLabel>
-            <SectionHeading>Complete project documentation.</SectionHeading>
-            <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-[#86868b]">
-              This report contains the complete project plan, stakeholder
-              analysis, risk assessment, work breakdown structure,
-              implementation schedule, governance framework, and deployment
-              strategy developed for the Smart Health Monitoring System case
-              study.
-            </p>
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[#86868b]/80">
-              Scroll through the complete SHMS implementation plan — from scope
-              definition and scheduling to stakeholder management, risk
-              assessment, and deployment strategy.
+            <SectionLabel>Presentation</SectionLabel>
+            <SectionHeading>Full project slideshow.</SectionHeading>
+            <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-[#86868b]">
+              Scroll through the complete campaign presentation — from market
+              research and demand modeling to optimization results and the final
+              pricing recommendation.
             </p>
 
             <motion.div
@@ -983,7 +861,7 @@ export default function MG4057Page() {
             >
               <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4 sm:px-6">
                 <p className="text-[14px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
-                  Smart Health Monitoring System (SHMS) Implementation
+                  Northeastern Hockey T-Shirt Sales Campaign
                 </p>
                 <a
                   href={PDF_SRC}
@@ -1003,7 +881,7 @@ export default function MG4057Page() {
               </div>
               <iframe
                 src={PDF_SRC}
-                title="SHMS Implementation Final Report"
+                title="Northeastern Hockey T-Shirt Sales Campaign Presentation"
                 className="h-[min(85vh,900px)] w-full bg-[#0a0a0a]"
               />
             </motion.div>
@@ -1028,7 +906,7 @@ export default function MG4057Page() {
                     <span
                       className="flex h-12 w-12 items-center justify-center rounded-2xl transition-colors duration-300 group-hover:opacity-90"
                       style={{
-                        backgroundColor: "rgba(128, 69, 218, 0.12)",
+                        backgroundColor: "rgba(200, 16, 46, 0.12)",
                         color: ACCENT,
                       }}
                     >
@@ -1041,7 +919,7 @@ export default function MG4057Page() {
                 );
 
                 const className =
-                  "glass-strong group flex flex-col items-center gap-4 rounded-3xl px-6 py-8 transition-all duration-300 hover:scale-[1.02] hover:bg-white/[0.08]";
+                  "glass-strong group flex flex-col items-center gap-4 rounded-3xl px-6 py-8 transition-all duration-300 hover:bg-white/[0.08] hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)]";
 
                 return (
                   <motion.div
@@ -1049,18 +927,6 @@ export default function MG4057Page() {
                     custom={i + 1}
                     variants={fadeUp}
                     whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget.querySelector("a, button");
-                      if (el instanceof HTMLElement) {
-                        el.style.boxShadow = `0 20px 50px ${ACCENT_GLOW}`;
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget.querySelector("a, button");
-                      if (el instanceof HTMLElement) {
-                        el.style.boxShadow = "none";
-                      }
-                    }}
                   >
                     {"href" in artifact && artifact.href ? (
                       <a
@@ -1106,7 +972,7 @@ export default function MG4057Page() {
                   <div
                     className="mb-5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
                     style={{
-                      backgroundColor: "rgba(128, 69, 218, 0.12)",
+                      backgroundColor: "rgba(200, 16, 46, 0.12)",
                       color: ACCENT,
                     }}
                   >

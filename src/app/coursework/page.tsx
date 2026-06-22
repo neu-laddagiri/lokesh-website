@@ -41,6 +41,17 @@ const courses = [
     href: "/coursework/af3116",
     skills: ["Cost Analysis", "Budgeting", "Variance Analysis"],
   },
+  {
+    code: "MATH 1231",
+    title: "Calculus for Business and Economics",
+    href: "/coursework/math1231",
+    skills: [
+      "Optimization",
+      "Demand Modeling",
+      "Marginal Analysis",
+      "Profit Maximization",
+    ],
+  },
 ] as const;
 
 const EASE = [0.25, 0.4, 0.25, 1] as const;
@@ -252,7 +263,7 @@ export default function CourseworkPage() {
               whileInView="visible"
               viewport={viewport}
               variants={staggerContainer}
-              className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4"
             >
               {courses.map((course, i) => (
                 <motion.article
