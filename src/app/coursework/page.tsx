@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
@@ -72,25 +73,6 @@ const staggerContainer = {
 
 const viewport = { once: true, margin: "-100px" as const };
 
-function SunMoonIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-  );
-}
-
 function ArrowIcon() {
   return (
     <svg
@@ -138,18 +120,13 @@ export default function CourseworkPage() {
   });
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-black text-[#f5f5f7]">
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* Ambient background */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div className="absolute top-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#2997ff]/[0.06] blur-[120px]" />
         <div className="absolute right-0 bottom-1/4 h-[350px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[100px]" />
         <div
-          className="absolute inset-0 opacity-[0.012]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-            backgroundSize: "48px 48px",
-          }}
+          className="ambient-grid absolute inset-0"
         />
       </div>
 
@@ -160,14 +137,14 @@ export default function CourseworkPage() {
         transition={{ duration: 0.7, ease: EASE }}
         className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
           navScrolled
-            ? "border-b border-white/[0.06] bg-black/60 backdrop-blur-2xl"
+            ? "border-b border-border bg-background/60 backdrop-blur-2xl"
             : "bg-transparent"
         }`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-8 lg:py-5">
           <Link
             href="/"
-            className="text-sm font-semibold tracking-[-0.02em] text-[#f5f5f7] transition-opacity hover:opacity-70"
+            className="text-sm font-semibold tracking-[-0.02em] text-foreground transition-opacity hover:opacity-70"
           >
             Lokesh Addagiri
           </Link>
@@ -179,8 +156,8 @@ export default function CourseworkPage() {
                 href={link.href}
                 className={`text-[13px] transition-colors duration-200 ${
                   link.label === "Coursework"
-                    ? "text-[#f5f5f7]"
-                    : "text-[#86868b] hover:text-[#f5f5f7]"
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -189,20 +166,14 @@ export default function CourseworkPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              aria-label="Toggle dark/light mode"
-              className="glass flex h-9 w-9 items-center justify-center rounded-full text-[#86868b] transition-all duration-200 hover:text-[#f5f5f7]"
-            >
-              <SunMoonIcon />
-            </button>
+            <ThemeToggle />
             <button
               type="button"
               aria-label="Open menu"
               className="glass flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full md:hidden"
             >
-              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
-              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
+              <span className="block h-[1.5px] w-4 bg-muted" />
+              <span className="block h-[1.5px] w-4 bg-muted" />
             </button>
           </div>
         </nav>
@@ -220,7 +191,7 @@ export default function CourseworkPage() {
               <motion.div custom={0} variants={fadeUp}>
                 <Link
                   href="/"
-                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-muted transition-colors hover:text-foreground"
                 >
                   <BackIcon />
                   Back to Home
@@ -230,7 +201,7 @@ export default function CourseworkPage() {
               <motion.p
                 custom={1}
                 variants={fadeUp}
-                className="text-[13px] font-medium tracking-[0.22em] text-[#86868b] uppercase"
+                className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase"
               >
                 Coursework
               </motion.p>
@@ -238,7 +209,7 @@ export default function CourseworkPage() {
               <motion.h1
                 custom={2}
                 variants={fadeUp}
-                className="mt-4 text-[clamp(2.5rem,7vw,4.5rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-[#f5f5f7]"
+                className="mt-4 text-[clamp(2.5rem,7vw,4.5rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-foreground"
               >
                 Academic Archive
               </motion.h1>
@@ -246,7 +217,7 @@ export default function CourseworkPage() {
               <motion.p
                 custom={3}
                 variants={fadeUp}
-                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-[#86868b]"
+                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-muted"
               >
                 Every course, project, report, presentation, and major
                 assignment documented throughout my academic journey.
@@ -279,19 +250,19 @@ export default function CourseworkPage() {
                     {course.code}
                   </p>
 
-                  <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[#f5f5f7]">
+                  <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-foreground">
                     {course.title}
                   </h2>
 
                   <div className="mt-8 flex-1">
-                    <p className="text-[12px] font-medium tracking-[0.14em] text-[#86868b] uppercase">
+                    <p className="text-[12px] font-medium tracking-[0.14em] text-muted uppercase">
                       Skills
                     </p>
                     <ul className="mt-4 space-y-3">
                       {course.skills.map((skill) => (
                         <li
                           key={skill}
-                          className="flex items-center gap-3 text-[15px] text-[#d2d2d7]"
+                          className="flex items-center gap-3 text-[15px] text-foreground-secondary"
                         >
                           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#2997ff]/80" />
                           {skill}
@@ -302,7 +273,7 @@ export default function CourseworkPage() {
 
                   <Link
                     href={course.href}
-                    className="group/btn mt-10 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] text-[15px] font-medium tracking-[-0.01em] text-[#f5f5f7] transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.08]"
+                    className="group/btn mt-10 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] text-[15px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 hover:border-white/[0.2] hover:bg-card-hover"
                   >
                     View Details
                     <ArrowIcon />
@@ -320,7 +291,7 @@ export default function CourseworkPage() {
               custom={0}
               className="glass mt-16 rounded-3xl px-8 py-10 text-center sm:px-12"
             >
-              <p className="text-[17px] leading-relaxed text-[#86868b]">
+              <p className="text-[17px] leading-relaxed text-muted">
                 More courses will be added as they are completed. Each entry
                 will include projects, reports, presentations, and key
                 assignments.
@@ -331,9 +302,9 @@ export default function CourseworkPage() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.06] px-6 py-12 lg:px-8">
+      <footer className="relative z-10 border-t border-border px-6 py-12 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 sm:flex-row">
-          <p className="text-[13px] text-[#86868b]">
+          <p className="text-[13px] text-muted">
             © {new Date().getFullYear()} Lokesh Addagiri. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
@@ -341,7 +312,7 @@ export default function CourseworkPage() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[13px] text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>

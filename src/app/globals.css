@@ -3,6 +3,7 @@
 :root {
   --background: #000000;
   --foreground: #f5f5f7;
+  --foreground-secondary: #d2d2d7;
   --muted: #86868b;
   --border: rgba(255, 255, 255, 0.08);
   --card: rgba(255, 255, 255, 0.03);
@@ -10,16 +11,45 @@
   --accent: #2997ff;
   --glass-bg: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-strong-bg: rgba(255, 255, 255, 0.06);
+  --glass-strong-border: rgba(255, 255, 255, 0.12);
+  --surface-fade: #000000;
+  --grid-dot: rgba(255, 255, 255, 1);
+  --cta-bg: #f5f5f7;
+  --cta-text: #000000;
+}
+
+.light {
+  --background: #f5f5f7;
+  --foreground: #1d1d1f;
+  --foreground-secondary: #424245;
+  --muted: #6e6e73;
+  --border: rgba(0, 0, 0, 0.08);
+  --card: rgba(0, 0, 0, 0.03);
+  --card-hover: rgba(0, 0, 0, 0.06);
+  --accent: #0071e3;
+  --glass-bg: rgba(0, 0, 0, 0.04);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-strong-bg: rgba(0, 0, 0, 0.06);
+  --glass-strong-border: rgba(0, 0, 0, 0.12);
+  --surface-fade: #f5f5f7;
+  --grid-dot: rgba(0, 0, 0, 0.12);
+  --cta-bg: #1d1d1f;
+  --cta-text: #f5f5f7;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-card: var(--card);
   --color-card-hover: var(--card-hover);
   --color-accent: var(--accent);
+  --color-surface-fade: var(--surface-fade);
+  --color-cta-bg: var(--cta-bg);
+  --color-cta-text: var(--cta-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -39,7 +69,7 @@ body {
 
 ::selection {
   background: rgba(41, 151, 255, 0.3);
-  color: #fff;
+  color: var(--foreground);
 }
 
 .glass {
@@ -50,10 +80,19 @@ body {
 }
 
 .glass-strong {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--glass-strong-bg);
   backdrop-filter: blur(40px) saturate(200%);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--glass-strong-border);
+}
+
+.ambient-grid {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    color-mix(in srgb, var(--grid-dot) 12%, transparent) 1px,
+    transparent 0
+  );
+  background-size: 48px 48px;
 }
 
 .hide-scrollbar {
@@ -94,4 +133,52 @@ body {
 
 .animate-gradient-shift-alt {
   animation: gradient-shift-alt 16s ease-in-out infinite;
+}
+
+/* Hero construction tape overlay */
+@keyframes construction-tape-slide {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 56px 0;
+  }
+}
+
+.construction-tape-texture {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(17, 24, 39, 0.92) 0px,
+    rgba(17, 24, 39, 0.92) 18px,
+    rgba(250, 204, 21, 0.85) 18px,
+    rgba(250, 204, 21, 0.85) 36px,
+    rgba(17, 24, 39, 0.92) 36px,
+    rgba(17, 24, 39, 0.92) 54px,
+    rgba(234, 179, 8, 0.75) 54px,
+    rgba(234, 179, 8, 0.75) 72px
+  );
+  background-size: 72px 72px;
+  animation: construction-tape-slide 10s linear infinite;
+}
+
+.construction-tape-frost {
+  background: rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.construction-tape-edge {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    transparent 18%,
+    transparent 82%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  pointer-events: none;
+}
+
+.construction-tape-glow {
+  box-shadow:
+    0 0 24px rgba(250, 204, 21, 0.12),
+    0 0 48px rgba(234, 179, 8, 0.06);
 }

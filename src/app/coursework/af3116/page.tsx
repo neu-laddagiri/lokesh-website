@@ -1,5 +1,12 @@
 "use client";
 
+import { ThemeToggle } from "@/components/theme-toggle";
+import {
+  artifactGridClassName,
+  StaticArtifactCard,
+  SyllabusHeaderButton,
+  type CourseAccent,
+} from "@/components/coursework/artifact-cards";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
@@ -12,38 +19,83 @@ const navLinks = [
   { label: "Contact", href: "/#contact" },
 ] as const;
 
+/** Greece study abroad accent — page-local only */
+const ACCENT = "#8045da";
+const ACCENT_LIGHT = "#a67eef";
+const ACCENT_GLOW = "rgba(128, 69, 218, 0.35)";
+const ACCENT_RGB = "128, 69, 218";
+
+const courseAccent: CourseAccent = {
+  accent: ACCENT,
+  accentLight: ACCENT_LIGHT,
+  accentRgb: ACCENT_RGB,
+  accentGlow: ACCENT_GLOW,
+};
+
+const SYLLABUS_PDF = "/documents/af3116-syllabus.pdf";
+
 const skills = [
-  "Cost Analysis",
-  "Budgeting",
+  "Cost-Volume-Profit Analysis",
+  "Break-Even Analysis",
+  "Budgetary Planning",
   "Variance Analysis",
-  "Financial Decision Making",
-  "Performance Evaluation",
-  "Managerial Accounting",
+  "Relevant Cost Analysis",
+  "Transfer Pricing",
+  "Responsibility Accounting",
+  "Managerial Decision Making",
+] as const;
+
+const keyMetrics = [
+  { value: "8", label: "Core Topics" },
+  { value: "2", label: "Exams" },
+  { value: "15", label: "ECTS Credits" },
+  { value: "3", label: "US Credits" },
+] as const;
+
+const keyConcepts = [
+  {
+    title: "Cost-Volume-Profit Analysis",
+    description:
+      "Understanding how sales volume, costs, and pricing interact to affect profitability.",
+  },
+  {
+    title: "Break-Even Analysis",
+    description:
+      "Determining the sales level required to cover costs and begin generating profit.",
+  },
+  {
+    title: "Relevant Cost Decision Making",
+    description:
+      "Identifying which costs matter when evaluating alternative business decisions.",
+  },
+  {
+    title: "Budgetary Control",
+    description:
+      "Using budgets and variance analysis to monitor performance and support planning.",
+  },
 ] as const;
 
 const artifacts = [
-  { label: "Cost Analysis Report", icon: "document" },
-  { label: "Budget Planning Exercise", icon: "budget" },
-  { label: "Variance Analysis", icon: "variance" },
-  { label: "Financial Models", icon: "model" },
-  { label: "Final Coursework", icon: "coursework" },
+  { label: "Case Study Exercises", icon: "case" },
+  { label: "Budget Analysis", icon: "budget" },
+  { label: "Cost Planning Models", icon: "model" },
 ] as const;
 
 const takeaways = [
   {
-    title: "Internal data drives better decisions than financial statements alone",
+    title: "Accounting supports strategy, not just reporting.",
     description:
-      "Managerial accounting revealed how cost behavior, contribution margins, and operational metrics provide the detail leaders need to act — not just report.",
+      "Managerial accounting provides information that helps leaders make better operational and long-term decisions.",
   },
   {
-    title: "Budgets are planning tools, not static targets",
+    title: "Not all costs matter equally.",
     description:
-      "Building and analyzing budgets taught me to treat forecasts as living frameworks — using variance analysis to diagnose performance and adjust strategy.",
+      "Relevant cost analysis showed how decision quality depends on identifying information that actually changes outcomes.",
   },
   {
-    title: "Accounting fluency is a leadership skill",
+    title: "Budgets are management tools.",
     description:
-      "The ability to interpret financial information, evaluate business performance, and communicate findings to stakeholders is essential across every business function.",
+      "Budgeting and variance analysis provide a framework for planning, monitoring performance, and adapting strategy.",
   },
 ] as const;
 
@@ -64,25 +116,6 @@ const staggerContainer = {
 };
 
 const viewport = { once: true, margin: "-100px" as const };
-
-function SunMoonIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-  );
-}
 
 function BackIcon() {
   return (
@@ -122,6 +155,26 @@ function DocumentIcon() {
   );
 }
 
+function CaseIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+      <rect x="8" y="2" width="8" height="4" rx="1" />
+      <path d="M9 14h6M9 18h4" />
+    </svg>
+  );
+}
+
 function BudgetIcon() {
   return (
     <svg
@@ -137,26 +190,6 @@ function BudgetIcon() {
     >
       <rect x="2" y="5" width="20" height="14" rx="2" />
       <path d="M2 10h20M7 15h2M11 15h4" />
-    </svg>
-  );
-}
-
-function VarianceIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M3 3v18h18" />
-      <path d="M7 14l3-4 3 2 4-6" />
-      <path d="M18 8v4h-4" strokeDasharray="2 2" />
     </svg>
   );
 }
@@ -180,37 +213,24 @@ function ModelIcon() {
   );
 }
 
-function CourseworkIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-      <path d="M8 7h8M8 11h8" />
-    </svg>
-  );
-}
-
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[13px] font-medium tracking-[0.22em] text-[#86868b] uppercase">
-      {children}
-    </p>
+    <div className="flex items-center gap-3">
+      <span
+        className="h-px w-8 shrink-0"
+        style={{ backgroundColor: ACCENT }}
+        aria-hidden
+      />
+      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
+        {children}
+      </p>
+    </div>
   );
 }
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-[#f5f5f7]">
+    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -218,16 +238,12 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 
 function artifactIcon(type: string) {
   switch (type) {
-    case "document":
-      return <DocumentIcon />;
+    case "case":
+      return <CaseIcon />;
     case "budget":
       return <BudgetIcon />;
-    case "variance":
-      return <VarianceIcon />;
     case "model":
       return <ModelIcon />;
-    case "coursework":
-      return <CourseworkIcon />;
     default:
       return <DocumentIcon />;
   }
@@ -242,19 +258,15 @@ export default function AF3116Page() {
   });
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-black text-[#f5f5f7]">
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* Ambient background */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#2997ff]/[0.06] blur-[120px]" />
-        <div className="absolute right-0 bottom-1/3 h-[350px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[100px]" />
         <div
-          className="absolute inset-0 opacity-[0.012]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-            backgroundSize: "48px 48px",
-          }}
+          className="absolute top-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full blur-[120px]"
+          style={{ backgroundColor: `rgba(${ACCENT_RGB}, 0.06)` }}
         />
+        <div className="absolute right-0 bottom-1/3 h-[350px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[100px]" />
+        <div className="ambient-grid absolute inset-0" />
       </div>
 
       {/* Navigation */}
@@ -264,14 +276,14 @@ export default function AF3116Page() {
         transition={{ duration: 0.7, ease: EASE }}
         className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
           navScrolled
-            ? "border-b border-white/[0.06] bg-black/60 backdrop-blur-2xl"
+            ? "border-b border-border bg-background/60 backdrop-blur-2xl"
             : "bg-transparent"
         }`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-8 lg:py-5">
           <Link
             href="/"
-            className="text-sm font-semibold tracking-[-0.02em] text-[#f5f5f7] transition-opacity hover:opacity-70"
+            className="text-sm font-semibold tracking-[-0.02em] text-foreground transition-opacity hover:opacity-70"
           >
             Lokesh Addagiri
           </Link>
@@ -283,8 +295,8 @@ export default function AF3116Page() {
                 href={link.href}
                 className={`text-[13px] transition-colors duration-200 ${
                   link.label === "Coursework"
-                    ? "text-[#f5f5f7]"
-                    : "text-[#86868b] hover:text-[#f5f5f7]"
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -293,20 +305,14 @@ export default function AF3116Page() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              aria-label="Toggle dark/light mode"
-              className="glass flex h-9 w-9 items-center justify-center rounded-full text-[#86868b] transition-all duration-200 hover:text-[#f5f5f7]"
-            >
-              <SunMoonIcon />
-            </button>
+            <ThemeToggle />
             <button
               type="button"
               aria-label="Open menu"
               className="glass flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full md:hidden"
             >
-              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
-              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
+              <span className="block h-[1.5px] w-4 bg-muted" />
+              <span className="block h-[1.5px] w-4 bg-muted" />
             </button>
           </div>
         </nav>
@@ -324,25 +330,37 @@ export default function AF3116Page() {
               <motion.div custom={0} variants={fadeUp}>
                 <Link
                   href="/coursework"
-                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-muted transition-colors hover:text-foreground"
                 >
                   <BackIcon />
                   Back to Coursework
                 </Link>
               </motion.div>
 
-              <motion.p
+              <motion.div
                 custom={1}
                 variants={fadeUp}
-                className="text-[13px] font-medium tracking-[0.22em] text-[#2997ff] uppercase"
+                className="flex flex-wrap items-center gap-x-3 gap-y-2"
               >
-                AF 3116
-              </motion.p>
+                <span
+                  className="text-[13px] font-medium tracking-[0.22em] uppercase"
+                  style={{ color: ACCENT_LIGHT }}
+                >
+                  AF 3116
+                </span>
+                <span className="hidden text-muted/50 sm:inline" aria-hidden>
+                  •
+                </span>
+                <SyllabusHeaderButton
+                  href={SYLLABUS_PDF}
+                  accent={courseAccent}
+                />
+              </motion.div>
 
               <motion.h1
                 custom={2}
                 variants={fadeUp}
-                className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-[#f5f5f7]"
+                className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-foreground"
               >
                 Management Accounting
               </motion.h1>
@@ -350,7 +368,7 @@ export default function AF3116Page() {
               <motion.p
                 custom={3}
                 variants={fadeUp}
-                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-[#86868b]"
+                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-muted"
               >
                 Using accounting information to evaluate performance, guide
                 planning, and strengthen business decision making.
@@ -359,7 +377,7 @@ export default function AF3116Page() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-24 px-6 pb-32 lg:space-y-32 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-16 px-6 pb-32 lg:space-y-24 lg:px-8">
           {/* Course Overview */}
           <motion.section
             initial="hidden"
@@ -373,20 +391,21 @@ export default function AF3116Page() {
               The financial lens for managerial decision making.
             </SectionHeading>
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
-              <p className="text-[17px] leading-[1.8] text-[#d2d2d7]">
-                AF 3116 explored management accounting as a strategic tool for
-                business leaders — moving beyond external financial reporting to
-                the internal metrics that drive operational and strategic
-                decisions. The course covered how organizations measure
-                performance, allocate resources, and plan for the future.
+              <p className="text-[17px] leading-[1.8] text-foreground-secondary">
+                AF3116 explored how managers use accounting information to make
+                operational and strategic decisions. Rather than focusing on
+                external financial reporting, the course emphasized internal
+                decision support through cost analysis, budgeting, profitability
+                evaluation, and performance measurement.
               </p>
-              <p className="mt-5 text-[17px] leading-[1.8] text-[#86868b]">
-                Key topics included management accounting for business decision
-                making, budgeting, cost analysis, performance measurement,
-                variance analysis, and managerial planning. Through case
-                analyses and applied exercises, I developed the ability to
-                interpret cost structures, build budgets, diagnose variances, and
-                recommend actions grounded in financial evidence.
+              <p className="mt-5 text-[17px] leading-[1.8] text-muted">
+                Major topics included Cost-Volume-Profit (CVP) analysis,
+                break-even analysis, relevant cost decision making, transfer
+                pricing, budgetary planning and control, responsibility
+                accounting, and cost behavior analysis. Through applied
+                business scenarios and quantitative exercises, I learned how
+                accounting data supports planning, resource allocation, and
+                long-term organizational performance.
               </p>
             </div>
           </motion.section>
@@ -403,19 +422,28 @@ export default function AF3116Page() {
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {skills.map((skill, i) => (
                 <motion.div
                   key={skill}
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                  className="glass flex items-center gap-4 rounded-2xl px-6 py-5 transition-colors duration-300 hover:bg-white/[0.07]"
+                  className="glass flex items-center gap-4 rounded-2xl px-6 py-5 transition-colors duration-300 hover:bg-card-hover"
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#2997ff]/10 text-[#2997ff]">
-                    <span className="h-2 w-2 rounded-full bg-[#2997ff]" />
+                  <span
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
+                    style={{
+                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
+                      color: ACCENT,
+                    }}
+                  >
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: ACCENT }}
+                    />
                   </span>
-                  <span className="text-[15px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
+                  <span className="text-[15px] font-medium tracking-[-0.01em] text-foreground">
                     {skill}
                   </span>
                 </motion.div>
@@ -440,32 +468,122 @@ export default function AF3116Page() {
               whileHover={{ y: -6, transition: { duration: 0.35 } }}
               className="glass-strong group relative mt-8 overflow-hidden rounded-3xl p-8 sm:p-10 transition-shadow duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]"
             >
-              <div className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full bg-[#2997ff]/[0.08] blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+              <div
+                className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+                style={{ backgroundColor: `rgba(${ACCENT_RGB}, 0.1)` }}
+              />
 
-              <span className="inline-flex rounded-full border border-white/[0.1] bg-white/[0.05] px-3.5 py-1.5 text-[11px] font-medium tracking-[0.1em] text-[#86868b] uppercase">
-                Case Study Series
+              <span
+                className="inline-flex rounded-full border px-3.5 py-1.5 text-[11px] font-medium tracking-[0.1em] uppercase"
+                style={{
+                  borderColor: `rgba(${ACCENT_RGB}, 0.25)`,
+                  backgroundColor: `rgba(${ACCENT_RGB}, 0.1)`,
+                  color: ACCENT_LIGHT,
+                }}
+              >
+                Decision Analysis
               </span>
 
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[#f5f5f7]">
-                Management Accounting Case Analyses
+              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-foreground">
+                Management Accounting Decision Analysis
               </h3>
 
-              <p className="mt-4 max-w-3xl text-[17px] leading-[1.75] text-[#86868b]">
-                Completed a series of management accounting case analyses that
-                applied course concepts to realistic business scenarios. Each case
-                required using accounting information to evaluate business
-                performance, support planning, and improve decision making —
-                from analyzing cost behavior and contribution margins to
-                assessing budget variances and recommending strategic actions.
-              </p>
+              <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-2">
+                <div>
+                  <p className="text-[17px] leading-[1.75] text-muted">
+                    Throughout the course, I analyzed business scenarios
+                    involving pricing decisions, production planning, budgeting,
+                    and profitability assessment. Using managerial accounting
+                    techniques, I evaluated cost structures, identified relevant
+                    financial information, and developed recommendations
+                    designed to improve organizational performance.
+                  </p>
+                  <p className="mt-4 text-[17px] leading-[1.75] text-muted">
+                    Case exercises required interpreting financial data,
+                    performing break-even and contribution margin analysis,
+                    evaluating alternative courses of action, and assessing how
+                    managerial decisions affect profitability and resource
+                    allocation.
+                  </p>
+                </div>
 
-              <p className="mt-4 max-w-3xl text-[17px] leading-[1.75] text-[#86868b]">
-                Through structured financial modeling, cost analysis reports, and
-                variance breakdowns, I strengthened my ability to translate
-                accounting data into clear, actionable recommendations for
-                managers and stakeholders.
-              </p>
+                <div>
+                  <p className="text-[12px] font-medium tracking-[0.14em] text-muted uppercase">
+                    Key Metrics
+                  </p>
+                  <div className="mt-4 grid grid-cols-2 gap-3">
+                    {keyMetrics.map((metric) => (
+                      <div
+                        key={metric.label}
+                        className="glass rounded-2xl border border-border px-5 py-5 transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(128,69,218,0.1)]"
+                      >
+                        <p
+                          className="text-[clamp(1.75rem,4vw,2.25rem)] font-semibold leading-none tracking-[-0.03em]"
+                          style={{ color: ACCENT_LIGHT }}
+                        >
+                          {metric.value}
+                        </p>
+                        <p className="mt-2 text-[12px] font-medium tracking-[0.1em] text-muted uppercase">
+                          {metric.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </motion.article>
+          </motion.section>
+
+          {/* Key Concepts */}
+          <motion.section
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeUp} custom={0}>
+              <SectionLabel>Key Concepts</SectionLabel>
+              <SectionHeading>Managerial accounting frameworks.</SectionHeading>
+            </motion.div>
+
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {keyConcepts.map((concept, i) => (
+                <motion.div
+                  key={concept.title}
+                  custom={i + 1}
+                  variants={fadeUp}
+                  whileHover={{
+                    y: -6,
+                    scale: 1.015,
+                    transition: { duration: 0.3 },
+                  }}
+                  className="glass-strong relative overflow-hidden rounded-3xl border border-[#8045da]/20 p-7 transition-all duration-500 sm:p-8"
+                  style={{ boxShadow: "none" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow =
+                      "0 24px 60px rgba(128, 69, 218, 0.2)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, rgba(${ACCENT_RGB},0.5), transparent)`,
+                    }}
+                  />
+                  <h3
+                    className="text-[17px] font-semibold tracking-[-0.02em] text-foreground"
+                  >
+                    {concept.title}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
+                    {concept.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </motion.section>
 
           {/* Artifacts */}
@@ -480,24 +598,29 @@ export default function AF3116Page() {
               <SectionHeading>Course deliverables and outputs.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {artifacts.map((artifact, i) => (
-                <motion.button
-                  key={artifact.label}
-                  type="button"
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                  className="glass-strong group flex flex-col items-center gap-4 rounded-3xl px-6 py-8 transition-all duration-300 hover:bg-white/[0.08] hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
-                >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#2997ff]/10 text-[#2997ff] transition-colors duration-300 group-hover:bg-[#2997ff]/20">
-                    {artifactIcon(artifact.icon)}
-                  </span>
-                  <span className="text-center text-[15px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
-                    {artifact.label}
-                  </span>
-                </motion.button>
-              ))}
+            <div className={artifactGridClassName(artifacts.length)}>
+              {artifacts.map((artifact, i) => {
+                const iconStyle = {
+                  backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
+                  color: ACCENT,
+                };
+
+                return (
+                  <motion.div
+                    key={artifact.label}
+                    custom={i + 1}
+                    variants={fadeUp}
+                    className="h-full"
+                    whileHover={{ y: -2, transition: { duration: 0.25 } }}
+                  >
+                    <StaticArtifactCard
+                      label={artifact.label}
+                      icon={artifactIcon(artifact.icon)}
+                      iconStyle={iconStyle}
+                    />
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.section>
 
@@ -510,7 +633,9 @@ export default function AF3116Page() {
           >
             <motion.div variants={fadeUp} custom={0}>
               <SectionLabel>Key Takeaways</SectionLabel>
-              <SectionHeading>What I carried forward from this course.</SectionHeading>
+              <SectionHeading>
+                What I carried forward from this course.
+              </SectionHeading>
             </motion.div>
 
             <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
@@ -522,13 +647,19 @@ export default function AF3116Page() {
                   whileHover={{ y: -6, transition: { duration: 0.3 } }}
                   className="glass-strong rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
                 >
-                  <div className="mb-5 flex h-8 w-8 items-center justify-center rounded-full bg-[#2997ff]/10 text-sm font-semibold text-[#2997ff]">
+                  <div
+                    className="mb-5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
+                    style={{
+                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
+                      color: ACCENT,
+                    }}
+                  >
                     {i + 1}
                   </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-[#f5f5f7]">
+                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-[#86868b]">
+                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
                     {item.description}
                   </p>
                 </motion.div>
@@ -539,9 +670,9 @@ export default function AF3116Page() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.06] px-6 py-12 lg:px-8">
+      <footer className="relative z-10 border-t border-border px-6 py-12 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 sm:flex-row">
-          <p className="text-[13px] text-[#86868b]">
+          <p className="text-[13px] text-muted">
             © {new Date().getFullYear()} Lokesh Addagiri. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
@@ -549,7 +680,7 @@ export default function AF3116Page() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[13px] text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>

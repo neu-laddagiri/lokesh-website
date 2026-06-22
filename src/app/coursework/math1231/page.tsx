@@ -1,5 +1,13 @@
 "use client";
 
+import { ThemeToggle } from "@/components/theme-toggle";
+import {
+  artifactGridClassName,
+  InteractiveArtifactCard,
+  StaticArtifactCard,
+  SyllabusHeaderButton,
+  type CourseAccent,
+} from "@/components/coursework/artifact-cards";
 import {
   AnimatePresence,
   motion,
@@ -22,6 +30,16 @@ const navLinks = [
 const ACCENT = "#C8102E";
 const ACCENT_LIGHT = "#E8324A";
 const ACCENT_GLOW = "rgba(200, 16, 46, 0.35)";
+const ACCENT_RGB = "200, 16, 46";
+
+const courseAccent: CourseAccent = {
+  accent: ACCENT,
+  accentLight: ACCENT_LIGHT,
+  accentRgb: ACCENT_RGB,
+  accentGlow: ACCENT_GLOW,
+};
+
+const SYLLABUS_PDF = "/documents/math1231-syllabus.pdf";
 
 const skills = [
   "Business Calculus",
@@ -126,25 +144,6 @@ const staggerContainer = {
 };
 
 const viewport = { once: true, margin: "-100px" as const };
-
-function SunMoonIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-  );
-}
 
 function BackIcon() {
   return (
@@ -267,7 +266,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         style={{ backgroundColor: ACCENT }}
         aria-hidden
       />
-      <p className="text-[13px] font-medium tracking-[0.22em] text-[#86868b] uppercase">
+      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
         {children}
       </p>
     </div>
@@ -276,7 +275,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-[#f5f5f7]">
+    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -355,15 +354,15 @@ function GalleryCard({
       </div>
       {"title" in image && image.title ? (
         <>
-          <p className="mt-4 text-[15px] font-semibold tracking-[-0.01em] text-[#f5f5f7]">
+          <p className="mt-4 text-[15px] font-semibold tracking-[-0.01em] text-foreground">
             {image.title}
           </p>
-          <p className="mt-2 text-[14px] leading-relaxed text-[#86868b] transition-colors duration-300 group-hover:text-[#d2d2d7]">
+          <p className="mt-2 text-[14px] leading-relaxed text-muted transition-colors duration-300 group-hover:text-foreground-secondary">
             {image.caption}
           </p>
         </>
       ) : (
-        <p className="mt-3 text-[14px] leading-relaxed text-[#86868b] transition-colors duration-300 group-hover:text-[#d2d2d7]">
+        <p className="mt-3 text-[14px] leading-relaxed text-muted transition-colors duration-300 group-hover:text-foreground-secondary">
           {image.caption}
         </p>
       )}
@@ -414,12 +413,12 @@ function ImageLightbox({
               type="button"
               onClick={onClose}
               aria-label="Close"
-              className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.12] bg-black/50 text-[#f5f5f7] transition-colors hover:bg-white/[0.1]"
+              className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.12] bg-black/50 text-foreground transition-colors hover:bg-border"
             >
               <CloseIcon />
             </button>
             <div
-              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-black/60 ${
+              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-background/60 ${
                 image.layout === "landscape"
                   ? "aspect-[16/10] max-h-[70vh]"
                   : "aspect-[3/4] max-h-[75vh] max-w-md"
@@ -434,7 +433,7 @@ function ImageLightbox({
                 priority
               />
             </div>
-            <p className="mt-4 text-center text-[15px] leading-relaxed text-[#d2d2d7]">
+            <p className="mt-4 text-center text-[15px] leading-relaxed text-foreground-secondary">
               {image.caption}
             </p>
           </motion.div>
@@ -473,7 +472,7 @@ export default function MATH1231Page() {
   const analysisImage = galleryImages.find((img) => img.layout === "landscape");
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-black text-[#f5f5f7]">
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <ImageLightbox image={lightboxImage} onClose={closeLightbox} />
 
       {/* Ambient background */}
@@ -484,12 +483,7 @@ export default function MATH1231Page() {
         />
         <div className="absolute right-0 bottom-1/3 h-[350px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[100px]" />
         <div
-          className="absolute inset-0 opacity-[0.012]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-            backgroundSize: "48px 48px",
-          }}
+          className="ambient-grid absolute inset-0"
         />
       </div>
 
@@ -500,14 +494,14 @@ export default function MATH1231Page() {
         transition={{ duration: 0.7, ease: EASE }}
         className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
           navScrolled
-            ? "border-b border-white/[0.06] bg-black/60 backdrop-blur-2xl"
+            ? "border-b border-border bg-background/60 backdrop-blur-2xl"
             : "bg-transparent"
         }`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-8 lg:py-5">
           <Link
             href="/"
-            className="text-sm font-semibold tracking-[-0.02em] text-[#f5f5f7] transition-opacity hover:opacity-70"
+            className="text-sm font-semibold tracking-[-0.02em] text-foreground transition-opacity hover:opacity-70"
           >
             Lokesh Addagiri
           </Link>
@@ -519,8 +513,8 @@ export default function MATH1231Page() {
                 href={link.href}
                 className={`text-[13px] transition-colors duration-200 ${
                   link.label === "Coursework"
-                    ? "text-[#f5f5f7]"
-                    : "text-[#86868b] hover:text-[#f5f5f7]"
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -529,20 +523,14 @@ export default function MATH1231Page() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              aria-label="Toggle dark/light mode"
-              className="glass flex h-9 w-9 items-center justify-center rounded-full text-[#86868b] transition-all duration-200 hover:text-[#f5f5f7]"
-            >
-              <SunMoonIcon />
-            </button>
+            <ThemeToggle />
             <button
               type="button"
               aria-label="Open menu"
               className="glass flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full md:hidden"
             >
-              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
-              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
+              <span className="block h-[1.5px] w-4 bg-muted" />
+              <span className="block h-[1.5px] w-4 bg-muted" />
             </button>
           </div>
         </nav>
@@ -560,26 +548,37 @@ export default function MATH1231Page() {
               <motion.div custom={0} variants={fadeUp}>
                 <Link
                   href="/coursework"
-                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-muted transition-colors hover:text-foreground"
                 >
                   <BackIcon />
                   Back to Coursework
                 </Link>
               </motion.div>
 
-              <motion.p
+              <motion.div
                 custom={1}
                 variants={fadeUp}
-                className="text-[13px] font-medium tracking-[0.22em] uppercase"
-                style={{ color: ACCENT }}
+                className="flex flex-wrap items-center gap-x-3 gap-y-2"
               >
-                MATH 1231
-              </motion.p>
+                <span
+                  className="text-[13px] font-medium tracking-[0.22em] uppercase"
+                  style={{ color: ACCENT }}
+                >
+                  MATH 1231
+                </span>
+                <span className="hidden text-muted/50 sm:inline" aria-hidden>
+                  •
+                </span>
+                <SyllabusHeaderButton
+                  href={SYLLABUS_PDF}
+                  accent={courseAccent}
+                />
+              </motion.div>
 
               <motion.h1
                 custom={2}
                 variants={fadeUp}
-                className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-[#f5f5f7]"
+                className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-foreground"
               >
                 Calculus for Business and Economics
               </motion.h1>
@@ -587,7 +586,7 @@ export default function MATH1231Page() {
               <motion.p
                 custom={3}
                 variants={fadeUp}
-                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-[#86868b]"
+                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-muted"
               >
                 Applying derivatives, optimization, and mathematical modeling
                 to real business decisions.
@@ -610,14 +609,14 @@ export default function MATH1231Page() {
               Mathematics that powers business decisions.
             </SectionHeading>
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
-              <p className="text-[17px] leading-[1.8] text-[#d2d2d7]">
+              <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 MATH 1231 applied calculus to business and economic problems —
                 bridging abstract mathematics with the quantitative tools used
                 in finance, marketing, and operations. The course built a
                 foundation in how rates of change and accumulation inform
                 real-world decision making.
               </p>
-              <p className="mt-5 text-[17px] leading-[1.8] text-[#86868b]">
+              <p className="mt-5 text-[17px] leading-[1.8] text-muted">
                 Core topics included derivatives, marginal revenue, marginal
                 cost, marginal profit, optimization, antiderivatives, definite
                 integrals, and business/economic applications. Through applied
@@ -647,7 +646,7 @@ export default function MATH1231Page() {
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                  className="glass flex items-center gap-4 rounded-2xl px-6 py-5 transition-colors duration-300 hover:bg-white/[0.07]"
+                  className="glass flex items-center gap-4 rounded-2xl px-6 py-5 transition-colors duration-300 hover:bg-card-hover"
                 >
                   <span
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
@@ -658,7 +657,7 @@ export default function MATH1231Page() {
                       style={{ backgroundColor: ACCENT }}
                     />
                   </span>
-                  <span className="text-[15px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
+                  <span className="text-[15px] font-medium tracking-[-0.01em] text-foreground">
                     {skill}
                   </span>
                 </motion.div>
@@ -699,11 +698,11 @@ export default function MATH1231Page() {
                 Applied Project
               </span>
 
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[#f5f5f7]">
+              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-foreground">
                 Northeastern Hockey T-Shirt Sales Campaign
               </h3>
 
-              <p className="mt-4 max-w-3xl text-[17px] leading-[1.75] text-[#86868b]">
+              <p className="mt-4 max-w-3xl text-[17px] leading-[1.75] text-muted">
                 Designed and evaluated a Northeastern Hockey T-shirt sales
                 campaign using market research, demand modeling, revenue
                 analysis, cost analysis, and calculus-based optimization.
@@ -711,14 +710,14 @@ export default function MATH1231Page() {
 
               <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
                 <div>
-                  <p className="text-[12px] font-medium tracking-[0.14em] text-[#86868b] uppercase">
+                  <p className="text-[12px] font-medium tracking-[0.14em] text-muted uppercase">
                     Project Highlights
                   </p>
                   <ul className="mt-4 space-y-3">
                     {projectHighlights.map((highlight) => (
                       <li
                         key={highlight}
-                        className="flex items-start gap-3 text-[15px] leading-relaxed text-[#d2d2d7]"
+                        className="flex items-start gap-3 text-[15px] leading-relaxed text-foreground-secondary"
                       >
                         <span
                           className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
@@ -731,7 +730,7 @@ export default function MATH1231Page() {
                 </div>
 
                 <div>
-                  <p className="text-[12px] font-medium tracking-[0.14em] text-[#86868b] uppercase">
+                  <p className="text-[12px] font-medium tracking-[0.14em] text-muted uppercase">
                     Key Metrics
                   </p>
                   <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -741,10 +740,10 @@ export default function MATH1231Page() {
                         className={`rounded-2xl px-5 py-5 transition-shadow duration-300 ${
                           metric.featured
                             ? "border border-[#C8102E]/35 bg-[#C8102E]/[0.08] shadow-[0_0_40px_rgba(200,16,46,0.15)]"
-                            : "glass border border-white/[0.06]"
+                            : "glass border border-border"
                         }`}
                       >
-                        <p className="text-[12px] font-medium tracking-wide text-[#86868b]">
+                        <p className="text-[12px] font-medium tracking-wide text-muted">
                           {metric.label}
                         </p>
                         <p
@@ -826,7 +825,7 @@ export default function MATH1231Page() {
                   >
                     Optimization Result
                   </p>
-                  <p className="mt-4 text-[17px] leading-[1.75] text-[#86868b]">
+                  <p className="mt-4 text-[17px] leading-[1.75] text-muted">
                     Using demand, revenue, cost, and profit functions derived
                     from survey data, the profit-maximizing price was calculated
                     at $20.39, while the revenue-maximizing price was $17.65.
@@ -849,7 +848,7 @@ export default function MATH1231Page() {
           >
             <SectionLabel>Presentation</SectionLabel>
             <SectionHeading>Full project slideshow.</SectionHeading>
-            <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-[#86868b]">
+            <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-muted">
               Scroll through the complete campaign presentation — from market
               research and demand modeling to optimization results and the final
               pricing recommendation.
@@ -860,7 +859,7 @@ export default function MATH1231Page() {
               className="glass-strong mt-8 overflow-hidden rounded-3xl border border-white/[0.1] shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
             >
               <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4 sm:px-6">
-                <p className="text-[14px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
+                <p className="text-[14px] font-medium tracking-[-0.01em] text-foreground">
                   Northeastern Hockey T-Shirt Sales Campaign
                 </p>
                 <a
@@ -899,48 +898,39 @@ export default function MATH1231Page() {
               <SectionHeading>Course deliverables and outputs.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className={artifactGridClassName(artifacts.length)}>
               {artifacts.map((artifact, i) => {
-                const content = (
-                  <>
-                    <span
-                      className="flex h-12 w-12 items-center justify-center rounded-2xl transition-colors duration-300 group-hover:opacity-90"
-                      style={{
-                        backgroundColor: "rgba(200, 16, 46, 0.12)",
-                        color: ACCENT,
-                      }}
-                    >
-                      {artifactIcon(artifact.icon)}
-                    </span>
-                    <span className="text-center text-[15px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
-                      {artifact.label}
-                    </span>
-                  </>
-                );
-
-                const className =
-                  "glass-strong group flex flex-col items-center gap-4 rounded-3xl px-6 py-8 transition-all duration-300 hover:bg-white/[0.08] hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)]";
+                const iconStyle = {
+                  backgroundColor: "rgba(200, 16, 46, 0.12)",
+                  color: ACCENT,
+                };
 
                 return (
                   <motion.div
                     key={artifact.label}
                     custom={i + 1}
                     variants={fadeUp}
-                    whileHover={{ y: -4, transition: { duration: 0.25 } }}
+                    className="h-full"
+                    whileHover={
+                      "href" in artifact && artifact.href
+                        ? { y: -6, scale: 1.02, transition: { duration: 0.3 } }
+                        : { y: -2, transition: { duration: 0.25 } }
+                    }
                   >
                     {"href" in artifact && artifact.href ? (
-                      <a
+                      <InteractiveArtifactCard
+                        label={artifact.label}
+                        icon={artifactIcon(artifact.icon)}
                         href={artifact.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={className}
-                      >
-                        {content}
-                      </a>
+                        accent={courseAccent}
+                        iconStyle={iconStyle}
+                      />
                     ) : (
-                      <button type="button" className={`w-full ${className}`}>
-                        {content}
-                      </button>
+                      <StaticArtifactCard
+                        label={artifact.label}
+                        icon={artifactIcon(artifact.icon)}
+                        iconStyle={iconStyle}
+                      />
                     )}
                   </motion.div>
                 );
@@ -978,10 +968,10 @@ export default function MATH1231Page() {
                   >
                     {i + 1}
                   </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-[#f5f5f7]">
+                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-[#86868b]">
+                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
                     {item.description}
                   </p>
                 </motion.div>
@@ -992,9 +982,9 @@ export default function MATH1231Page() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.06] px-6 py-12 lg:px-8">
+      <footer className="relative z-10 border-t border-border px-6 py-12 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 sm:flex-row">
-          <p className="text-[13px] text-[#86868b]">
+          <p className="text-[13px] text-muted">
             © {new Date().getFullYear()} Lokesh Addagiri. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
@@ -1002,7 +992,7 @@ export default function MATH1231Page() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[13px] text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>

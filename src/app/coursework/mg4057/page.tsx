@@ -1,5 +1,13 @@
 "use client";
 
+import { ThemeToggle } from "@/components/theme-toggle";
+import {
+  artifactGridClassName,
+  InteractiveArtifactCard,
+  StaticArtifactCard,
+  SyllabusHeaderButton,
+  type CourseAccent,
+} from "@/components/coursework/artifact-cards";
 import {
   AnimatePresence,
   motion,
@@ -25,6 +33,15 @@ const ACCENT_GLOW = "rgba(128, 69, 218, 0.35)";
 const ACCENT_GLOW_STRONG = "rgba(128, 69, 218, 0.45)";
 const ACCENT_GLOW_HERO = "rgba(128, 69, 218, 0.55)";
 const ACCENT_RGB = "128, 69, 218";
+
+const courseAccent: CourseAccent = {
+  accent: ACCENT,
+  accentLight: ACCENT_LIGHT,
+  accentRgb: ACCENT_RGB,
+  accentGlow: ACCENT_GLOW,
+};
+
+const SYLLABUS_PDF = "/documents/mg4057-syllabus.pdf";
 
 const skills = [
   "Work Breakdown Structures",
@@ -163,25 +180,6 @@ const staggerContainer = {
 
 const viewport = { once: true, margin: "-100px" as const };
 
-function SunMoonIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-  );
-}
-
 function BackIcon() {
   return (
     <svg
@@ -307,7 +305,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         style={{ backgroundColor: ACCENT }}
         aria-hidden
       />
-      <p className="text-[13px] font-medium tracking-[0.22em] text-[#86868b] uppercase">
+      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
         {children}
       </p>
     </div>
@@ -316,7 +314,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-[#f5f5f7]">
+    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -407,7 +405,7 @@ function GalleryCard({
       }}
     >
       {image.title ? (
-        <p className="mb-3 text-[15px] font-semibold tracking-[-0.01em] text-[#f5f5f7]">
+        <p className="mb-3 text-[15px] font-semibold tracking-[-0.01em] text-foreground">
           {image.title}
         </p>
       ) : null}
@@ -427,7 +425,7 @@ function GalleryCard({
         />
         <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] transition-all duration-300 group-hover:ring-[#8045da]/30" />
       </div>
-      <p className="mt-2.5 text-[13px] leading-relaxed text-[#86868b] transition-colors duration-300 group-hover:text-[#d2d2d7]">
+      <p className="mt-2.5 text-[13px] leading-relaxed text-muted transition-colors duration-300 group-hover:text-foreground-secondary">
         {image.caption}
       </p>
       <p
@@ -477,12 +475,12 @@ function ImageLightbox({
               type="button"
               onClick={onClose}
               aria-label="Close"
-              className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.12] bg-black/50 text-[#f5f5f7] transition-colors hover:bg-white/[0.1]"
+              className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.12] bg-black/50 text-foreground transition-colors hover:bg-border"
             >
               <CloseIcon />
             </button>
             <div
-              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-black/60 ${aspectForLayout(
+              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-background/60 ${aspectForLayout(
                 image.layout,
                 image.layout === "landscape" ? "showcase" : "default",
               )} max-h-[75vh]`}
@@ -496,7 +494,7 @@ function ImageLightbox({
                 priority
               />
             </div>
-            <p className="mt-4 text-center text-[15px] leading-relaxed text-[#d2d2d7]">
+            <p className="mt-4 text-center text-[15px] leading-relaxed text-foreground-secondary">
               {image.caption}
             </p>
           </motion.div>
@@ -532,7 +530,7 @@ export default function MG4057Page() {
   }, [lightboxImage, closeLightbox]);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-black text-[#f5f5f7]">
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <ImageLightbox image={lightboxImage} onClose={closeLightbox} />
 
       {/* Ambient background */}
@@ -543,12 +541,7 @@ export default function MG4057Page() {
         />
         <div className="absolute right-0 bottom-1/3 h-[350px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[100px]" />
         <div
-          className="absolute inset-0 opacity-[0.012]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-            backgroundSize: "48px 48px",
-          }}
+          className="ambient-grid absolute inset-0"
         />
       </div>
 
@@ -559,14 +552,14 @@ export default function MG4057Page() {
         transition={{ duration: 0.7, ease: EASE }}
         className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
           navScrolled
-            ? "border-b border-white/[0.06] bg-black/60 backdrop-blur-2xl"
+            ? "border-b border-border bg-background/60 backdrop-blur-2xl"
             : "bg-transparent"
         }`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-8 lg:py-5">
           <Link
             href="/"
-            className="text-sm font-semibold tracking-[-0.02em] text-[#f5f5f7] transition-opacity hover:opacity-70"
+            className="text-sm font-semibold tracking-[-0.02em] text-foreground transition-opacity hover:opacity-70"
           >
             Lokesh Addagiri
           </Link>
@@ -578,8 +571,8 @@ export default function MG4057Page() {
                 href={link.href}
                 className={`text-[13px] transition-colors duration-200 ${
                   link.label === "Coursework"
-                    ? "text-[#f5f5f7]"
-                    : "text-[#86868b] hover:text-[#f5f5f7]"
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -588,20 +581,14 @@ export default function MG4057Page() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              aria-label="Toggle dark/light mode"
-              className="glass flex h-9 w-9 items-center justify-center rounded-full text-[#86868b] transition-all duration-200 hover:text-[#f5f5f7]"
-            >
-              <SunMoonIcon />
-            </button>
+            <ThemeToggle />
             <button
               type="button"
               aria-label="Open menu"
               className="glass flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full md:hidden"
             >
-              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
-              <span className="block h-[1.5px] w-4 bg-[#86868b]" />
+              <span className="block h-[1.5px] w-4 bg-muted" />
+              <span className="block h-[1.5px] w-4 bg-muted" />
             </button>
           </div>
         </nav>
@@ -619,26 +606,37 @@ export default function MG4057Page() {
               <motion.div custom={0} variants={fadeUp}>
                 <Link
                   href="/coursework"
-                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                  className="group mb-10 inline-flex items-center gap-2 text-[14px] font-medium text-muted transition-colors hover:text-foreground"
                 >
                   <BackIcon />
                   Back to Coursework
                 </Link>
               </motion.div>
 
-              <motion.p
+              <motion.div
                 custom={1}
                 variants={fadeUp}
-                className="text-[13px] font-medium tracking-[0.22em] uppercase"
-                style={{ color: ACCENT }}
+                className="flex flex-wrap items-center gap-x-3 gap-y-2"
               >
-                MG 4057
-              </motion.p>
+                <span
+                  className="text-[13px] font-medium tracking-[0.22em] uppercase"
+                  style={{ color: ACCENT }}
+                >
+                  MG 4057
+                </span>
+                <span className="hidden text-muted/50 sm:inline" aria-hidden>
+                  •
+                </span>
+                <SyllabusHeaderButton
+                  href={SYLLABUS_PDF}
+                  accent={courseAccent}
+                />
+              </motion.div>
 
               <motion.h1
                 custom={2}
                 variants={fadeUp}
-                className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-[#f5f5f7]"
+                className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-foreground"
               >
                 Project Management
               </motion.h1>
@@ -646,7 +644,7 @@ export default function MG4057Page() {
               <motion.p
                 custom={3}
                 variants={fadeUp}
-                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-[#86868b]"
+                className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-muted"
               >
                 Planning, scheduling, stakeholder coordination, and risk
                 management for large-scale organizational projects.
@@ -669,13 +667,13 @@ export default function MG4057Page() {
               Delivering projects through structured planning and execution.
             </SectionHeading>
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
-              <p className="text-[17px] leading-[1.8] text-[#d2d2d7]">
+              <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 MG4057 introduced project management methodologies used to plan,
                 execute, monitor, and close complex projects. The course
                 emphasized scope definition, stakeholder engagement, scheduling,
                 risk management, governance, and project delivery frameworks.
               </p>
-              <p className="mt-5 text-[17px] leading-[1.8] text-[#86868b]">
+              <p className="mt-5 text-[17px] leading-[1.8] text-muted">
                 Through the Smart Health Monitoring System (SHMS) implementation
                 project, I developed practical experience creating work breakdown
                 structures, project schedules, stakeholder analyses, risk
@@ -703,7 +701,7 @@ export default function MG4057Page() {
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                  className="glass flex items-center gap-4 rounded-2xl px-6 py-5 transition-colors duration-300 hover:bg-white/[0.07]"
+                  className="glass flex items-center gap-4 rounded-2xl px-6 py-5 transition-colors duration-300 hover:bg-card-hover"
                 >
                   <span
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
@@ -714,7 +712,7 @@ export default function MG4057Page() {
                       style={{ backgroundColor: ACCENT }}
                     />
                   </span>
-                  <span className="text-[15px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
+                  <span className="text-[15px] font-medium tracking-[-0.01em] text-foreground">
                     {skill}
                   </span>
                 </motion.div>
@@ -756,11 +754,11 @@ export default function MG4057Page() {
                 Capstone Project
               </span>
 
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[#f5f5f7]">
+              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-foreground">
                 Smart Health Monitoring System (SHMS) Implementation
               </h3>
 
-              <p className="mt-4 max-w-3xl text-[17px] leading-[1.75] text-[#86868b]">
+              <p className="mt-4 max-w-3xl text-[17px] leading-[1.75] text-muted">
                 Developed a comprehensive project plan for implementing a Smart
                 Health Monitoring System across a healthcare network, including
                 stakeholder management, risk assessment, scheduling, governance,
@@ -769,14 +767,14 @@ export default function MG4057Page() {
 
               <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
                 <div>
-                  <p className="text-[12px] font-medium tracking-[0.14em] text-[#86868b] uppercase">
+                  <p className="text-[12px] font-medium tracking-[0.14em] text-muted uppercase">
                     Project Highlights
                   </p>
                   <ul className="mt-4 space-y-3">
                     {projectHighlights.map((highlight) => (
                       <li
                         key={highlight}
-                        className="flex items-start gap-3 text-[15px] leading-relaxed text-[#d2d2d7]"
+                        className="flex items-start gap-3 text-[15px] leading-relaxed text-foreground-secondary"
                       >
                         <span
                           className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
@@ -789,14 +787,14 @@ export default function MG4057Page() {
                 </div>
 
                 <div>
-                  <p className="text-[12px] font-medium tracking-[0.14em] text-[#86868b] uppercase">
+                  <p className="text-[12px] font-medium tracking-[0.14em] text-muted uppercase">
                     Key Metrics
                   </p>
                   <div className="mt-4 grid grid-cols-2 gap-3">
                     {keyMetrics.map((metric) => (
                       <div
                         key={metric.label}
-                        className="glass rounded-2xl border border-white/[0.06] px-5 py-5 transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(128,69,218,0.1)]"
+                        className="glass rounded-2xl border border-border px-5 py-5 transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(128,69,218,0.1)]"
                       >
                         <p
                           className="text-[clamp(1.75rem,4vw,2.25rem)] font-semibold leading-none tracking-[-0.03em]"
@@ -804,7 +802,7 @@ export default function MG4057Page() {
                         >
                           {metric.value}
                         </p>
-                        <p className="mt-2 text-[12px] font-medium tracking-[0.1em] text-[#86868b] uppercase">
+                        <p className="mt-2 text-[12px] font-medium tracking-[0.1em] text-muted uppercase">
                           {metric.label}
                         </p>
                       </div>
@@ -876,7 +874,7 @@ export default function MG4057Page() {
             <motion.div variants={fadeUp} custom={0}>
               <SectionLabel>Governance &amp; Risk</SectionLabel>
               <SectionHeading>Project Governance &amp; Risk Management</SectionHeading>
-              <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-[#86868b]">
+              <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-muted">
                 Stakeholder prioritization, governance structures, and oversight
                 frameworks used to support communication, risk management, and
                 decision-making throughout the SHMS implementation.
@@ -946,7 +944,7 @@ export default function MG4057Page() {
                   >
                     {insight.title}
                   </p>
-                  <p className="mt-4 text-[15px] leading-[1.7] text-[#d2d2d7]">
+                  <p className="mt-4 text-[15px] leading-[1.7] text-foreground-secondary">
                     {insight.description}
                   </p>
                 </motion.div>
@@ -964,14 +962,14 @@ export default function MG4057Page() {
           >
             <SectionLabel>Full Project Report</SectionLabel>
             <SectionHeading>Complete project documentation.</SectionHeading>
-            <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-[#86868b]">
+            <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-muted">
               This report contains the complete project plan, stakeholder
               analysis, risk assessment, work breakdown structure,
               implementation schedule, governance framework, and deployment
               strategy developed for the Smart Health Monitoring System case
               study.
             </p>
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[#86868b]/80">
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted/80">
               Scroll through the complete SHMS implementation plan — from scope
               definition and scheduling to stakeholder management, risk
               assessment, and deployment strategy.
@@ -982,7 +980,7 @@ export default function MG4057Page() {
               className="glass-strong mt-8 overflow-hidden rounded-3xl border border-white/[0.1] shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
             >
               <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4 sm:px-6">
-                <p className="text-[14px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
+                <p className="text-[14px] font-medium tracking-[-0.01em] text-foreground">
                   Smart Health Monitoring System (SHMS) Implementation
                 </p>
                 <a
@@ -1021,60 +1019,39 @@ export default function MG4057Page() {
               <SectionHeading>Course deliverables and outputs.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className={artifactGridClassName(artifacts.length)}>
               {artifacts.map((artifact, i) => {
-                const content = (
-                  <>
-                    <span
-                      className="flex h-12 w-12 items-center justify-center rounded-2xl transition-colors duration-300 group-hover:opacity-90"
-                      style={{
-                        backgroundColor: "rgba(128, 69, 218, 0.12)",
-                        color: ACCENT,
-                      }}
-                    >
-                      {artifactIcon(artifact.icon)}
-                    </span>
-                    <span className="text-center text-[15px] font-medium tracking-[-0.01em] text-[#f5f5f7]">
-                      {artifact.label}
-                    </span>
-                  </>
-                );
-
-                const className =
-                  "glass-strong group flex flex-col items-center gap-4 rounded-3xl px-6 py-8 transition-all duration-300 hover:scale-[1.02] hover:bg-white/[0.08]";
+                const iconStyle = {
+                  backgroundColor: "rgba(128, 69, 218, 0.12)",
+                  color: ACCENT,
+                };
 
                 return (
                   <motion.div
                     key={artifact.label}
                     custom={i + 1}
                     variants={fadeUp}
-                    whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget.querySelector("a, button");
-                      if (el instanceof HTMLElement) {
-                        el.style.boxShadow = `0 20px 50px ${ACCENT_GLOW}`;
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget.querySelector("a, button");
-                      if (el instanceof HTMLElement) {
-                        el.style.boxShadow = "none";
-                      }
-                    }}
+                    className="h-full"
+                    whileHover={
+                      "href" in artifact && artifact.href
+                        ? { y: -6, scale: 1.02, transition: { duration: 0.3 } }
+                        : { y: -2, transition: { duration: 0.25 } }
+                    }
                   >
                     {"href" in artifact && artifact.href ? (
-                      <a
+                      <InteractiveArtifactCard
+                        label={artifact.label}
+                        icon={artifactIcon(artifact.icon)}
                         href={artifact.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={className}
-                      >
-                        {content}
-                      </a>
+                        accent={courseAccent}
+                        iconStyle={iconStyle}
+                      />
                     ) : (
-                      <button type="button" className={`w-full ${className}`}>
-                        {content}
-                      </button>
+                      <StaticArtifactCard
+                        label={artifact.label}
+                        icon={artifactIcon(artifact.icon)}
+                        iconStyle={iconStyle}
+                      />
                     )}
                   </motion.div>
                 );
@@ -1112,10 +1089,10 @@ export default function MG4057Page() {
                   >
                     {i + 1}
                   </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-[#f5f5f7]">
+                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-[#86868b]">
+                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
                     {item.description}
                   </p>
                 </motion.div>
@@ -1126,9 +1103,9 @@ export default function MG4057Page() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.06] px-6 py-12 lg:px-8">
+      <footer className="relative z-10 border-t border-border px-6 py-12 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 sm:flex-row">
-          <p className="text-[13px] text-[#86868b]">
+          <p className="text-[13px] text-muted">
             © {new Date().getFullYear()} Lokesh Addagiri. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
@@ -1136,7 +1113,7 @@ export default function MG4057Page() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[13px] text-[#86868b] transition-colors hover:text-[#f5f5f7]"
+                className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>
