@@ -109,6 +109,45 @@ function ArrowIcon() {
   );
 }
 
+function CourseworkIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+      <path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />
+    </svg>
+  );
+}
+
+function ResumeIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M16 2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" />
+      <circle cx="12" cy="10" r="2.5" />
+      <path d="M8.5 16.5c.6-1.5 2-2.5 3.5-2.5s2.9 1 3.5 2.5" />
+    </svg>
+  );
+}
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
@@ -294,18 +333,20 @@ export default function Home() {
               variants={fadeUp}
               className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row"
             >
-              <a
-                href="#projects"
-                className="inline-flex h-[52px] min-w-[180px] items-center justify-center rounded-full bg-cta-bg px-10 text-[16px] font-medium tracking-[-0.02em] text-cta-text transition-all duration-300 hover:bg-white hover:shadow-[0_0_60px_rgba(255,255,255,0.18)]"
+              <Link
+                href="/coursework"
+                className="inline-flex h-[52px] min-w-[180px] items-center justify-center gap-2 rounded-full bg-cta-bg px-10 text-[16px] font-medium tracking-[-0.02em] text-cta-text transition-all duration-300 hover:bg-white hover:shadow-[0_0_60px_rgba(255,255,255,0.18)]"
               >
-                View Projects
-              </a>
-              <a
-                href="#contact"
-                className="glass inline-flex h-[52px] min-w-[180px] items-center justify-center rounded-full px-10 text-[16px] font-medium tracking-[-0.02em] text-foreground transition-all duration-300 hover:bg-card-hover"
+                <CourseworkIcon />
+                View Coursework
+              </Link>
+              <Link
+                href="/resume"
+                className="glass inline-flex h-[52px] min-w-[180px] items-center justify-center gap-2 rounded-full px-10 text-[16px] font-medium tracking-[-0.02em] text-foreground transition-all duration-300 hover:bg-card-hover"
               >
-                Contact Me
-              </a>
+                <ResumeIcon />
+                View Resume
+              </Link>
             </motion.div>
           </motion.div>
 
