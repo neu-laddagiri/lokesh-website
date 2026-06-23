@@ -376,6 +376,8 @@ export default function Home() {
           </motion.div>
         </section>
 
+        <ProfessionalPresence />
+
         {/* ── About Me ── */}
         <section id="about" className="px-6 py-32 lg:px-8">
           <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2 lg:gap-20">
@@ -678,8 +680,6 @@ export default function Home() {
           </div>
         </section>
         )}
-
-        <ProfessionalPresence />
 
         {/* ── Contact ── */}
         <section id="contact" className="px-6 py-32 lg:px-8">

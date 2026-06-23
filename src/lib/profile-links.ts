@@ -1,5 +1,5 @@
 export const PROFILE_LINKS = {
-  linkedin: "https://www.linkedin.com/in/lokesh-addagiri",
+  linkedin: "https://www.linkedin.com/in/lokeshaddagiri",
   github: "https://github.com/neu-laddagiri",
   resume: "/documents/resume.pdf",
 } as const;

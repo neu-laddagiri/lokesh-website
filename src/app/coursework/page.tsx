@@ -1,10 +1,13 @@
 "use client";
 
-import { ConstructionIntroGate } from "@/components/construction-intro-gate";
+import {
+  HeroConstructionTape,
+  HeroDevelopmentLabel,
+} from "@/components/hero-construction-tape";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const navLinks = [
   { label: "About", href: "/#about" },
@@ -113,15 +116,19 @@ function BackIcon() {
 }
 
 export default function CourseworkPage() {
+  const heroRef = useRef<HTMLElement>(null);
   const [navScrolled, setNavScrolled] = useState(false);
   const { scrollY } = useScroll();
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setNavScrolled(latest > 40);
   });
 
   return (
-    <ConstructionIntroGate>
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* Ambient background */}
       <div className="pointer-events-none fixed inset-0 z-0">
@@ -183,8 +190,13 @@ export default function CourseworkPage() {
 
       <main className="relative z-10">
         {/* Page header */}
-        <section className="px-6 pt-36 pb-20 lg:px-8 lg:pt-44 lg:pb-28">
-          <div className="mx-auto max-w-6xl">
+        <section
+          ref={heroRef}
+          className="relative overflow-hidden px-6 pt-36 pb-20 lg:px-8 lg:pt-44 lg:pb-28"
+        >
+          <HeroConstructionTape scrollYProgress={scrollYProgress} />
+
+          <div className="relative z-10 mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
               animate="visible"
@@ -208,16 +220,20 @@ export default function CourseworkPage() {
                 Coursework
               </motion.p>
 
+              <motion.div custom={2} variants={fadeUp}>
+                <HeroDevelopmentLabel />
+              </motion.div>
+
               <motion.h1
-                custom={2}
+                custom={3}
                 variants={fadeUp}
-                className="mt-4 text-[clamp(2.5rem,7vw,4.5rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-foreground"
+                className="mt-2 text-[clamp(2.5rem,7vw,4.5rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-foreground"
               >
                 Academic Archive
               </motion.h1>
 
               <motion.p
-                custom={3}
+                custom={4}
                 variants={fadeUp}
                 className="mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-muted"
               >
@@ -323,6 +339,5 @@ export default function CourseworkPage() {
         </div>
       </footer>
     </div>
-    </ConstructionIntroGate>
   );
 }
