@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lokesh Addagiri Portfolio Website
 
-## Getting Started
+Personal portfolio website showcasing academic projects, coursework, data science work, business analytics projects, and technical development.
 
-First, run the development server:
+## Live Portfolio
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Portfolio currently under active development.
+
+## About
+
+I am a Combined Major student in Data Science and Business Administration at Northeastern University.
+
+This website serves as a centralized portfolio for:
+
+- Data Science projects
+- Business Analytics work
+- Academic coursework
+- Research and case studies
+- Interactive dashboards
+- Technical documentation
+- Study abroad work completed in Greece
+
+## Current Featured Coursework
+
+### MGSC 2301 — Business Statistics
+- Regression analysis
+- Hypothesis testing
+- SPSS modeling
+- Statistical project documentation
+
+### MG 4057 — Project Management
+- Smart Health Monitoring System (SHMS) implementation project
+- Work Breakdown Structure (WBS)
+- Gantt scheduling
+- Stakeholder analysis
+- Risk management planning
+
+### AF 3116 — Management Accounting
+- Cost analysis
+- Budget planning
+- Variance analysis
+- Managerial decision making
+
+### MATH 1231 — Calculus for Business and Economics
+- Optimization
+- Derivatives
+- Business applications of calculus
+
+## Technology Stack
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+
+## Repository Structure
+
+```text
+src/
+  app/
+    coursework/
+    projects/
+
+public/
+  documents/
+  images/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Author
 
-## Learn More
+Lokesh Addagiri
 
-To learn more about Next.js, take a look at the following resources:
+Northeastern University  
+Data Science + Business Administration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Portfolio currently under active expansion.
+Additional coursework, projects, dashboards, and research are being added regularly.
