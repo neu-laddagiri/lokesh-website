@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useTransform, type MotionValue } from "framer-motion";
+import { motion, useMotionValue, useTransform, type MotionValue } from "framer-motion";
 
 type TapeConfig = {
   id: string;
@@ -62,7 +62,7 @@ const tapes: TapeConfig[] = [
 ];
 
 type HeroConstructionTapeProps = {
-  scrollYProgress: MotionValue<number>;
+  scrollYProgress?: MotionValue<number>;
 };
 
 function ConstructionTapeStrip({
@@ -113,8 +113,11 @@ function ConstructionTapeStrip({
 }
 
 export function HeroConstructionTape({
-  scrollYProgress,
+  scrollYProgress: scrollYProgressProp,
 }: HeroConstructionTapeProps) {
+  const fallbackProgress = useMotionValue(0);
+  const scrollYProgress = scrollYProgressProp ?? fallbackProgress;
+
   return (
     <div
       className="pointer-events-none absolute inset-0 z-40 overflow-hidden"

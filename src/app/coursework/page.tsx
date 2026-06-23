@@ -1,5 +1,6 @@
 "use client";
 
+import { ConstructionIntroGate } from "@/components/construction-intro-gate";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
@@ -120,6 +121,7 @@ export default function CourseworkPage() {
   });
 
   return (
+    <ConstructionIntroGate>
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* Ambient background */}
       <div className="pointer-events-none fixed inset-0 z-0">
@@ -321,5 +323,6 @@ export default function CourseworkPage() {
         </div>
       </footer>
     </div>
+    </ConstructionIntroGate>
   );
 }

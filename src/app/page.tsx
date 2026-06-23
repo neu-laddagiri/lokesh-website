@@ -4,6 +4,7 @@ import {
   HeroConstructionTape,
   HeroDevelopmentLabel,
 } from "@/components/hero-construction-tape";
+import { ProfessionalPresence } from "@/components/professional-presence";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   motion,
@@ -678,6 +679,8 @@ export default function Home() {
         </section>
         )}
 
+        <ProfessionalPresence />
+
         {/* ── Contact ── */}
         <section id="contact" className="px-6 py-32 lg:px-8">
           <motion.div
@@ -697,7 +700,7 @@ export default function Home() {
               about data, analytics, and business.
             </p>
             <a
-              href="mailto:lokesh.addagiri@northeastern.edu"
+              href="mailto:addagiri.l@northeastern.edu"
               className="mt-10 inline-flex h-[52px] items-center justify-center rounded-full bg-cta-bg px-10 text-[16px] font-medium tracking-[-0.02em] text-cta-text transition-all duration-300 hover:bg-white hover:shadow-[0_0_50px_rgba(255,255,255,0.15)]"
             >
               Get in Touch
@@ -725,8 +728,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      <div id="resume" className="sr-only" aria-hidden />
     </div>
   );
 }
