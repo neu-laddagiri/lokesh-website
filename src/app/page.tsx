@@ -340,13 +340,16 @@ export default function Home() {
                 <CourseworkIcon />
                 View Coursework
               </Link>
-              <Link
-                href="/resume"
+              {/* TODO: Place resume PDF at public/documents/resume.pdf */}
+              <a
+                href="/documents/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="glass inline-flex h-[52px] min-w-[180px] items-center justify-center gap-2 rounded-full px-10 text-[16px] font-medium tracking-[-0.02em] text-foreground transition-all duration-300 hover:bg-card-hover"
               >
                 <ResumeIcon />
                 View Resume
-              </Link>
+              </a>
             </motion.div>
           </motion.div>
 

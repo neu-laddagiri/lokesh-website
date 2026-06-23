@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -15,9 +16,60 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lokesh Addagiri",
+  metadataBase: new URL("https://lokeshaddagiri.com"),
+
+  title: {
+    default: "Lokesh Addagiri",
+    template: "%s | Lokesh Addagiri",
+  },
+
   description:
-    "Data Science and Business Administration student at Northeastern University. Building at the intersection of data, business, and technology.",
+    "Data Science & Business Administration student at Northeastern University. Portfolio featuring coursework, analytics projects, business intelligence dashboards, technical projects, and academic work.",
+
+  keywords: [
+    "Lokesh Addagiri",
+    "Data Science",
+    "Business Administration",
+    "Northeastern University",
+    "Portfolio",
+    "Analytics",
+    "Business Intelligence",
+    "Machine Learning",
+    "Statistics",
+    "Data Visualization",
+    "Python",
+    "SQL",
+    "Student Portfolio",
+  ],
+
+  authors: [{ name: "Lokesh Addagiri" }],
+  creator: "Lokesh Addagiri",
+
+  icons: {
+    icon: "/favicon.ico",
+  },
+
+  openGraph: {
+    title: "Lokesh Addagiri",
+    description:
+      "Data Science & Business Administration student at Northeastern University.",
+    url: "https://lokeshaddagiri.com",
+    siteName: "Lokesh Addagiri",
+    locale: "en_US",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Lokesh Addagiri",
+    description:
+      "Data Science & Business Administration student at Northeastern University.",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -34,6 +86,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider>{children}</ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
