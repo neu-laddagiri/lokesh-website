@@ -340,16 +340,17 @@ export default function Home() {
                 <CourseworkIcon />
                 View Coursework
               </Link>
-              {/* TODO: Place resume PDF at public/documents/resume.pdf */}
-              <a
-                href="/documents/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass inline-flex h-[52px] min-w-[180px] items-center justify-center gap-2 rounded-full px-10 text-[16px] font-medium tracking-[-0.02em] text-foreground transition-all duration-300 hover:bg-card-hover"
+              {/* TODO: Re-enable when resume PDF is added at public/documents/resume.pdf */}
+              <button
+                type="button"
+                disabled
+                aria-disabled="true"
+                title="Resume coming soon"
+                className="glass inline-flex h-[52px] min-w-[180px] cursor-not-allowed items-center justify-center gap-2 rounded-full px-10 text-[16px] font-medium tracking-[-0.02em] text-foreground opacity-50 transition-all duration-300"
               >
                 <ResumeIcon />
                 View Resume
-              </a>
+              </button>
             </motion.div>
           </motion.div>
 

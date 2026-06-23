@@ -45,10 +45,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Lokesh Addagiri" }],
   creator: "Lokesh Addagiri",
 
-  icons: {
-    icon: "/favicon.ico",
-  },
+  // Favicon is served automatically from src/app/favicon.ico (App Router file convention).
 
+  // TODO: Add OG image at public/og-image.png (served as https://lokeshaddagiri.com/og-image.png)
   openGraph: {
     title: "Lokesh Addagiri",
     description:
@@ -57,6 +56,14 @@ export const metadata: Metadata = {
     siteName: "Lokesh Addagiri",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Lokesh Addagiri — Data Science & Business Administration Portfolio",
+      },
+    ],
   },
 
   twitter: {
@@ -64,6 +71,7 @@ export const metadata: Metadata = {
     title: "Lokesh Addagiri",
     description:
       "Data Science & Business Administration student at Northeastern University.",
+    images: ["/og-image.png"],
   },
 
   robots: {
