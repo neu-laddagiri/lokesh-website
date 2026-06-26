@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeToggle } from "@/components/theme-toggle";
+import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
 import {
   SyllabusHeaderButton,
   type CourseAccent,
@@ -19,7 +20,7 @@ const navLinks = [
   { label: "About", href: "/#about" },
   { label: "Projects", href: "/#projects" },
   { label: "Coursework", href: "/coursework" },
-  { label: "Resume", href: "/#resume" },
+  { label: "Resume", href: PROFILE_LINKS.resume },
   { label: "Contact", href: "/#contact" },
 ] as const;
 
@@ -512,6 +513,7 @@ export default function CS1200Page() {
               <Link
                 key={link.label}
                 href={link.href}
+                {...(link.label === "Resume" ? resumeExternalProps : {})}
                 className={`text-[13px] transition-colors duration-200 ${
                   link.label === "Coursework"
                     ? "text-foreground"
@@ -1028,6 +1030,7 @@ export default function CS1200Page() {
               <Link
                 key={link.label}
                 href={link.href}
+                {...(link.label === "Resume" ? resumeExternalProps : {})}
                 className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}

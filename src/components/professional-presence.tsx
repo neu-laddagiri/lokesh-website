@@ -1,6 +1,9 @@
 "use client";
 
-import { PROFILE_IMAGE, PROFILE_LINKS } from "@/lib/profile-links";
+import {
+  PROFILE_IMAGE,
+  PROFILE_LINKS,
+} from "@/lib/profile-links";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -219,7 +222,6 @@ const presenceCards: PresenceCardProps[] = [
     glowClassName: "bg-[#2997ff]/10",
     buttonClassName:
       "group-hover:bg-[#2997ff] group-hover:text-white group-hover:shadow-[0_0_40px_rgba(41,151,255,0.35)]",
-    download: true,
     id: "resume",
     index: 2,
   },

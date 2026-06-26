@@ -12,6 +12,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
@@ -19,7 +20,7 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
   { label: "Coursework", href: "#coursework" },
-  { label: "Resume", href: "#resume" },
+  { label: "Resume", href: PROFILE_LINKS.resume },
   { label: "Contact", href: "#contact" },
 ] as const;
 
@@ -214,6 +215,7 @@ export default function Home() {
               <a
                 key={link.label}
                 href={link.href}
+                {...(link.label === "Resume" ? resumeExternalProps : {})}
                 className="text-[13px] text-muted transition-colors duration-200 hover:text-foreground"
               >
                 {link.label}
@@ -341,17 +343,14 @@ export default function Home() {
                 <CourseworkIcon />
                 View Coursework
               </Link>
-              {/* TODO: Re-enable when resume PDF is added at public/documents/resume.pdf */}
-              <button
-                type="button"
-                disabled
-                aria-disabled="true"
-                title="Resume coming soon"
-                className="glass inline-flex h-[52px] min-w-[180px] cursor-not-allowed items-center justify-center gap-2 rounded-full px-10 text-[16px] font-medium tracking-[-0.02em] text-foreground opacity-50 transition-all duration-300"
+              <a
+                href={PROFILE_LINKS.resume}
+                {...resumeExternalProps}
+                className="glass inline-flex h-[52px] min-w-[180px] items-center justify-center gap-2 rounded-full px-10 text-[16px] font-medium tracking-[-0.02em] text-foreground transition-all duration-300 hover:bg-card-hover hover:shadow-[0_0_50px_rgba(255,255,255,0.1)]"
               >
                 <ResumeIcon />
                 View Resume
-              </button>
+              </a>
             </motion.div>
           </motion.div>
 
@@ -720,6 +719,7 @@ export default function Home() {
               <a
                 key={link.label}
                 href={link.href}
+                {...(link.label === "Resume" ? resumeExternalProps : {})}
                 className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}
