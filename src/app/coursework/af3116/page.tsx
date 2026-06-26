@@ -9,7 +9,9 @@ import {
 } from "@/components/coursework/artifact-cards";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const COPYRIGHT_YEAR = 2026;
 
 const navLinks = [
   { label: "About", href: "/#about" },
@@ -251,7 +253,12 @@ function artifactIcon(type: string) {
 
 export default function AF3116Page() {
   const [navScrolled, setNavScrolled] = useState(false);
+  const [motionReady, setMotionReady] = useState(false);
   const { scrollY } = useScroll();
+
+  useEffect(() => {
+    setMotionReady(true);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setNavScrolled(latest > 40);
@@ -272,7 +279,9 @@ export default function AF3116Page() {
       {/* Navigation */}
       <motion.header
         initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        animate={
+          motionReady ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }
+        }
         transition={{ duration: 0.7, ease: EASE }}
         className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
           navScrolled
@@ -324,7 +333,7 @@ export default function AF3116Page() {
           <div className="mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
-              animate="visible"
+              animate={motionReady ? "visible" : "hidden"}
               variants={staggerContainer}
             >
               <motion.div custom={0} variants={fadeUp}>
@@ -673,7 +682,7 @@ export default function AF3116Page() {
       <footer className="relative z-10 border-t border-border px-6 py-12 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 sm:flex-row">
           <p className="text-[13px] text-muted">
-            © {new Date().getFullYear()} Lokesh Addagiri. All rights reserved.
+            © {COPYRIGHT_YEAR} Lokesh Addagiri. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
             {navLinks.map((link) => (

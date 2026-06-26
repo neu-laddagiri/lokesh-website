@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 const BASE_URL = "https://lokeshaddagiri.com";
 
 const courseworkRoutes = [
+  "acct1201",
   "af3116",
   "math1231",
   "mg4057",

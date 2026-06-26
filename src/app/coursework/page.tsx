@@ -19,6 +19,18 @@ const navLinks = [
 
 const courses = [
   {
+    code: "ACCT 1201",
+    title: "Financial Accounting & Reporting",
+    href: "/coursework/acct1201",
+    skills: [
+      "Financial Statement Analysis",
+      "Ratio Analysis",
+      "Excel Modeling",
+      "SEC EDGAR Research",
+      "Corporate Valuation",
+    ],
+  },
+  {
     code: "MGSC 2301",
     title: "Business Statistics",
     href: "/coursework/mgsc2301",
