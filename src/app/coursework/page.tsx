@@ -31,6 +31,18 @@ const courses = [
     ],
   },
   {
+    code: "ECON 1115",
+    title: "Principles of Macroeconomics",
+    href: "/coursework/econ1115",
+    skills: [
+      "Macroeconomic Analysis",
+      "Fiscal Policy",
+      "IMF Data",
+      "International Trade",
+      "Policy Evaluation",
+    ],
+  },
+  {
     code: "CS 1200",
     title: "First Year Seminar",
     href: "/coursework/cs1200",
@@ -52,6 +64,18 @@ const courses = [
       "Graph Theory",
       "Combinatorics",
       "Big-O Analysis",
+    ],
+  },
+  {
+    code: "DS 2500",
+    title: "Intermediate Programming with Data",
+    href: "/coursework/ds2500",
+    skills: [
+      "Python",
+      "Pandas",
+      "APIs",
+      "Data Visualization",
+      "Machine Learning",
     ],
   },
   {
@@ -94,6 +118,13 @@ const courses = [
     ],
   },
 ] as const;
+
+const courseAccents: Partial<Record<(typeof courses)[number]["code"], string>> =
+  {
+    "ECON 1115": "#CC0001",
+  };
+
+const DEFAULT_COURSE_ACCENT = "#2997ff";
 
 const EASE = [0.25, 0.4, 0.25, 1] as const;
 
@@ -290,7 +321,11 @@ export default function CourseworkPage() {
               variants={staggerContainer}
               className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4"
             >
-              {courses.map((course, i) => (
+              {courses.map((course, i) => {
+                const accent =
+                  courseAccents[course.code] ?? DEFAULT_COURSE_ACCENT;
+
+                return (
                 <motion.article
                   key={course.code}
                   custom={i}
@@ -298,9 +333,15 @@ export default function CourseworkPage() {
                   whileHover={{ y: -8, transition: { duration: 0.35 } }}
                   className="glass-strong group relative flex flex-col overflow-hidden rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]"
                 >
-                  <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-[#2997ff]/[0.07] blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+                  <div
+                    className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+                    style={{ backgroundColor: `${accent}12` }}
+                  />
 
-                  <p className="text-[13px] font-medium tracking-[0.12em] text-[#2997ff] uppercase">
+                  <p
+                    className="text-[13px] font-medium tracking-[0.12em] uppercase"
+                    style={{ color: accent }}
+                  >
                     {course.code}
                   </p>
 
@@ -318,7 +359,10 @@ export default function CourseworkPage() {
                           key={skill}
                           className="flex items-center gap-3 text-[15px] text-foreground-secondary"
                         >
-                          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#2997ff]/80" />
+                          <span
+                            className="h-1.5 w-1.5 shrink-0 rounded-full"
+                            style={{ backgroundColor: `${accent}cc` }}
+                          />
                           {skill}
                         </li>
                       ))}
@@ -333,7 +377,8 @@ export default function CourseworkPage() {
                     <ArrowIcon />
                   </Link>
                 </motion.article>
-              ))}
+                );
+              })}
             </motion.div>
 
             {/* Archive note */}
