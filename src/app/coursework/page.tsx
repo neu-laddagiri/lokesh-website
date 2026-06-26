@@ -43,6 +43,18 @@ const courses = [
     ],
   },
   {
+    code: "CS 1800",
+    title: "Discrete Structures",
+    href: "/coursework/cs1800",
+    skills: [
+      "Mathematical Logic",
+      "Proof Writing",
+      "Graph Theory",
+      "Combinatorics",
+      "Big-O Analysis",
+    ],
+  },
+  {
     code: "MGSC 2301",
     title: "Business Statistics",
     href: "/coursework/mgsc2301",
