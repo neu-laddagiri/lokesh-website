@@ -31,6 +31,18 @@ const courses = [
     ],
   },
   {
+    code: "CS 1200",
+    title: "First Year Seminar",
+    href: "/coursework/cs1200",
+    skills: [
+      "Git",
+      "GitHub",
+      "Version Control",
+      "Markdown",
+      "Developer Workflow",
+    ],
+  },
+  {
     code: "MGSC 2301",
     title: "Business Statistics",
     href: "/coursework/mgsc2301",
