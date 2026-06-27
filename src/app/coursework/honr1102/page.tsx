@@ -2,14 +2,14 @@
 
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
+  HONR1102_STORYMAP_EMBED_URL,
+  HONR1102_STORYMAP_PUBLIC_URL,
+} from "@/lib/honr1102-storymap";
+import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
+import {
   SyllabusHeaderButton,
   type CourseAccent,
 } from "@/components/coursework/artifact-cards";
-import {
-  ENGW1111_STORYMAP_EMBED_URL,
-  ENGW1111_STORYMAP_PUBLIC_URL,
-} from "@/lib/engw1111-storymap";
-import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
 import {
   AnimatePresence,
   motion,
@@ -27,14 +27,16 @@ const navLinks = [
   { label: "Contact", href: "/#contact" },
 ] as const;
 
-/** Northeastern red — page-local accent only */
-const ACCENT = "#C8102E";
-const ACCENT_LIGHT = "#E8324A";
-const NAVY = "#1E3A5F";
-const NAVY_LIGHT = "#3B6EA5";
-const ACCENT_GLOW = "rgba(200, 16, 46, 0.35)";
-const ACCENT_RGB = "200, 16, 46";
-const NAVY_RGB = "30, 58, 95";
+/** Deep indigo, violet & Northeastern red — page-local accent only */
+const ACCENT = "#312E81";
+const ACCENT_LIGHT = "#6366F1";
+const VIOLET = "#7C3AED";
+const VIOLET_LIGHT = "#A78BFA";
+const RED = "#C8102E";
+const ACCENT_GLOW = "rgba(49, 46, 129, 0.38)";
+const ACCENT_RGB = "49, 46, 129";
+const VIOLET_RGB = "124, 58, 237";
+const RED_RGB = "200, 16, 46";
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -43,88 +45,121 @@ const courseAccent: CourseAccent = {
   accentGlow: ACCENT_GLOW,
 };
 
-const SYLLABUS_PDF = "/documents/engw1111-syllabus.pdf";
+const REFLECTION_PDF = "/documents/honr1102-reflection-essay.pdf";
+const SYLLABUS_PDF = "/documents/honr1102-syllabus.pdf";
 
 const COPYRIGHT_YEAR = 2026;
 
 const heroTags = [
-  "Professional Writing",
-  "Digital Storytelling",
-  "Rhetorical Analysis",
-  "Research",
-  "Communication",
+  "Honors Program",
+  "Leadership",
+  "Community Engagement",
+  "Storytelling",
+  "Systems Thinking",
 ] as const;
 
 const skills = [
-  "Professional Writing",
-  "Digital Storytelling",
+  "Self-Exploration & Values",
+  "Impact Area Research",
   "Knight Lab StoryMap",
-  "Rhetorical Analysis",
-  "Audience Awareness",
-  "Research Writing",
-  "Multimedia Communication",
-  "Critical Reading",
-  "Persuasive Writing",
-  "Genre Analysis",
-  "Source Integration",
-  "Revision & Editing",
+  "Interdisciplinary Collaboration",
+  "Source Evaluation",
+  "Asset-Based Community Development",
+  "Place-Based Storytelling",
+  "Reflection Journaling",
+  "Stakeholder Analysis",
+  "Global Citizenship",
+  "Professional Networking",
+  "Scholarly Attribution",
 ] as const;
 
-const writingPrinciples = [
+const assignmentOverview = [
   {
-    title: "Clear Communication",
+    title: "Personal Biography",
     description:
-      "Write clearly and efficiently without unnecessary complexity.",
+      "Introduce who you are — the values, experiences, and locations that shape how you see the world.",
   },
   {
-    title: "Audience Awareness",
+    title: "Exploring an Impact Area",
     description:
-      "Adapt writing style for different readers and purposes.",
+      "Define a social or environmental issue aligned with your values and examine who it affects.",
   },
   {
-    title: "Storytelling",
-    description: "Use narrative to communicate ideas effectively.",
+    title: "Organizations Creating Change",
+    description:
+      "Map the institutions, nonprofits, and community partners working to address your impact area.",
+  },
+] as const;
+
+const reflectionPreview = {
+  title: "Reflection Essay",
+  src: REFLECTION_PDF,
+  alt: "First page of the HONR 1102 Honors Discovery reflection essay",
+  caption:
+    "Final reflection on how the StoryMap reshaped my understanding of youth mental health, digital access, and community-based solutions.",
+  actionLabel: "Open PDF",
+} as const;
+
+const learningOutcomes = [
+  {
+    title: "Interdisciplinary Thinking",
+    description:
+      "Analyzing how two or more fields collaborate to address complex social and environmental challenges.",
   },
   {
-    title: "Persuasion",
+    title: "Community Engagement",
     description:
-      "Apply rhetorical strategies to strengthen arguments.",
+      "Identifying stakeholders affected by an impact area and recognizing community strengths through ABCD.",
+  },
+  {
+    title: "Asset-Based Community Development",
+    description:
+      "Focusing on what communities do well rather than deficit-based narratives when researching local issues.",
   },
   {
     title: "Research",
-    description: "Locate and integrate credible academic sources.",
-  },
-  {
-    title: "Revision",
     description:
-      "Improve organization and clarity through iterative editing.",
+      "Locating academic and non-academic sources, annotating them, and evaluating reliability with proper attribution.",
   },
   {
-    title: "Critical Reading",
-    description: "Analyze author intent and rhetorical choices.",
-  },
-  {
-    title: "Organization",
+    title: "Digital Storytelling",
     description:
-      "Structure ideas logically from introduction to conclusion.",
+      "Communicating findings through a Knight Lab StoryMap that links narrative, media, and geography.",
   },
   {
-    title: "Professional Tone",
+    title: "Systems Thinking",
     description:
-      "Communicate appropriately in academic and workplace settings.",
+      "Seeing how schools, nonprofits, hospitals, and policy actors interact within a single impact area.",
   },
   {
-    title: "Grammar",
-    description: "Strengthen clarity through careful editing.",
-  },
-  {
-    title: "Collaboration",
-    description: "Provide and incorporate constructive peer feedback.",
-  },
-  {
-    title: "Confidence",
+    title: "Reflective Learning",
     description:
-      "Present ideas effectively in both written and spoken communication.",
+      "Using journal prompts and the final reflection essay to connect coursework with personal growth.",
+  },
+  {
+    title: "Ethical Reasoning",
+    description:
+      "Considering privacy, equity, and social responsibility when researching vulnerable populations.",
+  },
+  {
+    title: "Global Citizenship",
+    description:
+      "Applying GlobeSmart cultural dimensions to communicate and make impact across diverse communities.",
+  },
+  {
+    title: "Communication",
+    description:
+      "Presenting research clearly through maps, discussion posts, and the Honors Resource Fair.",
+  },
+  {
+    title: "Leadership",
+    description:
+      "Examining personal goals and values to understand how you can lead through service and discovery.",
+  },
+  {
+    title: "Professional Growth",
+    description:
+      "Building networks, exploring Honors resources, and planning pathways toward the Honors Impact Badge.",
   },
 ] as const;
 
@@ -189,7 +224,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
     <div className="flex items-center gap-3">
       <span
         className="h-px w-8 shrink-0"
-        style={{ backgroundColor: ACCENT }}
+        style={{ backgroundColor: ACCENT_LIGHT }}
         aria-hidden
       />
       <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
@@ -232,126 +267,6 @@ function StoryMapBrowserFrame({
       </div>
       <div className="relative bg-[#0a0a0f]">{children}</div>
     </div>
-  );
-}
-
-function StoryMapLaunchFallback() {
-  return (
-    <div className="relative flex min-h-[min(70vh,640px)] flex-col items-center justify-center overflow-hidden px-6 py-16 text-center sm:px-12">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(30,58,95,0.15) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(30,58,95,0.15) 1px, transparent 1px)
-          `,
-          backgroundSize: "48px 48px",
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(30,58,95,0.45), transparent 70%)",
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute top-8 right-0 left-0 h-24 opacity-30"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(200,16,46,0.2), transparent)",
-        }}
-        aria-hidden
-      />
-      <svg
-        viewBox="0 0 400 80"
-        className="pointer-events-none absolute bottom-0 left-1/2 w-full max-w-2xl -translate-x-1/2 opacity-20"
-        aria-hidden
-      >
-        <path
-          d="M0 80 L40 50 L80 60 L120 35 L160 45 L200 25 L240 40 L280 20 L320 35 L360 15 L400 30 L400 80 Z"
-          fill={`rgba(${NAVY_RGB}, 0.8)`}
-        />
-      </svg>
-
-      <div className="relative z-10 max-w-xl">
-        <p
-          className="text-[11px] font-semibold tracking-[0.14em] uppercase"
-          style={{ color: NAVY_LIGHT }}
-        >
-          External Interactive Experience
-        </p>
-        <h3 className="mt-4 text-[clamp(1.25rem,3vw,1.75rem)] font-semibold tracking-[-0.03em] text-foreground">
-          More Than a Game
-        </h3>
-        <p className="mt-4 text-[15px] leading-[1.75] text-muted">
-          This Knight Lab StoryMap maps Boston&apos;s iconic sports venues —
-          Fenway Park, TD Garden, Gillette Stadium, and more — tracing how
-          place, history, and culture shape the city&apos;s identity. Launch the
-          full interactive experience in a new tab for maps, media, and
-          narrative slides.
-        </p>
-        <a
-          href={ENGW1111_STORYMAP_PUBLIC_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 inline-flex h-12 items-center justify-center rounded-full border px-8 text-[15px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 hover:text-white"
-          style={{
-            borderColor: `rgba(${ACCENT_RGB}, 0.35)`,
-            backgroundColor: `rgba(${ACCENT_RGB}, 0.1)`,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = ACCENT;
-            e.currentTarget.style.borderColor = ACCENT;
-            e.currentTarget.style.boxShadow = `0 0 40px ${ACCENT_GLOW}`;
-            e.currentTarget.style.color = "#ffffff";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = `rgba(${ACCENT_RGB}, 0.1)`;
-            e.currentTarget.style.borderColor = `rgba(${ACCENT_RGB}, 0.35)`;
-            e.currentTarget.style.boxShadow = "none";
-            e.currentTarget.style.color = "";
-          }}
-        >
-          Launch Interactive StoryMap ↗
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function StoryMapEmbed() {
-  const [embedBlocked, setEmbedBlocked] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch(ENGW1111_STORYMAP_EMBED_URL, { method: "HEAD" })
-      .then((res) => {
-        if (!cancelled && !res.ok) setEmbedBlocked(true);
-      })
-      .catch(() => {
-        /* CORS or network — keep iframe; embed may still work */
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  if (embedBlocked) {
-    return <StoryMapLaunchFallback />;
-  }
-
-  return (
-    <iframe
-      src={ENGW1111_STORYMAP_EMBED_URL}
-      title="ENGW 1111 More Than a Game StoryMap"
-      className="h-[min(70vh,640px)] w-full border-0"
-      allowFullScreen
-    />
   );
 }
 
@@ -409,7 +324,7 @@ function StoryMapFullscreenModal({
                 <span className="h-3 w-3 rounded-full bg-[#28c840]" />
               </div>
               <p className="text-[13px] font-medium tracking-[-0.01em] text-foreground-secondary">
-                More Than a Game — StoryMap
+                Interactive Honors StoryMap
               </p>
               <button
                 type="button"
@@ -421,8 +336,8 @@ function StoryMapFullscreenModal({
               </button>
             </div>
             <iframe
-              src={ENGW1111_STORYMAP_EMBED_URL}
-              title="ENGW 1111 StoryMap fullscreen"
+              src={HONR1102_STORYMAP_EMBED_URL}
+              title="HONR 1102 Honors StoryMap fullscreen"
               className="h-full w-full border-0 bg-[#0a0a0f]"
               allowFullScreen
             />
@@ -430,6 +345,67 @@ function StoryMapFullscreenModal({
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function PdfEmbedPreview({
+  src,
+  title,
+  heightClass = "h-[min(52vw,420px)]",
+}: {
+  src: string;
+  title: string;
+  heightClass?: string;
+}) {
+  return (
+    <div
+      className={`relative w-full overflow-hidden bg-[#0a0a0a] ${heightClass}`}
+    >
+      <iframe src={src} title={title} className="h-full w-full" />
+    </div>
+  );
+}
+
+function PdfPreviewCard({
+  item,
+  index,
+}: {
+  item: typeof reflectionPreview;
+  index: number;
+}) {
+  return (
+    <motion.a
+      href={item.src}
+      target="_blank"
+      rel="noopener noreferrer"
+      custom={index}
+      variants={fadeUp}
+      whileHover={{ y: -6, transition: { duration: 0.35 } }}
+      className="glass-strong group relative block h-full overflow-hidden rounded-3xl transition-all duration-500"
+      style={{ boxShadow: "none" }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = `0 24px 60px ${ACCENT_GLOW}`;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = "none";
+      }}
+    >
+      <div className="border-b border-white/[0.08] px-5 py-4">
+        <p className="text-[14px] font-medium tracking-[-0.01em] text-foreground">
+          {item.title}
+        </p>
+      </div>
+      <PdfEmbedPreview src={item.src} title={item.alt} />
+      <div className="p-5 sm:p-6">
+        <p className="text-[14px] leading-relaxed text-muted">{item.caption}</p>
+        <p
+          className="mt-3 text-[12px] font-medium tracking-wide uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{ color: VIOLET_LIGHT }}
+        >
+          {item.actionLabel}
+        </p>
+      </div>
+    </motion.a>
   );
 }
 
@@ -441,27 +417,27 @@ function AccentLinkButton({
 }: {
   href?: string;
   children: React.ReactNode;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "violet";
   onClick?: () => void;
 }) {
-  const isSecondary = variant === "secondary";
+  const isViolet = variant === "violet";
   const className =
     "inline-flex h-12 flex-1 items-center justify-center rounded-full border px-6 text-[15px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 hover:text-white";
 
   const style = {
-    borderColor: isSecondary
-      ? `rgba(${NAVY_RGB}, 0.35)`
+    borderColor: isViolet
+      ? `rgba(${VIOLET_RGB}, 0.35)`
       : `rgba(${ACCENT_RGB}, 0.25)`,
-    backgroundColor: isSecondary
-      ? `rgba(${NAVY_RGB}, 0.08)`
+    backgroundColor: isViolet
+      ? `rgba(${VIOLET_RGB}, 0.08)`
       : `rgba(${ACCENT_RGB}, 0.06)`,
   };
 
   const handleEnter = (e: React.MouseEvent<HTMLElement>) => {
-    if (isSecondary) {
-      e.currentTarget.style.backgroundColor = NAVY;
-      e.currentTarget.style.borderColor = NAVY;
-      e.currentTarget.style.boxShadow = `0 0 40px rgba(${NAVY_RGB}, 0.35)`;
+    if (isViolet) {
+      e.currentTarget.style.backgroundColor = VIOLET;
+      e.currentTarget.style.borderColor = VIOLET;
+      e.currentTarget.style.boxShadow = `0 0 40px rgba(${VIOLET_RGB}, 0.35)`;
     } else {
       e.currentTarget.style.backgroundColor = ACCENT;
       e.currentTarget.style.borderColor = ACCENT;
@@ -473,9 +449,9 @@ function AccentLinkButton({
   const handleLeave = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.color = "";
     e.currentTarget.style.boxShadow = "none";
-    if (isSecondary) {
-      e.currentTarget.style.backgroundColor = `rgba(${NAVY_RGB}, 0.08)`;
-      e.currentTarget.style.borderColor = `rgba(${NAVY_RGB}, 0.35)`;
+    if (isViolet) {
+      e.currentTarget.style.backgroundColor = `rgba(${VIOLET_RGB}, 0.08)`;
+      e.currentTarget.style.borderColor = `rgba(${VIOLET_RGB}, 0.35)`;
     } else {
       e.currentTarget.style.backgroundColor = `rgba(${ACCENT_RGB}, 0.06)`;
       e.currentTarget.style.borderColor = `rgba(${ACCENT_RGB}, 0.25)`;
@@ -500,8 +476,8 @@ function AccentLinkButton({
   return (
     <a
       href={href}
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+      target="_blank"
+      rel="noopener noreferrer"
       className={className}
       style={style}
       onMouseEnter={handleEnter}
@@ -512,7 +488,7 @@ function AccentLinkButton({
   );
 }
 
-export default function ENGW1111Page() {
+export default function HONR1102Page() {
   const [navScrolled, setNavScrolled] = useState(false);
   const [motionReady, setMotionReady] = useState(false);
   const [storymapFullscreen, setStorymapFullscreen] = useState(false);
@@ -524,12 +500,6 @@ export default function ENGW1111Page() {
 
   const closeStorymapFullscreen = useCallback(() => {
     setStorymapFullscreen(false);
-  }, []);
-
-  const scrollToStorymap = useCallback(() => {
-    document
-      .getElementById("explore-the-story")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
   useEffect(() => {
@@ -550,11 +520,15 @@ export default function ENGW1111Page() {
       <div className="pointer-events-none fixed inset-0 z-0">
         <div
           className="absolute top-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full blur-[120px]"
-          style={{ backgroundColor: `rgba(${ACCENT_RGB}, 0.06)` }}
+          style={{ backgroundColor: `rgba(${ACCENT_RGB}, 0.07)` }}
         />
         <div
           className="absolute right-0 bottom-1/3 h-[350px] w-[500px] rounded-full blur-[100px]"
-          style={{ backgroundColor: `rgba(${NAVY_RGB}, 0.05)` }}
+          style={{ backgroundColor: `rgba(${VIOLET_RGB}, 0.05)` }}
+        />
+        <div
+          className="absolute bottom-0 left-0 h-[300px] w-[400px] rounded-full blur-[100px]"
+          style={{ backgroundColor: `rgba(${RED_RGB}, 0.04)` }}
         />
         <div className="ambient-grid absolute inset-0" />
       </div>
@@ -637,7 +611,7 @@ export default function ENGW1111Page() {
                   className="text-[13px] font-medium tracking-[0.22em] uppercase"
                   style={{ color: ACCENT_LIGHT }}
                 >
-                  ENGW 1111
+                  HONR 1102
                 </span>
                 <span className="hidden text-muted/50 sm:inline" aria-hidden>
                   •
@@ -653,12 +627,12 @@ export default function ENGW1111Page() {
                 variants={fadeUp}
                 className="mt-4 inline-flex rounded-full border px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.12em] uppercase"
                 style={{
-                  borderColor: `rgba(${ACCENT_RGB}, 0.35)`,
-                  backgroundColor: `rgba(${ACCENT_RGB}, 0.1)`,
-                  color: ACCENT_LIGHT,
+                  borderColor: `rgba(${VIOLET_RGB}, 0.35)`,
+                  backgroundColor: `rgba(${VIOLET_RGB}, 0.1)`,
+                  color: VIOLET_LIGHT,
                 }}
               >
-                Writing &amp; Communication
+                Honors Discovery
               </motion.span>
 
               <motion.h1
@@ -666,7 +640,7 @@ export default function ENGW1111Page() {
                 variants={fadeUp}
                 className="mt-4 text-[clamp(2.25rem,6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-foreground"
               >
-                First-Year Writing
+                Honors Discovery
               </motion.h1>
 
               <motion.p
@@ -674,8 +648,9 @@ export default function ENGW1111Page() {
                 variants={fadeUp}
                 className="mt-6 max-w-3xl text-[clamp(1rem,2vw,1.25rem)] leading-[1.75] text-muted"
               >
-                Developing professional communication through storytelling,
-                rhetoric, research, digital media, and audience-focused writing.
+                An interdisciplinary Honors seminar exploring leadership, systems
+                thinking, digital storytelling, community engagement,
+                interdisciplinary research, and reflective learning.
               </motion.p>
 
               <motion.div
@@ -705,23 +680,28 @@ export default function ENGW1111Page() {
             custom={0}
           >
             <SectionLabel>About</SectionLabel>
-            <SectionHeading>Writing beyond the classroom.</SectionHeading>
+            <SectionHeading>Developing a global perspective.</SectionHeading>
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
-                ENGW 1111 introduced writing as a process of communication rather
-                than simply producing essays. Throughout the semester I developed
-                skills in rhetorical analysis, audience awareness, storytelling,
-                revision, and research-based writing while learning how effective
-                communication changes depending on purpose and audience.
+                Honors Discovery is designed to help first-year Honors students
+                understand how to make a socially conscious impact in the
+                communities they inhabit. Rather than jumping straight into
+                advocacy, the course began with self-exploration — examining
+                personal goals, values, and lived experiences to understand what
+                kinds of change feel authentic. From there, I selected an impact
+                area aligned with those values and used interdisciplinary
+                thinking to study its complexity from multiple angles.
               </p>
               <p className="mt-5 text-[17px] leading-[1.8] text-muted">
-                The capstone Knight Lab StoryMap project pushed that work further —
-                combining long-form research, historical analysis, and multimedia
-                storytelling into one interactive narrative about how Boston&apos;s
-                sports spaces shape the city&apos;s identity. Building the project
-                taught me that strong writing extends beyond the page into digital
-                environments where readers explore ideas through maps, images, and
-                place-based narrative.
+                The capstone Honors StoryMap assignment asked us to translate that
+                learning into digital storytelling: introducing ourselves as
+                Honors students, defining our impact area, and mapping
+                organizations creating change in real places. Along the way,
+                coursework in Asset-Based Community Development, source
+                evaluation, GlobeSmart cultural dimensions, and reflective
+                journaling pushed me to engage communities with care — not as
+                subjects to study, but as partners whose strengths should shape
+                how research is communicated.
               </p>
             </div>
           </motion.section>
@@ -752,7 +732,7 @@ export default function ENGW1111Page() {
                   >
                     <span
                       className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: ACCENT }}
+                      style={{ backgroundColor: ACCENT_LIGHT }}
                     />
                   </span>
                   <span className="text-[15px] font-medium tracking-[-0.01em] text-foreground">
@@ -786,51 +766,55 @@ export default function ENGW1111Page() {
               <div
                 className="pointer-events-none absolute inset-y-0 left-0 w-1"
                 style={{
-                  background: `linear-gradient(180deg, ${NAVY}, ${ACCENT})`,
+                  background: `linear-gradient(180deg, ${VIOLET}, ${ACCENT}, ${RED})`,
                 }}
                 aria-hidden
               />
               <div
                 className="pointer-events-none absolute -top-32 -right-32 h-64 w-64 rounded-full blur-3xl opacity-50"
-                style={{ backgroundColor: `rgba(${NAVY_RGB}, 0.14)` }}
+                style={{ backgroundColor: `rgba(${VIOLET_RGB}, 0.14)` }}
               />
 
               <span
                 className="inline-flex rounded-full border px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.12em] uppercase"
                 style={{
-                  borderColor: `rgba(${NAVY_RGB}, 0.35)`,
-                  backgroundColor: `rgba(${NAVY_RGB}, 0.1)`,
-                  color: NAVY_LIGHT,
+                  borderColor: `rgba(${RED_RGB}, 0.35)`,
+                  backgroundColor: `rgba(${RED_RGB}, 0.1)`,
+                  color: "#E8324A",
                 }}
               >
-                Knight Lab StoryMap
+                Honors StoryMap Capstone
               </span>
 
               <h3 className="mt-6 text-[clamp(1.75rem,4vw,2.5rem)] font-semibold tracking-[-0.04em] text-foreground">
-                More Than a Game: How Sports Spaces Shape Boston&apos;s Identity
+                Interactive Honors StoryMap
               </h3>
               <p className="mt-6 max-w-3xl text-[17px] leading-[1.8] text-muted">
-                This interactive StoryMap explores how Fenway Park, TD Garden,
-                Gillette Stadium, and other iconic sports locations have
-                influenced Boston&apos;s identity, neighborhoods, history, and
-                culture. Built using Knight Lab StoryMap, the project combines
-                research, writing, geography, historical analysis, and multimedia
-                storytelling into one interactive experience.
+                My Honors StoryMap unfolds in three movements. It opens with my
+                Honors student biography — the personal background that led me to
+                youth mental health and digital access as an impact area. The
+                narrative then explores that issue in depth, examining who is
+                affected and why geography matters when access is uneven. The final
+                section maps organizations creating change, from Boston
+                Children&apos;s Hospital and the Digital Wellness Lab to JED,
+                Crisis Text Line, and community programs across Massachusetts —
+                showing how interdisciplinary teams address a challenge no single
+                institution can solve alone.
               </p>
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <AccentLinkButton href={ENGW1111_STORYMAP_PUBLIC_URL}>
-                  Launch StoryMap ↗
+                <AccentLinkButton href={HONR1102_STORYMAP_PUBLIC_URL}>
+                  Open StoryMap ↗
                 </AccentLinkButton>
-                <AccentLinkButton onClick={scrollToStorymap} variant="secondary">
-                  Project Overview
+                <AccentLinkButton href={REFLECTION_PDF} variant="violet">
+                  Reflection Essay
                 </AccentLinkButton>
               </div>
             </motion.article>
           </motion.section>
 
           <motion.section
-            id="explore-the-story"
+            id="interactive-storymap"
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
@@ -838,11 +822,61 @@ export default function ENGW1111Page() {
             custom={0}
           >
             <SectionLabel>Interactive StoryMap</SectionLabel>
-            <SectionHeading>Explore the Story.</SectionHeading>
+            <SectionHeading>
+              Explore the capstone project in full.
+            </SectionHeading>
 
             <div className="mt-8">
+              <motion.div
+                variants={fadeUp}
+                custom={0}
+                className="glass-strong mb-6 overflow-hidden rounded-3xl border p-6 sm:p-8"
+                style={{ borderColor: `rgba(${VIOLET_RGB}, 0.2)` }}
+              >
+                <p
+                  className="text-[11px] font-semibold tracking-[0.14em] uppercase"
+                  style={{ color: VIOLET_LIGHT }}
+                >
+                  Assignment Overview
+                </p>
+                <p className="mt-3 max-w-3xl text-[15px] leading-[1.75] text-muted">
+                  The Honors StoryMap capstone unfolded across three major
+                  components — each building on the last to move from personal
+                  narrative toward community-centered research.
+                </p>
+                <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  {assignmentOverview.map((item, i) => (
+                    <div
+                      key={item.title}
+                      className="glass rounded-2xl px-5 py-5"
+                    >
+                      <span
+                        className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-semibold"
+                        style={{
+                          backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
+                          color: ACCENT_LIGHT,
+                        }}
+                      >
+                        {i + 1}
+                      </span>
+                      <h4 className="mt-4 text-[15px] font-semibold tracking-[-0.02em] text-foreground">
+                        {item.title}
+                      </h4>
+                      <p className="mt-2 text-[14px] leading-[1.65] text-muted">
+                        {item.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
               <StoryMapBrowserFrame>
-                <StoryMapEmbed />
+                <iframe
+                  src={HONR1102_STORYMAP_EMBED_URL}
+                  title="HONR 1102 Interactive Honors StoryMap"
+                  className="h-[min(70vh,640px)] w-full border-0"
+                  allowFullScreen
+                />
               </StoryMapBrowserFrame>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -850,8 +884,8 @@ export default function ENGW1111Page() {
                   Open Fullscreen StoryMap
                 </AccentLinkButton>
                 <AccentLinkButton
-                  href={ENGW1111_STORYMAP_PUBLIC_URL}
-                  variant="secondary"
+                  href={HONR1102_STORYMAP_PUBLIC_URL}
+                  variant="violet"
                 >
                   Launch Interactive StoryMap ↗
                 </AccentLinkButton>
@@ -866,14 +900,32 @@ export default function ENGW1111Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Writing Principles</SectionLabel>
+              <SectionLabel>Reflection Essay</SectionLabel>
+              <SectionHeading>
+                Connecting research to personal growth.
+              </SectionHeading>
+            </motion.div>
+
+            <div className="mt-8 grid max-w-2xl grid-cols-1">
+              <PdfPreviewCard item={reflectionPreview} index={1} />
+            </div>
+          </motion.section>
+
+          <motion.section
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeUp} custom={0}>
+              <SectionLabel>Learning Outcomes</SectionLabel>
               <SectionHeading>What this course taught me to do.</SectionHeading>
             </motion.div>
 
             <div className="mt-8 grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {writingPrinciples.map((principle, i) => (
+              {learningOutcomes.map((outcome, i) => (
                 <motion.div
-                  key={principle.title}
+                  key={outcome.title}
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -6, transition: { duration: 0.3 } }}
@@ -883,16 +935,16 @@ export default function ENGW1111Page() {
                     className="mb-5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
                     style={{
                       backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT,
+                      color: ACCENT_LIGHT,
                     }}
                   >
                     {i + 1}
                   </div>
                   <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {principle.title}
+                    {outcome.title}
                   </h3>
                   <p className="mt-3 text-[15px] leading-[1.7] text-muted">
-                    {principle.description}
+                    {outcome.description}
                   </p>
                 </motion.div>
               ))}
@@ -907,7 +959,9 @@ export default function ENGW1111Page() {
             custom={0}
           >
             <SectionLabel>Reflection</SectionLabel>
-            <SectionHeading>Communication as a technical skill.</SectionHeading>
+            <SectionHeading>
+              Seeing global issues through multiple perspectives.
+            </SectionHeading>
 
             <motion.div
               className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-8 sm:p-12"
@@ -918,27 +972,27 @@ export default function ENGW1111Page() {
             >
               <div
                 className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl"
-                style={{ backgroundColor: `rgba(${NAVY_RGB}, 0.08)` }}
+                style={{ backgroundColor: `rgba(${VIOLET_RGB}, 0.08)` }}
               />
               <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
-                Building the StoryMap changed how I think about writing for digital
-                audiences. Rather than delivering a single linear essay, I had to
-                organize a long-form narrative across slides, maps, and media —
-                deciding what readers see first, how geography anchors each
-                argument, and how visual storytelling keeps complex ideas
-                accessible. Combining research with interactive storytelling forced
-                me to think about audience engagement at every step, not just in
-                the final draft.
+                Creating the StoryMap changed how I understand youth mental
+                health and digital access. What began as a broad interest became
+                concrete once I chose meaningful locations — Weymouth, Milford,
+                Boston, and Northeastern — and mapped the organizations operating
+                in each place. Connecting personal memories from my hometowns
+                with community-level barriers made the issue feel less abstract and
+                far more urgent.
               </p>
               <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
-                The project also showed me that technical writing extends into
-                web-based environments. Communicating Boston&apos;s sports history
-                through Knight Lab meant balancing credibility, concision, and
-                multimedia design — skills I now carry into data reports, project
-                documentation, and this portfolio. ENGW 1111 proved that clear
-                communication is one of the most transferable skills I have
-                developed at Northeastern, whether the medium is a page, a
-                presentation, or an interactive map.
+                The project also clarified where I hope to contribute next, whether
+                through research at the Digital Wellness Lab, data roles at
+                organizations like JED or Crisis Text Line, or co-ops in
+                ed-tech. It left real questions I still carry: how schools evaluate
+                digital mental-health tools, how youth data privacy is protected,
+                and how to ensure access reaches students who need it most. Those
+                questions — and the interdisciplinary habits Honors Discovery
+                built — are shaping my long-term path in data science and business
+                administration.
               </p>
             </motion.div>
           </motion.section>

@@ -5,6 +5,8 @@ const BASE_URL = "https://lokeshaddagiri.com";
 const courseworkRoutes = [
   "acct1201",
   "fina2201",
+  "gbst1012",
+  "honr1102",
   "econ1115",
   "engw1111",
   "cs1200",

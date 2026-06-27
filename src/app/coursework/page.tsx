@@ -56,6 +56,30 @@ const courses = [
     ],
   },
   {
+    code: "HONR 1102",
+    title: "Honors Discovery",
+    href: "/coursework/honr1102",
+    skills: [
+      "Leadership",
+      "Systems Thinking",
+      "Digital Storytelling",
+      "Community Engagement",
+      "Interdisciplinary Research",
+    ],
+  },
+  {
+    code: "GBST 1012",
+    title: "Global Learning Experience",
+    href: "/coursework/gbst1012",
+    skills: [
+      "Global Citizenship",
+      "Intercultural Communication",
+      "Research",
+      "Cross-Cultural Analysis",
+      "Globalization",
+    ],
+  },
+  {
     code: "ENGW 1111",
     title: "First-Year Writing",
     href: "/coursework/engw1111",
@@ -146,6 +170,8 @@ const courses = [
 
 const courseAccents: Partial<Record<(typeof courses)[number]["code"], string>> =
   {
+    "HONR 1102": "#312E81",
+    "GBST 1012": "#183A63",
     "FINA 2201": "#2563EB",
     "ENGW 1111": "#C8102E",
     "ECON 1115": "#CC0001",
