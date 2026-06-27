@@ -32,6 +32,18 @@ const courses = [
     ],
   },
   {
+    code: "FINA 2201",
+    title: "Financial Management",
+    href: "/coursework/fina2201",
+    skills: [
+      "Corporate Finance",
+      "DCF Valuation",
+      "CAPM",
+      "Capital Budgeting",
+      "Financial Modeling",
+    ],
+  },
+  {
     code: "ECON 1115",
     title: "Principles of Macroeconomics",
     href: "/coursework/econ1115",
@@ -134,6 +146,7 @@ const courses = [
 
 const courseAccents: Partial<Record<(typeof courses)[number]["code"], string>> =
   {
+    "FINA 2201": "#2563EB",
     "ENGW 1111": "#C8102E",
     "ECON 1115": "#CC0001",
   };
