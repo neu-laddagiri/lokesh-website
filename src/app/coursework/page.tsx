@@ -44,6 +44,18 @@ const courses = [
     ],
   },
   {
+    code: "ENGW 1111",
+    title: "First-Year Writing",
+    href: "/coursework/engw1111",
+    skills: [
+      "Professional Writing",
+      "Storytelling",
+      "Rhetorical Analysis",
+      "Research",
+      "Communication",
+    ],
+  },
+  {
     code: "CS 1200",
     title: "First Year Seminar",
     href: "/coursework/cs1200",
@@ -122,6 +134,7 @@ const courses = [
 
 const courseAccents: Partial<Record<(typeof courses)[number]["code"], string>> =
   {
+    "ENGW 1111": "#C8102E",
     "ECON 1115": "#CC0001",
   };
 
