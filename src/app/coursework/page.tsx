@@ -92,6 +92,18 @@ const courses = [
     ],
   },
   {
+    code: "MKTG 2201",
+    title: "Marketing",
+    href: "/coursework/mktg2201",
+    skills: [
+      "Market Research",
+      "Consumer Behavior",
+      "Branding",
+      "Positioning",
+      "Digital Marketing",
+    ],
+  },
+  {
     code: "CS 1200",
     title: "First Year Seminar",
     href: "/coursework/cs1200",
@@ -170,6 +182,7 @@ const courses = [
 
 const courseAccents: Partial<Record<(typeof courses)[number]["code"], string>> =
   {
+    "MKTG 2201": "#007AFF",
     "HONR 1102": "#312E81",
     "GBST 1012": "#183A63",
     "FINA 2201": "#2563EB",
