@@ -1,7 +1,8 @@
 "use client";
 
 import { ThemeToggle } from "@/components/theme-toggle";
-import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
+import { resumeExternalProps } from "@/lib/profile-links";
+import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import {
   SyllabusHeaderButton,
   type CourseAccent,
@@ -15,14 +16,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-
-const navLinks = [
-  { label: "About", href: "/#about" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Coursework", href: "/coursework" },
-  { label: "Resume", href: PROFILE_LINKS.resume },
-  { label: "Contact", href: "/#contact" },
-] as const;
 
 /** Northeastern red accent — page-local only */
 const ACCENT = "#C8102E";

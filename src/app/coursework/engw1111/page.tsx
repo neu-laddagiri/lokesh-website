@@ -9,7 +9,8 @@ import {
   ENGW1111_STORYMAP_EMBED_URL,
   ENGW1111_STORYMAP_PUBLIC_URL,
 } from "@/lib/engw1111-storymap";
-import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
+import { resumeExternalProps } from "@/lib/profile-links";
+import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import {
   AnimatePresence,
   motion,
@@ -18,14 +19,6 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-
-const navLinks = [
-  { label: "About", href: "/#about" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Coursework", href: "/coursework" },
-  { label: "Resume", href: PROFILE_LINKS.resume },
-  { label: "Contact", href: "/#contact" },
-] as const;
 
 /** Northeastern red — page-local accent only */
 const ACCENT = "#C8102E";

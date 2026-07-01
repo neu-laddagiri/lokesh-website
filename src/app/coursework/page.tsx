@@ -10,18 +10,11 @@ import {
   type Semester,
   type UpcomingCourse,
 } from "@/lib/coursework-archive";
-import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
+import { resumeExternalProps } from "@/lib/profile-links";
+import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-
-const navLinks = [
-  { label: "About", href: "/#about" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Coursework", href: "/coursework" },
-  { label: "Resume", href: PROFILE_LINKS.resume },
-  { label: "Contact", href: "/#contact" },
-] as const;
 
 const ACCENT = "#2997ff";
 const ACCENT_RGB = "41, 151, 255";

@@ -13,16 +13,9 @@ import {
   useTransform,
 } from "framer-motion";
 import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
+import { homeNavLinks } from "@/lib/site-nav";
 import Link from "next/link";
 import { useRef, useState } from "react";
-
-const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Coursework", href: "#coursework" },
-  { label: "Resume", href: PROFILE_LINKS.resume },
-  { label: "Contact", href: "#contact" },
-] as const;
 
 const infoCards = [
   { label: "University", value: "Northeastern University" },
@@ -169,6 +162,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
   const [navScrolled, setNavScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const { scrollY } = useScroll();
   const { scrollYProgress } = useScroll({
@@ -211,11 +205,11 @@ export default function Home() {
           </a>
 
           <div className="hidden items-center gap-9 md:flex">
-            {navLinks.map((link) => (
+            {homeNavLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                {...(link.label === "Resume" ? resumeExternalProps : {})}
+                {...(link.external ? resumeExternalProps : {})}
                 className="text-[13px] text-muted transition-colors duration-200 hover:text-foreground"
               >
                 {link.label}
@@ -227,14 +221,45 @@ export default function Home() {
             <ThemeToggle />
             <button
               type="button"
-              aria-label="Open menu"
-              className="glass flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full md:hidden"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen((v) => !v)}
+              className="glass relative flex h-9 w-9 flex-col items-center justify-center rounded-full md:hidden"
             >
-              <span className="block h-[1.5px] w-4 bg-muted" />
-              <span className="block h-[1.5px] w-4 bg-muted" />
+              <span
+                className={`absolute block h-[1.5px] w-4 bg-muted transition-all duration-300 ${mobileOpen ? "rotate-45" : "-translate-y-[3px]"}`}
+              />
+              <span
+                className={`absolute block h-[1.5px] w-4 bg-muted transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`}
+              />
+              <span
+                className={`absolute block h-[1.5px] w-4 bg-muted transition-all duration-300 ${mobileOpen ? "-rotate-45" : "translate-y-[3px]"}`}
+              />
             </button>
           </div>
         </nav>
+
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="border-t border-border bg-background/95 px-6 py-4 backdrop-blur-2xl md:hidden"
+          >
+            <div className="flex flex-col gap-1">
+              {homeNavLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  {...(link.external ? resumeExternalProps : {})}
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-xl px-4 py-3 text-[15px] font-medium text-foreground-secondary transition-colors hover:bg-card-hover"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </motion.header>
 
       <main className="relative z-10">
@@ -610,9 +635,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Temporarily hidden — restore when portfolio projects are ready */}
-        {false && (
-        <section id="projects" className="px-6 py-32 lg:px-8">
+        {/* ── Greece 2026 ── */}
+        <section id="greece-2026" className="px-6 py-32 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
@@ -620,65 +644,66 @@ export default function Home() {
               viewport={viewport}
               variants={fadeUp}
               custom={0}
-              className="mb-16 max-w-2xl"
+              className="relative overflow-hidden rounded-[2rem] border border-white/[0.06] p-10 sm:p-14 lg:p-16"
+              style={{
+                background: `
+                  radial-gradient(ellipse 80% 60% at 100% 0%, rgba(61, 107, 138, 0.18) 0%, transparent 55%),
+                  radial-gradient(ellipse 50% 50% at 0% 100%, rgba(201, 169, 98, 0.1) 0%, transparent 50%),
+                  rgba(255, 255, 255, 0.03)
+                `,
+              }}
             >
-              <SectionLabel>Projects</SectionLabel>
-              <SectionTitle>Work that speaks for itself.</SectionTitle>
-              <p className="mt-5 text-[17px] leading-relaxed text-muted">
-                Data-driven applications, analytics dashboards, and technical
-                builds designed to solve real problems with clarity and impact.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-              variants={staggerContainer}
-              className="grid grid-cols-1 gap-5 md:grid-cols-2"
-            >
-              {[
-                {
-                  title: "Analytics Portfolio",
-                  description:
-                    "End-to-end data projects showcasing statistical analysis, visualization, and storytelling with real datasets.",
-                  tag: "Data Science",
-                },
-                {
-                  title: "Business Intelligence Dashboards",
-                  description:
-                    "Interactive dashboards translating complex metrics into actionable insights for strategic decision-making.",
-                  tag: "Analytics",
-                },
-              ].map((project, i) => (
-                <motion.a
-                  key={project.title}
-                  href="#projects"
-                  custom={i}
-                  variants={fadeUp}
-                  whileHover={{ y: -8, transition: { duration: 0.35 } }}
-                  className="glass-strong group relative flex flex-col overflow-hidden rounded-3xl p-9 transition-all duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]"
-                >
-                  <div className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full bg-[#2997ff]/[0.08] blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
-                  <span className="inline-flex w-fit rounded-full border border-border bg-card px-3.5 py-1.5 text-[11px] font-medium tracking-[0.1em] text-muted uppercase">
-                    {project.tag}
-                  </span>
-                  <h3 className="mt-6 text-2xl font-semibold tracking-[-0.03em] text-foreground">
-                    {project.title}
-                  </h3>
-                  <p className="mt-4 flex-1 text-[16px] leading-[1.7] text-muted">
-                    {project.description}
+              <div className="relative grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+                <div>
+                  <SectionLabel>Greece 2026</SectionLabel>
+                  <SectionTitle>
+                    Study abroad,
+                    <br />
+                    <span className="text-muted">documented.</span>
+                  </SectionTitle>
+                  <p className="mt-6 text-[17px] leading-[1.75] text-muted">
+                    A flagship archive of my month in Athens — academics at the
+                    American College of Greece, exploration across the city, and
+                    reflections from life abroad.
                   </p>
-                  <div className="mt-10 flex items-center gap-2 text-[14px] font-medium text-[#2997ff]">
-                    <span>View project</span>
-                    <ArrowIcon />
-                  </div>
-                </motion.a>
-              ))}
+                  <Link
+                    href="/greece-2026"
+                    className="mt-10 inline-flex h-[52px] items-center justify-center rounded-full px-8 text-[15px] font-medium text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_50px_rgba(201,169,98,0.25)]"
+                    style={{ backgroundColor: "#c9a962" }}
+                  >
+                    Explore Greece 2026
+                  </Link>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: "Location", value: "Athens, Greece" },
+                    { label: "Program", value: "Study Abroad" },
+                    { label: "Campus", value: "American College of Greece" },
+                    { label: "Duration", value: "May – June 2026" },
+                  ].map((item, i) => (
+                    <motion.div
+                      key={item.label}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={viewport}
+                      variants={fadeUp}
+                      custom={i + 1}
+                      className="glass rounded-2xl px-5 py-5"
+                    >
+                      <p className="text-[10px] font-medium tracking-[0.12em] text-muted uppercase">
+                        {item.label}
+                      </p>
+                      <p className="mt-2 text-[14px] font-semibold tracking-[-0.02em] text-foreground">
+                        {item.value}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           </div>
         </section>
-        )}
 
         {/* ── Contact ── */}
         <section id="contact" className="px-6 py-32 lg:px-8">
@@ -715,11 +740,11 @@ export default function Home() {
             © {new Date().getFullYear()} Lokesh Addagiri. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
-            {navLinks.map((link) => (
+            {homeNavLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                {...(link.label === "Resume" ? resumeExternalProps : {})}
+                {...(link.external ? resumeExternalProps : {})}
                 className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}

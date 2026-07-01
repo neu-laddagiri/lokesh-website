@@ -5,7 +5,8 @@ import {
   HONR1102_STORYMAP_EMBED_URL,
   HONR1102_STORYMAP_PUBLIC_URL,
 } from "@/lib/honr1102-storymap";
-import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
+import { resumeExternalProps } from "@/lib/profile-links";
+import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import {
   SyllabusHeaderButton,
   type CourseAccent,
@@ -18,14 +19,6 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-
-const navLinks = [
-  { label: "About", href: "/#about" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Coursework", href: "/coursework" },
-  { label: "Resume", href: PROFILE_LINKS.resume },
-  { label: "Contact", href: "/#contact" },
-] as const;
 
 /** Deep indigo, violet & Northeastern red — page-local accent only */
 const ACCENT = "#312E81";
