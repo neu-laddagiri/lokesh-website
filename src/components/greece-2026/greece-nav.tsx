@@ -44,11 +44,11 @@ export function GreeceNav() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: GREECE_EASE }}
-      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
-        navScrolled
-          ? "border-b border-border bg-background/70 backdrop-blur-2xl"
-          : "bg-transparent"
-      }`}
+        className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
+          navScrolled
+            ? "border-b border-border bg-background/70 backdrop-blur-2xl"
+            : "bg-black/20 backdrop-blur-md"
+        }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-8 lg:py-5">
         <Link

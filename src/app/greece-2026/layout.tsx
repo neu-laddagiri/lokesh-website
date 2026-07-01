@@ -1,4 +1,10 @@
 import type { Metadata } from "next";
+import { Playfair_Display } from "next/font/google";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+});
 
 export const metadata: Metadata = {
   title: "Greece 2026",
@@ -16,5 +22,5 @@ export default function Greece2026Layout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return <div className={playfair.variable}>{children}</div>;
 }
