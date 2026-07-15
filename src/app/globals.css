@@ -182,3 +182,15 @@ body {
     0 0 24px rgba(250, 204, 21, 0.12),
     0 0 48px rgba(234, 179, 8, 0.06);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-gradient-shift,
+  .animate-gradient-shift-alt,
+  .construction-tape-texture {
+    animation: none;
+  }
+}

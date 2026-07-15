@@ -1,5 +1,3 @@
-"use client";
-
 import { GreeceAcademics } from "@/components/greece-2026/greece-academics";
 import { GreeceCinematicHero } from "@/components/greece-2026/greece-cinematic-hero";
 import { GreeceGallery } from "@/components/greece-2026/greece-gallery";
