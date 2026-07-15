@@ -1,5 +1,3 @@
-import type { GreecePhoto } from "@/lib/greece-2026";
-
 export type AirportCode = "BOS" | "DUB" | "ATH" | "JTR" | "CHQ" | "FCO";
 
 export type FlightCategory = "main" | "santorini" | "crete" | "rome";
@@ -15,6 +13,15 @@ export type GreeceAirport = {
   lng: number;
 };
 
+export type FlightPhoto = {
+  id: string;
+  src: string;
+  alt: string;
+  caption?: string;
+  aspect?: "landscape" | "portrait" | "square";
+  focalPoint?: { x: number; y: number };
+};
+
 export type GreeceFlight = {
   id: string;
   order: number;
@@ -22,9 +29,11 @@ export type GreeceFlight = {
   from: AirportCode;
   to: AirportCode;
   dateIso: string;
+  arrivalDateIso: string;
   dateDisplay: string;
   departure: string;
   arrival: string;
+  arrivalDayOffset?: number;
   duration: string;
   durationMinutes: number;
   airline: string;
@@ -33,19 +42,17 @@ export type GreeceFlight = {
   status: "Completed" | "Upcoming";
   arcColor: string;
   arcGlow: string;
-  photos?: string[];
+  photos?: readonly FlightPhoto[];
   notes?: string;
   seat?: string;
-  boardingPassPdf?: string;
-  galleryImages?: GreecePhoto[];
 };
 
 export const greeceCinematicHero = {
   eyebrow: "Greece 2026",
   title: "My Journey to Greece",
-  routeSubtitle: "Boston → Athens → Santorini → Crete → Rome → Boston",
+  routeSubtitle: "Boston · Dublin · Athens · Santorini · Chania · Rome",
   description:
-    "Every flight that took me from Boston to Athens and back — Summer 2026.",
+    "Ten flights across six airports — the complete route into Greece, through the islands, and home again.",
 } as const;
 
 export const greeceAirports: Record<AirportCode, GreeceAirport> = {
@@ -124,38 +131,28 @@ export const CATEGORY_COLORS: Record<
   rome: { stroke: "#FBBF24", glow: "rgba(251, 191, 36, 0.85)", label: "Rome" },
 };
 
-function computeDuration(departure: string, arrival: string): {
-  label: string;
-  minutes: number;
-} {
-  const [dh, dm] = departure.split(":").map(Number);
-  const [ah, am] = arrival.split(":").map(Number);
-  let depMins = dh * 60 + dm;
-  let arrMins = ah * 60 + am;
-  if (arrMins <= depMins) arrMins += 24 * 60;
-  const diff = arrMins - depMins;
-  const hours = Math.floor(diff / 60);
-  const mins = diff % 60;
-  if (hours === 0) return { label: `${mins}m`, minutes: diff };
-  if (mins === 0) return { label: `${hours}h`, minutes: diff };
-  return { label: `${hours}h ${mins}m`, minutes: diff };
+function formatDuration(minutes: number): string {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (hours === 0) return `${mins}m`;
+  if (mins === 0) return `${hours}h`;
+  return `${hours}h ${mins}m`;
 }
 
 function flight(
   data: Omit<
     GreeceFlight,
-    "duration" | "durationMinutes" | "arcColor" | "arcGlow"
+    "duration" | "arcColor" | "arcGlow"
   > & {
+    duration?: string;
     arcColor?: string;
     arcGlow?: string;
   },
 ): GreeceFlight {
-  const dur = computeDuration(data.departure, data.arrival);
   const cat = CATEGORY_COLORS[data.category];
   return {
     ...data,
-    duration: dur.label,
-    durationMinutes: dur.minutes,
+    duration: data.duration ?? formatDuration(data.durationMinutes),
     arcColor: data.arcColor ?? cat.stroke,
     arcGlow: data.arcGlow ?? cat.glow,
   };
@@ -170,15 +167,17 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "BOS",
     to: "DUB",
     dateIso: "2026-05-16",
+    arrivalDateIso: "2026-05-17",
     dateDisplay: "May 16, 2026",
     departure: "17:25",
     arrival: "04:35",
+    arrivalDayOffset: 1,
+    durationMinutes: 370,
     airline: "Aer Lingus",
     flightNumber: "EI 0132",
     destinationLabel: "Dublin",
     status: "Completed",
-    arcColor: "#5B9DFF",
-    arcGlow: "rgba(91, 157, 255, 0.9)",
+    notes: "Overnight arrival in Dublin.",
   }),
   flight({
     id: "ei-440-out",
@@ -186,16 +185,16 @@ export const greeceFlights: readonly GreeceFlight[] = [
     category: "main",
     from: "DUB",
     to: "ATH",
-    dateIso: "2026-05-16",
-    dateDisplay: "May 16, 2026",
+    dateIso: "2026-05-17",
+    arrivalDateIso: "2026-05-17",
+    dateDisplay: "May 17, 2026",
     departure: "06:00",
     arrival: "12:10",
+    durationMinutes: 250,
     airline: "Aer Lingus",
     flightNumber: "EI 0440",
     destinationLabel: "Athens",
     status: "Completed",
-    arcColor: "#A78BFA",
-    arcGlow: "rgba(167, 139, 250, 0.9)",
   }),
   flight({
     id: "fr-1232-santorini-out",
@@ -204,9 +203,11 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "ATH",
     to: "JTR",
     dateIso: "2026-05-30",
+    arrivalDateIso: "2026-05-30",
     dateDisplay: "May 30, 2026",
     departure: "06:15",
     arrival: "07:05",
+    durationMinutes: 50,
     airline: "Ryanair",
     flightNumber: "FR 1232",
     destinationLabel: "Santorini",
@@ -219,9 +220,11 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "JTR",
     to: "ATH",
     dateIso: "2026-06-01",
+    arrivalDateIso: "2026-06-01",
     dateDisplay: "Jun 1, 2026",
     departure: "19:55",
     arrival: "20:45",
+    durationMinutes: 50,
     airline: "Ryanair",
     flightNumber: "FR 6923",
     destinationLabel: "Athens",
@@ -234,9 +237,11 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "ATH",
     to: "CHQ",
     dateIso: "2026-06-05",
+    arrivalDateIso: "2026-06-05",
     dateDisplay: "Jun 5, 2026",
     departure: "07:20",
     arrival: "08:15",
+    durationMinutes: 55,
     airline: "Ryanair",
     flightNumber: "FR 318",
     destinationLabel: "Crete",
@@ -249,9 +254,11 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "CHQ",
     to: "ATH",
     dateIso: "2026-06-07",
+    arrivalDateIso: "2026-06-07",
     dateDisplay: "Jun 7, 2026",
     departure: "20:50",
     arrival: "21:45",
+    durationMinutes: 55,
     airline: "Ryanair",
     flightNumber: "FR 319",
     destinationLabel: "Athens",
@@ -264,9 +271,11 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "ATH",
     to: "FCO",
     dateIso: "2026-06-13",
+    arrivalDateIso: "2026-06-13",
     dateDisplay: "Jun 13, 2026",
     departure: "06:10",
     arrival: "07:20",
+    durationMinutes: 130,
     airline: "Ryanair",
     flightNumber: "FR 1199",
     destinationLabel: "Rome",
@@ -279,9 +288,11 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "FCO",
     to: "ATH",
     dateIso: "2026-06-13",
+    arrivalDateIso: "2026-06-13",
     dateDisplay: "Jun 13, 2026",
     departure: "20:35",
     arrival: "23:35",
+    durationMinutes: 120,
     airline: "Ryanair",
     flightNumber: "FR 1298",
     destinationLabel: "Athens",
@@ -294,15 +305,15 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "ATH",
     to: "DUB",
     dateIso: "2026-06-19",
+    arrivalDateIso: "2026-06-19",
     dateDisplay: "Jun 19, 2026",
     departure: "13:00",
     arrival: "15:30",
+    durationMinutes: 270,
     airline: "Aer Lingus",
     flightNumber: "EI 0441",
     destinationLabel: "Dublin",
     status: "Completed",
-    arcColor: "#60A5FA",
-    arcGlow: "rgba(96, 165, 250, 0.9)",
   }),
   flight({
     id: "ei-137-return",
@@ -311,15 +322,15 @@ export const greeceFlights: readonly GreeceFlight[] = [
     from: "DUB",
     to: "BOS",
     dateIso: "2026-06-19",
+    arrivalDateIso: "2026-06-19",
     dateDisplay: "Jun 19, 2026",
     departure: "16:45",
     arrival: "18:50",
+    durationMinutes: 425,
     airline: "Aer Lingus",
     flightNumber: "EI 0137",
     destinationLabel: "Boston",
     status: "Completed",
-    arcColor: "#F5C563",
-    arcGlow: "rgba(245, 197, 99, 0.9)",
   }),
 ] as const;
 
@@ -462,7 +473,7 @@ export const NIGHT_EARTH_MAP_STYLE = {
     night: {
       type: "raster" as const,
       tiles: [
-        "https://gibs-a.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg",
+        "https://gibs-a.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png",
       ],
       tileSize: 256,
       attribution: "NASA EOSDIS GIBS",
@@ -485,6 +496,11 @@ export const NIGHT_EARTH_MAP_STYLE = {
     },
   },
   layers: [
+    {
+      id: "space",
+      type: "background" as const,
+      paint: { "background-color": "#02040a" },
+    },
     {
       id: "terrain",
       type: "raster" as const,
