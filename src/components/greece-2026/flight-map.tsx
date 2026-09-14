@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  CATEGORY_COLORS,
   NIGHT_EARTH_MAP_STYLE,
   categoryLabel,
   flightRouteLabel,
@@ -10,6 +9,7 @@ import {
   getVisibleAirportCodes,
   greeceAirports,
   greatCirclePath,
+  type AirportCode,
   type FlightFilterId,
   type GreeceFlight,
 } from "@/lib/greece-flights";
@@ -35,14 +35,69 @@ type MapStatus = "loading" | "ready" | "error";
 const GLASS =
   "rounded-2xl border border-white/[0.12] bg-[rgba(8,12,20,0.72)] shadow-[0_12px_48px_rgba(0,0,0,0.5)] backdrop-blur-2xl";
 
-const AIRPORT_LABEL_OFFSETS: Partial<
-  Record<keyof typeof greeceAirports, { x: number; y: number }>
-> = {
-  ATH: { x: -64, y: -47 },
-  JTR: { x: 3, y: 7 },
-  CHQ: { x: -131, y: 7 },
-  FCO: { x: -126, y: -33 },
+/** Hubs get their label first; anything that would overlap keeps only its dot. */
+const LABEL_PRIORITY: readonly AirportCode[] = ["BOS", "ATH", "FCO", "DUB", "CHQ", "JTR"];
+
+type PlacedLabel = {
+  dx: number;
+  dy: number;
+  anchor: "start" | "end";
+  showCity: boolean;
 };
+
+function placeAirportLabels(
+  airports: readonly ProjectedAirport[],
+  width: number,
+  height: number,
+): Array<ProjectedAirport & { label: PlacedLabel | null }> {
+  const showCity = airports.length <= 4;
+  const boxWidth = showCity ? 104 : 42;
+  const boxHeight = 16;
+  const taken: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+
+  const overlaps = (x1: number, y1: number) =>
+    taken.some(
+      (box) =>
+        x1 < box.x2 + 4 &&
+        x1 + boxWidth > box.x1 - 4 &&
+        y1 < box.y2 + 3 &&
+        y1 + boxHeight > box.y1 - 3,
+    );
+
+  const byPriority = [...airports].sort(
+    (a, b) => LABEL_PRIORITY.indexOf(a.code) - LABEL_PRIORITY.indexOf(b.code),
+  );
+
+  const placements = new Map<AirportCode, PlacedLabel | null>();
+  for (const airport of byPriority) {
+    const { x, y } = airport.point;
+    // Try right then left, above then below, and take the first clear slot.
+    const candidates: PlacedLabel[] = [
+      { dx: 12, dy: -9, anchor: "start", showCity },
+      { dx: -12, dy: -9, anchor: "end", showCity },
+      { dx: 12, dy: 19, anchor: "start", showCity },
+      { dx: -12, dy: 19, anchor: "end", showCity },
+    ];
+    let placed: PlacedLabel | null = null;
+    for (const candidate of candidates) {
+      const left =
+        candidate.anchor === "start" ? x + candidate.dx : x + candidate.dx - boxWidth;
+      const top = y + candidate.dy - boxHeight + 4;
+      if (left < 6 || left + boxWidth > width - 6) continue;
+      if (top < 6 || top + boxHeight > height - 24) continue;
+      if (overlaps(left, top)) continue;
+      taken.push({ x1: left, y1: top, x2: left + boxWidth, y2: top + boxHeight });
+      placed = candidate;
+      break;
+    }
+    placements.set(airport.code, placed);
+  }
+
+  return airports.map((airport) => ({
+    ...airport,
+    label: placements.get(airport.code) ?? null,
+  }));
+}
 
 function projectArc(
   map: MaplibreMap,
@@ -96,14 +151,13 @@ function fitMapToFilter(
 ) {
   const viewport = getFilterViewport(filter);
   const rect = map.getContainer().getBoundingClientRect();
-  const desktop = rect.width >= 1180;
-  const horizontal = Math.max(20, Math.min(44, rect.width * 0.08));
-  const vertical = Math.max(24, Math.min(58, rect.height * 0.1));
+  const horizontal = Math.max(26, Math.min(56, rect.width * 0.1));
+  const vertical = Math.max(30, Math.min(64, rect.height * 0.12));
   const padding = {
     top: vertical,
     bottom: vertical,
     left: horizontal,
-    right: desktop ? Math.min(370, rect.width * 0.31) : horizontal,
+    right: horizontal,
   };
   const duration = reduceMotion ? 0 : 1100;
 
@@ -122,66 +176,6 @@ function fitMapToFilter(
       essential: false,
     });
   }
-}
-
-function ControlIcon({ type }: { type: "plus" | "minus" | "reset" | "globe" | "map" }) {
-  if (type === "plus" || type === "minus") {
-    return (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-        <path d="M5 12h14" />
-        {type === "plus" && <path d="M12 5v14" />}
-      </svg>
-    );
-  }
-
-  if (type === "reset") {
-    return (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-        <circle cx="12" cy="12" r="7" />
-        <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
-      </svg>
-    );
-  }
-
-  if (type === "map") {
-    return (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden>
-        <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z" />
-        <path d="M9 3v15M15 6v15" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9S14.5 18.5 12 21M12 3c-2.5 2.5-3.8 5.5-3.8 9s1.3 6.5 3.8 9" />
-    </svg>
-  );
-}
-
-function MapControlButton({
-  label,
-  onClick,
-  disabled,
-  children,
-}: {
-  label: string;
-  onClick: () => void;
-  disabled: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={label}
-      className="flex h-11 min-w-11 items-center justify-center gap-2 rounded-xl px-3 text-[11px] font-medium text-white/70 transition-colors hover:bg-white/[0.1] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-30"
-    >
-      {children}
-    </button>
-  );
 }
 
 export function FlightMap({
@@ -210,7 +204,7 @@ export function FlightMap({
   const updateOverlayRef = useRef<() => void>(() => undefined);
   const [mapReady, setMapReady] = useState(false);
   const [mapStatus, setMapStatus] = useState<MapStatus>("loading");
-  const [projection, setProjection] = useState<ProjectionMode>("globe");
+  const projection: ProjectionMode = "globe";
   const [overlay, setOverlay] = useState<{
     arcs: ProjectedArc[];
     airports: ProjectedAirport[];
@@ -338,23 +332,13 @@ export function FlightMap({
   );
   const tooltipPosition = useMemo(() => {
     if (!previewArc) return null;
-    const rightReserve = overlay.width >= 1180 ? Math.min(370, overlay.width * 0.31) : 16;
     const minX = Math.min(140, overlay.width / 2);
-    const maxX = Math.max(minX, overlay.width - rightReserve - 140);
+    const maxX = Math.max(minX, overlay.width - 140);
     return {
       x: Math.max(minX, Math.min(maxX, previewArc.midpoint.x)),
       y: Math.max(112, Math.min(Math.max(112, overlay.height - 24), previewArc.midpoint.y)),
     };
   }, [overlay.height, overlay.width, previewArc]);
-  const controlsDisabled = mapStatus !== "ready";
-
-  const zoom = (direction: 1 | -1) => {
-    const map = mapRef.current;
-    if (!map) return;
-    const options = { duration: reduceMotion ? 0 : 320 };
-    if (direction === 1) map.zoomIn(options);
-    else map.zoomOut(options);
-  };
 
   return (
     <div
@@ -386,16 +370,6 @@ export function FlightMap({
         role="group"
         aria-label="Selectable flight routes"
       >
-        <defs aria-hidden>
-          <filter id="greece-flight-arc-bloom" x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur stdDeviation="5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
         {displayedArcs.map(({ flight, path, midpoint, angle }) => {
           const active = activeId === flight.id;
           const selected = selectedFlight?.id === flight.id;
@@ -432,10 +406,9 @@ export function FlightMap({
                 d={path}
                 fill="none"
                 stroke={flight.arcGlow}
-                strokeWidth={active ? 13 : 8}
+                strokeWidth={active ? 9 : 6}
                 strokeLinecap="round"
-                opacity={dimmed ? 0.16 : active ? 0.86 : 0.42}
-                filter="url(#greece-flight-arc-bloom)"
+                opacity={dimmed ? 0.1 : active ? 0.5 : 0.22}
                 pointerEvents="none"
                 aria-hidden
               />
@@ -443,59 +416,71 @@ export function FlightMap({
                 d={path}
                 fill="none"
                 stroke={flight.arcColor}
-                strokeWidth={active ? 3.4 : 2}
+                strokeWidth={active ? 2.8 : 1.6}
                 strokeLinecap="round"
                 opacity={dimmed ? 0.26 : active ? 1 : 0.78}
                 pointerEvents="none"
                 aria-hidden
               />
 
-              {active && !reduceMotion ? (
-                <g fill={flight.arcColor} pointerEvents="none" aria-hidden>
-                  <path d="M-8-3 8 0-8 3-4 0Z" />
-                  <animateMotion dur="4s" repeatCount="indefinite" path={path} rotate="auto" />
-                </g>
-              ) : (
-                <g
-                  transform={`translate(${midpoint.x} ${midpoint.y}) rotate(${angle})`}
-                  fill={flight.arcColor}
-                  opacity={dimmed ? 0.28 : active ? 1 : 0.7}
-                  pointerEvents="none"
-                  aria-hidden
-                >
-                  <path d="M-5-2 5 0-5 2-2.5 0Z" />
-                </g>
-              )}
+              <g
+                transform={`translate(${midpoint.x} ${midpoint.y}) rotate(${angle})`}
+                fill={flight.arcColor}
+                opacity={dimmed ? 0.25 : active ? 1 : 0.65}
+                pointerEvents="none"
+                aria-hidden
+              >
+                <path d="M-4.5-2 4.5 0-4.5 2-2 0Z" />
+              </g>
             </g>
           );
         })}
 
-        {overlay.airports.map(({ code, point }) => {
-          const airport = greeceAirports[code];
-          const labelOffset = AIRPORT_LABEL_OFFSETS[code] ?? { x: -64, y: 11 };
-          return (
-            <g key={code} transform={`translate(${point.x}, ${point.y})`} pointerEvents="none" aria-hidden>
-              <circle
-                r={17}
-                fill="rgba(255,255,255,0.2)"
-                opacity={0.28}
-                className={reduceMotion ? undefined : "animate-ping"}
-                style={{ animationDuration: "3.4s" }}
-              />
-              <circle r={5.5} fill="white" style={{ filter: "drop-shadow(0 0 11px rgba(255,255,255,.9))" }} />
-              <foreignObject x={labelOffset.x} y={labelOffset.y} width={128} height={46}>
-                <div className="text-center">
-                  <p className="text-[11px] font-bold tracking-[0.08em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
+        {placeAirportLabels(overlay.airports, overlay.width, overlay.height).map(
+          ({ code, point, label }) => {
+            const airport = greeceAirports[code];
+            return (
+              <g
+                key={code}
+                transform={`translate(${point.x}, ${point.y})`}
+                pointerEvents="none"
+                aria-hidden
+              >
+                <circle r={4.5} fill="#ffffff" />
+                <circle
+                  r={8.5}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.3)"
+                  strokeWidth={1}
+                />
+                {label && (
+                  <text
+                    x={label.dx}
+                    y={label.dy}
+                    textAnchor={label.anchor}
+                    className="text-[11px] font-semibold"
+                    fill="#ffffff"
+                    stroke="rgba(2,6,14,0.9)"
+                    strokeWidth={3.5}
+                    strokeLinejoin="round"
+                    style={{ letterSpacing: "0.06em", paintOrder: "stroke" }}
+                  >
                     {code}
-                  </p>
-                  <p className="hidden text-[9px] text-white/72 drop-shadow-[0_1px_6px_rgba(0,0,0,1)] lg:block">
-                    {airport.city}, {airport.region}
-                  </p>
-                </div>
-              </foreignObject>
-            </g>
-          );
-        })}
+                    {label.showCity ? (
+                      <tspan
+                        dx={6}
+                        className="text-[10px] font-normal"
+                        fill="rgba(255,255,255,0.6)"
+                      >
+                        {airport.city}
+                      </tspan>
+                    ) : null}
+                  </text>
+                )}
+              </g>
+            );
+          },
+        )}
       </svg>
 
       <AnimatePresence>
@@ -526,60 +511,6 @@ export function FlightMap({
         )}
       </AnimatePresence>
 
-      <div className={`absolute top-3 right-3 z-20 flex items-center gap-1 min-[1180px]:top-[88px] min-[1180px]:right-[356px] ${GLASS} p-1`}>
-        <MapControlButton
-          label="Zoom out"
-          onClick={() => zoom(-1)}
-          disabled={controlsDisabled}
-        >
-          <ControlIcon type="minus" />
-        </MapControlButton>
-        <MapControlButton
-          label="Zoom in"
-          onClick={() => zoom(1)}
-          disabled={controlsDisabled}
-        >
-          <ControlIcon type="plus" />
-        </MapControlButton>
-        <MapControlButton
-          label="Reset map view"
-          onClick={() => {
-            const map = mapRef.current;
-            if (map) fitMapToFilter(map, filter, Boolean(reduceMotion));
-          }}
-          disabled={controlsDisabled}
-        >
-          <ControlIcon type="reset" />
-        </MapControlButton>
-        <span className="mx-0.5 h-6 w-px bg-white/[0.1]" aria-hidden />
-        <MapControlButton
-          label={projection === "globe" ? "Switch to flat map" : "Switch to globe"}
-          onClick={() => setProjection((current) => (current === "globe" ? "mercator" : "globe"))}
-          disabled={controlsDisabled}
-        >
-          <ControlIcon type={projection === "globe" ? "globe" : "map"} />
-          <span className="hidden sm:inline">{projection === "globe" ? "Globe" : "Map"}</span>
-        </MapControlButton>
-      </div>
-
-      <div className={`pointer-events-none absolute bottom-9 left-4 z-20 hidden sm:block min-[1180px]:bottom-5 min-[1180px]:left-[420px] ${GLASS} px-3.5 py-3`}>
-        <p className="text-[10px] font-semibold tracking-[0.14em] text-white/45 uppercase">Routes</p>
-        <ul className="mt-2.5 grid grid-cols-2 gap-x-4 gap-y-2 min-[1180px]:grid-cols-1">
-          {(Object.keys(CATEGORY_COLORS) as Array<keyof typeof CATEGORY_COLORS>).map((key) => (
-            <li key={key} className="flex items-center gap-2">
-              <span
-                className="h-1.5 w-5 rounded-full"
-                style={{
-                  backgroundColor: CATEGORY_COLORS[key].stroke,
-                  boxShadow: `0 0 10px ${CATEGORY_COLORS[key].glow}`,
-                }}
-              />
-              <span className="text-[11px] text-white/58">{categoryLabel(key)}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
       {mapStatus !== "ready" && (
         <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[#02040a]/45 px-6 text-center backdrop-blur-[2px]">
           <div className={`${GLASS} max-w-xs px-5 py-4`} role="status" aria-live="polite">
@@ -590,7 +521,7 @@ export function FlightMap({
                     reduceMotion ? "" : "animate-spin"
                   }`}
                 />
-                <p className="mt-3 text-[12px] font-medium text-white/70">Plotting the flight path…</p>
+                <p className="mt-3 text-[12px] font-medium text-white/70">Loading the map</p>
               </>
             ) : (
               <>

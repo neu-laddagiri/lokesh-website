@@ -116,7 +116,8 @@ export function FlightDetailPanel({
   flight: GreeceFlight | null;
   flights: GreeceFlight[];
   onNavigate: (id: string) => void;
-  onClose: () => void;
+  /** Only needed for the compact drawer variant. */
+  onClose?: () => void;
   compact?: boolean;
 }) {
   const reduceMotion = useReducedMotion();

@@ -1,65 +1,15 @@
 "use client";
 
-import { greecePlaces, greeceTheme } from "@/lib/greece-2026";
 import { motion } from "framer-motion";
-import {
-  GreeceSectionLabel,
-  GreeceSectionTitle,
-} from "./section-label";
-import {
-  greeceFadeUp,
-  greeceStagger,
-  greeceViewport,
-} from "./motion-presets";
+import { greecePlaces, greeceTheme } from "@/lib/greece-2026";
+import { GreeceSectionLabel, GreeceSectionTitle } from "./section-label";
+import { greeceFadeUp, greeceStagger, greeceViewport } from "./motion-presets";
 
-function PlaceCard({
-  place,
-  index,
-}: {
-  place: (typeof greecePlaces)[number];
-  index: number;
-}) {
-  return (
-    <motion.article
-      custom={index}
-      variants={greeceFadeUp}
-      whileHover={{ y: -5, transition: { duration: 0.35 } }}
-      className="group relative aspect-[4/5] overflow-hidden rounded-2xl border transition-all duration-500"
-      style={{
-        borderColor: `rgba(${greeceTheme.accentRgb}, 0.12)`,
-      }}
-    >
-      <div
-        className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]"
-        style={{
-          background: `linear-gradient(180deg, rgba(${greeceTheme.aegeanRgb}, 0.35) 0%, rgba(5,8,12,0.95) 100%)`,
-        }}
-      />
-      <div
-        className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          background: `radial-gradient(circle at 50% 100%, rgba(${greeceTheme.accentRgb}, 0.2) 0%, transparent 60%)`,
-        }}
-      />
-      <div className="absolute inset-x-0 bottom-0 p-6">
-        <p className="text-[10px] font-medium tracking-[0.16em] text-muted uppercase">
-          {place.region}
-        </p>
-        <h3 className="mt-2 text-[1.25rem] font-semibold tracking-[-0.03em] text-foreground">
-          {place.name}
-        </h3>
-        <p className="mt-3 text-[12px] text-muted">Photo coming soon</p>
-      </div>
-    </motion.article>
-  );
-}
+const REGION_ORDER = ["Athens", "Santorini", "Crete", "Italy"] as const;
 
 export function GreecePlaces() {
   return (
-    <section
-      id="places"
-      className="scroll-mt-32 border-t border-white/[0.04] px-6 py-12 lg:px-8 lg:py-14"
-    >
+    <section id="places" className="scroll-mt-32 px-6 py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial="hidden"
@@ -67,14 +17,9 @@ export function GreecePlaces() {
           viewport={greeceViewport}
           variants={greeceFadeUp}
           custom={0}
-          className="max-w-2xl"
         >
-          <GreeceSectionLabel>Exploration</GreeceSectionLabel>
-          <GreeceSectionTitle>Places Explored</GreeceSectionTitle>
-          <p className="mt-5 text-[16px] leading-[1.75] text-muted">
-            Landmarks and neighborhoods across Athens, documented as the
-            experience unfolds.
-          </p>
+          <GreeceSectionLabel>Places</GreeceSectionLabel>
+          <GreeceSectionTitle>Where the time actually went.</GreeceSectionTitle>
         </motion.div>
 
         <motion.div
@@ -82,10 +27,37 @@ export function GreecePlaces() {
           whileInView="visible"
           viewport={greeceViewport}
           variants={greeceStagger}
-          className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5 lg:gap-5"
+          className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
         >
           {greecePlaces.map((place, i) => (
-            <PlaceCard key={place.id} place={place} index={i + 1} />
+            <motion.div
+              key={place.id}
+              custom={i}
+              variants={greeceFadeUp}
+              className="glass rounded-2xl p-5"
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="text-[15px] leading-tight font-semibold tracking-[-0.02em] text-foreground">
+                  {place.name}
+                </h3>
+                <span
+                  className="shrink-0 text-[10.5px] font-semibold tracking-[0.1em] uppercase"
+                  style={{
+                    color:
+                      REGION_ORDER.indexOf(
+                        place.region as (typeof REGION_ORDER)[number],
+                      ) === 0
+                        ? greeceTheme.accent
+                        : "var(--muted)",
+                  }}
+                >
+                  {place.region}
+                </span>
+              </div>
+              <p className="mt-2 text-[13.5px] leading-[1.6] text-muted">
+                {place.note}
+              </p>
+            </motion.div>
           ))}
         </motion.div>
       </div>
