@@ -20,7 +20,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-/** Project management accent — page-local only */
+/** Project management accent: page-local only */
 const ACCENT = "#8045da";
 const ACCENT_LIGHT = "#a67eef";
 const ACCENT_GLOW = "rgba(128, 69, 218, 0.35)";
@@ -808,7 +808,7 @@ export default function MG4057Page() {
             </motion.article>
           </motion.section>
 
-          {/* Project Structure — WBS */}
+          {/* Project Structure: WBS */}
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -830,7 +830,7 @@ export default function MG4057Page() {
             </div>
           </motion.section>
 
-          {/* Schedule & Timeline — Gantt centerpiece */}
+          {/* Schedule & Timeline: Gantt centerpiece */}
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -965,7 +965,7 @@ export default function MG4057Page() {
               study.
             </p>
             <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted/80">
-              Scroll through the complete SHMS implementation plan — from scope
+              Scroll through the complete SHMS implementation plan, from scope
               definition and scheduling to stakeholder management, risk
               assessment, and deployment strategy.
             </p>

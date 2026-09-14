@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-/** Deep emerald / teal — page-local only */
+/** Deep emerald / teal: page-local only */
 const ACCENT = "#2DD4BF";
 const ACCENT_LIGHT = "#5EEAD4";
 const ACCENT_GLOW = "rgba(45, 212, 191, 0.35)";
@@ -85,7 +85,7 @@ const courseTopics = [
     title: "Graph Theory & Algorithms",
     badge: "Connections",
     description:
-      "Graphs modeled relationships between entities — vertices, edges, trees, traversals, and connectivity. Asymptotic analysis tied these structures to efficiency, asking how algorithms scale as inputs grow.",
+      "Graphs modeled relationships between entities: vertices, edges, trees, traversals, and connectivity. Asymptotic analysis tied these structures to efficiency, asking how algorithms scale as inputs grow.",
     points: [
       "Graph definitions & structure",
       "Trees & traversals",
@@ -173,7 +173,7 @@ const realWorldApplications = [
   {
     title: "Google Search",
     description:
-      "PageRank models the web as a graph — ranking pages by link structure and connectivity.",
+      "PageRank models the web as a graph, ranking pages by link structure and connectivity.",
   },
   {
     title: "Navigation Algorithms",
@@ -208,7 +208,7 @@ const realWorldApplications = [
   {
     title: "Computer Networks",
     description:
-      "Graphs model routers, paths, and flow — optimizing how data moves across systems.",
+      "Graphs model routers, paths, and flow, optimizing how data moves across systems.",
   },
 ] as const;
 
@@ -560,7 +560,7 @@ export default function CS1800Page() {
                 computing. Per the Fall 2025 syllabus, the course begins with
                 mathematical notation, logic, and sets, then progresses through
                 proof techniques, combinatorics, probability, mathematical
-                induction, graph theory, and asymptotic notation — building
+                induction, graph theory, and asymptotic notation, building
                 familiarity with structures used throughout computer science.
               </p>
               <p className="mt-5 text-[17px] leading-[1.8] text-muted">
@@ -846,7 +846,7 @@ export default function CS1800Page() {
               />
               <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
                 CS 1800 fundamentally changed how I approach technical problems.
-                Before this course, I could follow instructions and write code —
+                Before this course, I could follow instructions and write code,
                 but I had not yet learned to think rigorously about whether a
                 solution was actually correct. Discrete Structures pushed me to
                 slow down, define terms precisely, and prove claims instead of
@@ -871,8 +871,8 @@ export default function CS1800Page() {
                 <span className="font-medium text-foreground">
                   Data Science
                 </span>
-                . Understanding why an algorithm works — not just how to
-                implement it — is the difference between writing code and
+                . Understanding why an algorithm works, not just how to
+                implement it, is the difference between writing code and
                 reasoning like a computer scientist. That foundation started
                 here.
               </p>

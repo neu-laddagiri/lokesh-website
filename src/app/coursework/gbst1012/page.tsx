@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-/** Navy & gold — page-local accent only */
+/** Navy & gold: page-local accent only */
 const ACCENT = "#183A63";
 const ACCENT_LIGHT = "#2A5A8F";
 const GOLD = "#D4A64A";
@@ -499,9 +499,9 @@ export default function GBST1012Page() {
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 GBST 1012 approached global issues not as distant headlines, but
                 as lived realities shaped by culture, economics, history, and
-                power. The seminar built a foundation in global citizenship —
-                understanding how individual choices connect to international
-                systems — while examining how globalization accelerates the
+                power. The seminar built a foundation in global citizenship
+                (understanding how individual choices connect to international
+                systems) while examining how globalization accelerates the
                 exchange of ideas, capital, and people across borders.
               </p>
               <p className="mt-5 text-[17px] leading-[1.8] text-muted">
@@ -511,8 +511,8 @@ export default function GBST1012Page() {
                 something dynamic rather than fixed. Intercultural praxis pushed
                 that theory into practice: reflecting on my own assumptions,
                 listening across difference, and collaborating on interdisciplinary
-                research that addressed real global problems — from overtourism to
-                social justice — with the rigor and empathy the subject demands.
+                research that addressed real global problems (from overtourism to
+                social justice) with the rigor and empathy the subject demands.
               </p>
             </div>
           </motion.section>
@@ -610,7 +610,7 @@ export default function GBST1012Page() {
                 social justice, economics, history, and intercultural
                 communication, we compared how two major global cities navigate
                 the tension between welcoming visitors and preserving local
-                quality of life — analyzing resident attitudes, policy responses,
+                quality of life, analyzing resident attitudes, policy responses,
                 and the cultural norms that shape everyday interactions between
                 hosts and guests.
               </p>
@@ -713,14 +713,14 @@ export default function GBST1012Page() {
                 history and economics, culture and ethics, to understand global
                 issues from multiple angles. Working in an interdisciplinary team
                 on the Seoul–New York tourism project required analyzing
-                stakeholder perspectives with care — residents, businesses,
+                stakeholder perspectives with care. Residents, businesses,
                 policymakers, and visitors each hold legitimate but competing
                 interests.
               </p>
               <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
                 The course strengthened my research and presentation skills while
-                giving me practical frameworks — Hofstede, Hall, intercultural
-                praxis — I still use when communicating across difference. That
+                giving me practical frameworks (Hofstede, Hall, intercultural
+                praxis) I still use when communicating across difference. That
                 combination of analytical rigor and cultural awareness is
                 preparing me for future work in business and data science, where
                 understanding people, context, and global systems is just as

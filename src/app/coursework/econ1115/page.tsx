@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-/** Malaysia flag red & gold — page-local accent only */
+/** Malaysia flag red & gold: page-local accent only */
 const ACCENT = "#CC0001";
 const ACCENT_LIGHT = "#E63946";
 const GOLD = "#FFCC00";
@@ -83,7 +83,7 @@ const visualStoryItems = [
     src: SYLLABUS_PDF,
     alt: "First page of the ECON 1115 course syllabus",
     caption:
-      "Principles of Macroeconomics syllabus — topics, grading, and course expectations.",
+      "Principles of Macroeconomics syllabus: topics, grading, and course expectations.",
     actionLabel: "Open Syllabus",
   },
 ] as const;
@@ -592,7 +592,7 @@ export default function ECON1115Page() {
             </SectionHeading>
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
-                ECON 1115 explored how entire economies function — from GDP and
+                ECON 1115 explored how entire economies function, from GDP and
                 inflation to unemployment, fiscal policy, monetary policy, and
                 long-run economic growth. The course extended into open-economy
                 macroeconomics, covering international trade, saving and
@@ -601,7 +601,7 @@ export default function ECON1115Page() {
               <p className="mt-5 text-[17px] leading-[1.8] text-muted">
                 The semester culminated in an international macroeconomic
                 research project analyzing Malaysia&apos;s economy using IMF
-                World Economic Outlook data from 2000–2026 — examining how
+                World Economic Outlook data from 2000–2026, examining how
                 domestic saving finances investment, how policy responded to
                 global crises, and how net capital flows shape long-run growth
                 trajectories.
@@ -822,7 +822,7 @@ export default function ECON1115Page() {
               <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
                 The Malaysia project provided practical experience using
                 real-world international economic data to evaluate investment,
-                savings, and policy decisions — not simply learning
+                savings, and policy decisions, not simply learning
                 macroeconomic theory in the abstract. That combination of
                 institutional data literacy and policy analysis is exactly what
                 professional economics and finance environments demand.

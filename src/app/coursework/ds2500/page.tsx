@@ -17,7 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-/** Deep blue / cyan — data science accent, page-local only */
+/** Deep blue / cyan: data science accent, page-local only */
 const ACCENT = "#0EA5E9";
 const ACCENT_LIGHT = "#38BDF8";
 const ACCENT_CYAN = "#22D3EE";
@@ -67,7 +67,7 @@ const projectPreviews = [
     title: "Project Cover",
     alt: "Banking fraud and corporate misconduct research project cover",
     caption:
-      "Capstone deliverable overview — CFPB consumer complaint analysis across major financial institutions.",
+      "Capstone deliverable overview: CFPB consumer complaint analysis across major financial institutions.",
   },
   {
     src: "/images/coursework/ds2500/ds2500-top-complaints.png",
@@ -776,7 +776,7 @@ export default function DS2500Page() {
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 DS 2500 focused on intermediate Python programming for data
-                science — object-oriented design, working with APIs, cleaning
+                science, object-oriented design, working with APIs, cleaning
                 messy real-world datasets, building visualizations, and
                 introducing machine learning fundamentals within a collaborative
                 software engineering workflow.
@@ -787,7 +787,7 @@ export default function DS2500Page() {
                 roughly 35,000 records through the CFPB API, explored complaint
                 patterns across major institutions, and evaluated whether
                 regulatory enforcement actions appear to change harmful consumer
-                outcomes — my first complete end-to-end data science pipeline.
+                outcomes, my first complete end-to-end data science pipeline.
               </p>
             </div>
           </motion.section>
@@ -1016,7 +1016,7 @@ export default function DS2500Page() {
               </p>
               <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
                 The CFPB banking project was my first complete end-to-end data
-                science workflow — from API collection through exploratory
+                science workflow, from API collection through exploratory
                 analysis to a defended conclusion. Collaborating with Git,
                 dividing analytical responsibilities, and integrating our work
                 into a single narrative taught me how data science actually

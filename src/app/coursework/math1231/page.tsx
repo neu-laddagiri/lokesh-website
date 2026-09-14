@@ -20,7 +20,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-/** Northeastern-inspired accent — page-local only */
+/** Northeastern-inspired accent: page-local only */
 const ACCENT = "#C8102E";
 const ACCENT_LIGHT = "#E8324A";
 const ACCENT_GLOW = "rgba(200, 16, 46, 0.35)";
@@ -110,7 +110,7 @@ const takeaways = [
   {
     title: "Market research improves mathematical models",
     description:
-      "Survey data from 50 participants gave the demand model real-world validity — without it, optimization would have been purely theoretical.",
+      "Survey data from 50 participants gave the demand model real-world validity. Without it, optimization would have been purely theoretical.",
   },
   {
     title: "Profit optimization is different from revenue optimization",
@@ -605,7 +605,7 @@ export default function MATH1231Page() {
             </SectionHeading>
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
-                MATH 1231 applied calculus to business and economic problems —
+                MATH 1231 applied calculus to business and economic problems,
                 bridging abstract mathematics with the quantitative tools used
                 in finance, marketing, and operations. The course built a
                 foundation in how rates of change and accumulation inform
@@ -833,7 +833,7 @@ export default function MATH1231Page() {
             )}
           </motion.section>
 
-          {/* Embedded Slideshow — unchanged structure */}
+          {/* Embedded Slideshow: unchanged structure */}
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -844,7 +844,7 @@ export default function MATH1231Page() {
             <SectionLabel>Presentation</SectionLabel>
             <SectionHeading>Full project slideshow.</SectionHeading>
             <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-muted">
-              Scroll through the complete campaign presentation — from market
+              Scroll through the complete campaign presentation, from market
               research and demand modeling to optimization results and the final
               pricing recommendation.
             </p>

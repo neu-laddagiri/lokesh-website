@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 
 const COPYRIGHT_YEAR = 2026;
 
-/** Greece study abroad accent — page-local only */
+/** Greece study abroad accent: page-local only */
 const ACCENT = "#8045da";
 const ACCENT_LIGHT = "#a67eef";
 const ACCENT_GLOW = "rgba(128, 69, 218, 0.35)";

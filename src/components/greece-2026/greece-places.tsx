@@ -72,7 +72,7 @@ export function GreecePlaces() {
           <GreeceSectionLabel>Exploration</GreeceSectionLabel>
           <GreeceSectionTitle>Places Explored</GreeceSectionTitle>
           <p className="mt-5 text-[16px] leading-[1.75] text-muted">
-            Landmarks and neighborhoods across Athens — documented as the
+            Landmarks and neighborhoods across Athens, documented as the
             experience unfolds.
           </p>
         </motion.div>

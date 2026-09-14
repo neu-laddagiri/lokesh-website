@@ -23,7 +23,7 @@ export type GreeceAcademicCourse = {
   note: string;
   transferLabel?: string;
   transferCode?: string;
-  /** Coursework page — update when ready */
+  /** Coursework page: update when ready */
   href: string;
 };
 
@@ -50,7 +50,7 @@ export const greeceTimeline: readonly GreeceTimelineMilestone[] = [
     id: "arrival",
     date: "May 16, 2026",
     label: "Arrival in Athens",
-    description: "First days in the city — settling in, orientation, and the beginning of the journey.",
+    description: "First days in the city: settling in, orientation, and the beginning of the journey.",
     status: "start",
   },
   {
@@ -81,7 +81,7 @@ export const greeceTimeline: readonly GreeceTimelineMilestone[] = [
     id: "return",
     date: "June 19, 2026",
     label: "Return Home",
-    description: "Closing the chapter — carrying new perspectives back to Northeastern.",
+    description: "Closing the chapter, carrying new perspectives back to Northeastern.",
     status: "end",
   },
 ] as const;
@@ -135,15 +135,15 @@ export const greecePlaces: readonly GreecePlace[] = [
 export const greeceReflections: readonly GreeceReflection[] = [
   {
     id: "reflection-1",
-    placeholder: "Reflection on academic life abroad — coming soon.",
+    placeholder: "Reflection on academic life abroad. Coming soon.",
   },
   {
     id: "reflection-2",
-    placeholder: "Reflection on cultural immersion — coming soon.",
+    placeholder: "Reflection on cultural immersion. Coming soon.",
   },
   {
     id: "reflection-3",
-    placeholder: "Reflection on growth and perspective — coming soon.",
+    placeholder: "Reflection on growth and perspective. Coming soon.",
   },
 ] as const;
 

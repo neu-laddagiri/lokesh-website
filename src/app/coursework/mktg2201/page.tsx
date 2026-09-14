@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-/** Marketing blue — page-local accent */
+/** Marketing blue: page-local accent */
 const ACCENT = "#007AFF";
 const ACCENT_LIGHT = "#47A3FF";
 const ACCENT_SKY = "#5AC8FA";
@@ -193,7 +193,7 @@ const simulationSummaries = [
   },
 ] as const;
 
-/** Preview heights — ~35% larger than original */
+/** Preview heights: ~35% larger than original */
 const PREVIEW = {
   project: "h-[min(62vw,448px)]",
   simulation: "h-[min(58vw,390px)]",
@@ -925,7 +925,7 @@ export default function MKTG2201Page() {
                   className="text-[13px] font-medium tracking-[0.22em] uppercase"
                   style={{ color: ACCENT_LIGHT }}
                 >
-                  MKTG 2201 — Marketing
+                  MKTG 2201: Marketing
                 </span>
               </motion.div>
 
@@ -1073,7 +1073,7 @@ export default function MKTG2201Page() {
                 Spotify Match
               </h2>
               <p className="mt-4 max-w-2xl text-[16px] leading-[1.75] text-muted">
-                One of my strongest projects from the course — an AI-powered music
+                One of my strongest projects from the course, an AI-powered music
                 compatibility platform designed as a premium Spotify feature.
               </p>
 

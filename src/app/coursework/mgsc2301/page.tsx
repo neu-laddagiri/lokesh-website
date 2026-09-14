@@ -20,7 +20,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-/** Analytics dashboard accent — page-local only */
+/** Analytics dashboard accent: page-local only */
 const ACCENT = "#1b698f";
 const ACCENT_LIGHT = "#2d8ab8";
 const ACCENT_GLOW = "rgba(27, 105, 143, 0.35)";
@@ -130,7 +130,7 @@ const artifacts = [
 
 const takeaways = [
   {
-    title: "Data tells a story — statistics proves it.",
+    title: "Data tells a story. Statistics proves it.",
     description:
       "Statistical analysis transforms observations into evidence-based conclusions.",
   },
@@ -659,7 +659,7 @@ export default function MGSC2301Page() {
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 MGSC 2301 introduced the statistical methods that underpin modern
-                business analytics — from descriptive summaries and probability
+                business analytics, from descriptive summaries and probability
                 distributions to inferential techniques used in real-world
                 decision-making. The course emphasized both conceptual
                 understanding and hands-on application through SPSS.
@@ -1058,7 +1058,7 @@ export default function MGSC2301Page() {
             <SectionLabel>Presentation</SectionLabel>
             <SectionHeading>Full project report.</SectionHeading>
             <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-muted">
-              Scroll through the complete regression analysis — from data
+              Scroll through the complete regression analysis, from data
               exploration and model specification to hypothesis testing and
               business insights.
             </p>

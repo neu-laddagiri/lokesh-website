@@ -114,7 +114,7 @@ export function GreeceAcademics() {
           <GreeceSectionLabel>Academics</GreeceSectionLabel>
           <GreeceSectionTitle>Academic Experience</GreeceSectionTitle>
           <p className="mt-5 text-[16px] leading-[1.75] text-muted">
-            Courses completed during the Greece program — on campus, remotely,
+            Courses completed during the Greece program: on campus, remotely,
             and through transfer credit.
           </p>
         </motion.div>

@@ -60,7 +60,7 @@ export function GreeceReflections() {
           <GreeceSectionLabel>Writing</GreeceSectionLabel>
           <GreeceSectionTitle>Reflections</GreeceSectionTitle>
           <p className="mx-auto mt-5 max-w-lg text-[16px] leading-[1.75] text-muted">
-            Personal essays and observations — to be written as the experience
+            Personal essays and observations, to be written as the experience
             takes shape.
           </p>
         </motion.div>

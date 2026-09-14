@@ -9,7 +9,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Greece 2026",
   description:
-    "Study abroad in Athens, Greece — academic growth, international business, and unforgettable experiences at the American College of Greece.",
+    "Study abroad in Athens, Greece. Academic growth, international business, and unforgettable experiences at the American College of Greece.",
   openGraph: {
     title: "Greece 2026 | Lokesh Addagiri",
     description:

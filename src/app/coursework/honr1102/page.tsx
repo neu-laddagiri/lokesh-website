@@ -20,7 +20,7 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-/** Deep indigo, violet & Northeastern red — page-local accent only */
+/** Deep indigo, violet & Northeastern red: page-local accent only */
 const ACCENT = "#312E81";
 const ACCENT_LIGHT = "#6366F1";
 const VIOLET = "#7C3AED";
@@ -70,7 +70,7 @@ const assignmentOverview = [
   {
     title: "Personal Biography",
     description:
-      "Introduce who you are — the values, experiences, and locations that shape how you see the world.",
+      "Introduce who you are: the values, experiences, and locations that shape how you see the world.",
   },
   {
     title: "Exploring an Impact Area",
@@ -679,7 +679,7 @@ export default function HONR1102Page() {
                 Honors Discovery is designed to help first-year Honors students
                 understand how to make a socially conscious impact in the
                 communities they inhabit. Rather than jumping straight into
-                advocacy, the course began with self-exploration — examining
+                advocacy, the course began with self-exploration, examining
                 personal goals, values, and lived experiences to understand what
                 kinds of change feel authentic. From there, I selected an impact
                 area aligned with those values and used interdisciplinary
@@ -692,7 +692,7 @@ export default function HONR1102Page() {
                 organizations creating change in real places. Along the way,
                 coursework in Asset-Based Community Development, source
                 evaluation, GlobeSmart cultural dimensions, and reflective
-                journaling pushed me to engage communities with care — not as
+                journaling pushed me to engage communities with care, not as
                 subjects to study, but as partners whose strengths should shape
                 how research is communicated.
               </p>
@@ -784,13 +784,13 @@ export default function HONR1102Page() {
               </h3>
               <p className="mt-6 max-w-3xl text-[17px] leading-[1.8] text-muted">
                 My Honors StoryMap unfolds in three movements. It opens with my
-                Honors student biography — the personal background that led me to
+                Honors student biography: the personal background that led me to
                 youth mental health and digital access as an impact area. The
                 narrative then explores that issue in depth, examining who is
                 affected and why geography matters when access is uneven. The final
                 section maps organizations creating change, from Boston
                 Children&apos;s Hospital and the Digital Wellness Lab to JED,
-                Crisis Text Line, and community programs across Massachusetts —
+                Crisis Text Line, and community programs across Massachusetts,
                 showing how interdisciplinary teams address a challenge no single
                 institution can solve alone.
               </p>
@@ -834,7 +834,7 @@ export default function HONR1102Page() {
                 </p>
                 <p className="mt-3 max-w-3xl text-[15px] leading-[1.75] text-muted">
                   The Honors StoryMap capstone unfolded across three major
-                  components — each building on the last to move from personal
+                  components, each building on the last to move from personal
                   narrative toward community-centered research.
                 </p>
                 <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -970,8 +970,8 @@ export default function HONR1102Page() {
               <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
                 Creating the StoryMap changed how I understand youth mental
                 health and digital access. What began as a broad interest became
-                concrete once I chose meaningful locations — Weymouth, Milford,
-                Boston, and Northeastern — and mapped the organizations operating
+                concrete once I chose meaningful locations (Weymouth, Milford,
+                Boston, and Northeastern) and mapped the organizations operating
                 in each place. Connecting personal memories from my hometowns
                 with community-level barriers made the issue feel less abstract and
                 far more urgent.
@@ -983,8 +983,8 @@ export default function HONR1102Page() {
                 ed-tech. It left real questions I still carry: how schools evaluate
                 digital mental-health tools, how youth data privacy is protected,
                 and how to ensure access reaches students who need it most. Those
-                questions — and the interdisciplinary habits Honors Discovery
-                built — are shaping my long-term path in data science and business
+                questions, and the interdisciplinary habits Honors Discovery
+                built, are shaping my long-term path in data science and business
                 administration.
               </p>
             </motion.div>

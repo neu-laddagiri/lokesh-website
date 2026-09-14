@@ -20,7 +20,7 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-/** Northeastern red — page-local accent only */
+/** Northeastern red: page-local accent only */
 const ACCENT = "#C8102E";
 const ACCENT_LIGHT = "#E8324A";
 const NAVY = "#1E3A5F";
@@ -280,8 +280,8 @@ function StoryMapLaunchFallback() {
           More Than a Game
         </h3>
         <p className="mt-4 text-[15px] leading-[1.75] text-muted">
-          This Knight Lab StoryMap maps Boston&apos;s iconic sports venues —
-          Fenway Park, TD Garden, Gillette Stadium, and more — tracing how
+          This Knight Lab StoryMap maps Boston&apos;s iconic sports venues
+          (Fenway Park, TD Garden, Gillette Stadium, and more), tracing how
           place, history, and culture shape the city&apos;s identity. Launch the
           full interactive experience in a new tab for maps, media, and
           narrative slides.
@@ -326,7 +326,7 @@ function StoryMapEmbed() {
         if (!cancelled && !res.ok) setEmbedBlocked(true);
       })
       .catch(() => {
-        /* CORS or network — keep iframe; embed may still work */
+        /* CORS or network: keep iframe; embed may still work */
       });
 
     return () => {
@@ -402,7 +402,7 @@ function StoryMapFullscreenModal({
                 <span className="h-3 w-3 rounded-full bg-[#28c840]" />
               </div>
               <p className="text-[13px] font-medium tracking-[-0.01em] text-foreground-secondary">
-                More Than a Game — StoryMap
+                More Than a Game: StoryMap
               </p>
               <button
                 type="button"
@@ -708,7 +708,7 @@ export default function ENGW1111Page() {
                 communication changes depending on purpose and audience.
               </p>
               <p className="mt-5 text-[17px] leading-[1.8] text-muted">
-                The capstone Knight Lab StoryMap project pushed that work further —
+                The capstone Knight Lab StoryMap project pushed that work further,
                 combining long-form research, historical analysis, and multimedia
                 storytelling into one interactive narrative about how Boston&apos;s
                 sports spaces shape the city&apos;s identity. Building the project
@@ -916,7 +916,7 @@ export default function ENGW1111Page() {
               <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
                 Building the StoryMap changed how I think about writing for digital
                 audiences. Rather than delivering a single linear essay, I had to
-                organize a long-form narrative across slides, maps, and media —
+                organize a long-form narrative across slides, maps, and media,
                 deciding what readers see first, how geography anchors each
                 argument, and how visual storytelling keeps complex ideas
                 accessible. Combining research with interactive storytelling forced
@@ -927,7 +927,7 @@ export default function ENGW1111Page() {
                 The project also showed me that technical writing extends into
                 web-based environments. Communicating Boston&apos;s sports history
                 through Knight Lab meant balancing credibility, concision, and
-                multimedia design — skills I now carry into data reports, project
+                multimedia design, skills I now carry into data reports, project
                 documentation, and this portfolio. ENGW 1111 proved that clear
                 communication is one of the most transferable skills I have
                 developed at Northeastern, whether the medium is a page, a

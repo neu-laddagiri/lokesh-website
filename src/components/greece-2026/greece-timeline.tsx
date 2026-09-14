@@ -93,7 +93,7 @@ export function GreeceTimeline() {
           <GreeceSectionLabel>Journey</GreeceSectionLabel>
           <GreeceSectionTitle>The month abroad.</GreeceSectionTitle>
           <p className="mt-5 max-w-xl text-[16px] leading-[1.75] text-muted">
-            From arrival to final presentations — a chronological record of the
+            From arrival to final presentations, a chronological record of the
             study abroad experience.
           </p>
         </motion.div>

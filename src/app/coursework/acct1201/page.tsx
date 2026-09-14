@@ -17,7 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-/** Northeastern red accent — page-local only */
+/** Northeastern red accent: page-local only */
 const ACCENT = "#C8102E";
 const ACCENT_LIGHT = "#E8324A";
 const ACCENT_GLOW = "rgba(200, 16, 46, 0.35)";
@@ -873,7 +873,7 @@ export default function ACCT1201Page() {
             <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 ACCT 1201 introduced the foundations of financial accounting and
-                reporting — how organizations measure performance, communicate
+                reporting: how organizations measure performance, communicate
                 results, and support decisions through standardized financial
                 information. The course built fluency in reading balance sheets,
                 income statements, and cash flow statements under GAAP, while
@@ -886,7 +886,7 @@ export default function ACCT1201Page() {
                 corporate performance with discipline, and communicate financial
                 conclusions with clarity. Topics spanned financial statement
                 analysis, corporate reporting, accounting ethics, business
-                decision making, and professional communication — including
+                decision making, and professional communication, including
                 thoughtful use of AI-assisted financial analysis.
               </p>
             </div>
@@ -968,7 +968,7 @@ export default function ACCT1201Page() {
                   Featured Semester Project
                 </span>
                 <h3 className="mt-6 text-[clamp(1.75rem,4vw,2.5rem)] font-semibold tracking-[-0.04em] text-foreground">
-                  Financial Reporting Analysis — Tesla vs Ford
+                  Financial Reporting Analysis: Tesla vs Ford
                 </h3>
                 <p className="mt-5 max-w-3xl text-[18px] leading-[1.75] text-muted">
                   Semester-long financial analysis comparing Tesla and Ford
@@ -1148,7 +1148,7 @@ export default function ACCT1201Page() {
                 this course, financial statements felt like abstract tables; by
                 the end, they read as structured stories about strategy, risk,
                 and performance. The Tesla vs Ford project was especially
-                formative — it pushed me to move from simply collecting numbers
+                formative. It pushed me to move from simply collecting numbers
                 to building an argument grounded in SEC filings, ratio trends,
                 Excel models, and disciplined professional writing.
               </p>

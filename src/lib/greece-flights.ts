@@ -52,7 +52,7 @@ export const greeceCinematicHero = {
   title: "My Journey to Greece",
   routeSubtitle: "Boston · Dublin · Athens · Santorini · Chania · Rome",
   description:
-    "Ten flights across six airports — the complete route into Greece, through the islands, and home again.",
+    "Ten flights across six airports: the complete route into Greece, through the islands, and home again.",
 } as const;
 
 export const greeceAirports: Record<AirportCode, GreeceAirport> = {

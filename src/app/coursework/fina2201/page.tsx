@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-/** Deep finance blue & cyan — page-local accent only */
+/** Deep finance blue & cyan: page-local accent only */
 const ACCENT = "#2563EB";
 const ACCENT_LIGHT = "#60A5FA";
 const ACCENT_CYAN = "#22D3EE";
@@ -697,7 +697,7 @@ export default function FINA2201Page() {
               />
               <p className="relative max-w-3xl text-[17px] leading-[1.8] text-muted">
                 FINA 2201 connected foundational theory with practical
-                decision-making — from valuing cash flows across time to
+                decision-making, from valuing cash flows across time to
                 evaluating how firms finance operations, manage risk, and allocate
                 capital across competing investment opportunities.
               </p>
@@ -816,7 +816,7 @@ export default function FINA2201Page() {
               </p>
               <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
                 The course also reinforced spreadsheet modeling, financial
-                reasoning, and investment analysis—skills that complement my
+                reasoning, and investment analysis, skills that complement my
                 studies in business administration and data science while
                 preparing me for future work in corporate finance, consulting,
                 and analytics.

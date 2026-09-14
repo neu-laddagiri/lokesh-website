@@ -17,7 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-/** GitHub / VS Code inspired accent — page-local only */
+/** GitHub / VS Code inspired accent: page-local only */
 const ACCENT = "#58A6FF";
 const ACCENT_LIGHT = "#79B8FF";
 const ACCENT_GLOW = "rgba(88, 166, 255, 0.35)";
@@ -114,7 +114,7 @@ const learningOutcomes = [
   {
     title: "Documentation",
     description:
-      "Explaining projects clearly so others — and future you — can understand the work.",
+      "Explaining projects clearly so others (and future you) can understand the work.",
   },
   {
     title: "Professional Software Workflow",
@@ -622,7 +622,7 @@ export default function CS1200Page() {
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 Although CS 1200 was a first-year seminar, it became the
                 foundation of my technical workflow. The course was designed to
-                support students entering Khoury and Northeastern — exploring
+                support students entering Khoury and Northeastern, exploring
                 the college&apos;s curriculum, connecting with campus resources,
                 and building early portfolio-ready experience through interactive
                 modules and hands-on projects.
@@ -633,7 +633,7 @@ export default function CS1200Page() {
                 version control with Git, collaboration through GitHub,
                 repository management, Markdown documentation, open source
                 concepts, and the developer tooling that still shapes every
-                project I build today — from my portfolio to analytics apps and
+                project I build today, from my portfolio to analytics apps and
                 product experiments.
               </p>
             </div>
@@ -716,7 +716,7 @@ export default function CS1200Page() {
                 </h3>
                 <p className="mt-4 text-[16px] leading-[1.75] text-muted">
                   Odyssey introduced modern computing topics through interactive
-                  modules and droplets — a hands-on way to explore Khoury
+                  modules and droplets, a hands-on way to explore Khoury
                   pathways before committing to a major.
                 </p>
                 <ul className="mt-5 space-y-2">
@@ -786,7 +786,7 @@ export default function CS1200Page() {
                   GitHub Profile README
                 </h3>
                 <p className="mt-4 text-[16px] leading-[1.75] text-muted">
-                  CS 1200 required building a personal GitHub presence — a
+                  CS 1200 required building a personal GitHub presence, a
                   profile README that introduces who you are, what you build, and
                   how you collaborate. This assignment made version control feel
                   real, not theoretical.
@@ -944,7 +944,7 @@ export default function CS1200Page() {
                 that followed. Before this course, I had never committed code,
                 opened a pull request, or thought about how developers present
                 their work publicly. Learning Git and GitHub gave me a repeatable
-                workflow I still use daily — branch, commit, push, document,
+                workflow I still use daily: branch, commit, push, document,
                 iterate.
               </p>
               <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
@@ -958,9 +958,9 @@ export default function CS1200Page() {
                 </span>
                 , and{" "}
                 <span className="font-medium text-foreground">CardEdge</span>.
-                . The habits CS 1200 introduced — README-driven development,
+                . The habits CS 1200 introduced (README-driven development,
                 clean repository structure, and professional technical
-                communication — are not academic exercises. They are the same
+                communication) are not academic exercises. They are the same
                 workflows I rely on every time I ship something new.
               </p>
             </motion.div>
@@ -988,7 +988,7 @@ export default function CS1200Page() {
               <p className="mt-5 text-[17px] leading-[1.8] text-muted">
                 Key learning goals include navigating university resources,
                 understanding foundational differences between computing
-                disciplines, and gaining exposure to modern industry tools —
+                disciplines, and gaining exposure to modern industry tools,
                 including GitHub assignments such as First Flight, Version
                 Control, and a personal profile README submission.
               </p>
