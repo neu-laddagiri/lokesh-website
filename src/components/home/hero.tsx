@@ -72,7 +72,7 @@ const snapshot = [
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden px-6 pt-28 pb-20 lg:px-8">
+    <section className="relative flex min-h-[60svh] items-center overflow-hidden px-6 pt-24 pb-12 lg:px-8">
       <div className="pointer-events-none absolute inset-0">
         <motion.div
           animate={{ opacity: [0.45, 0.75, 0.45] }}
@@ -96,7 +96,7 @@ export function Hero() {
         initial="hidden"
         animate="visible"
         variants={staggerContainer}
-        className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:gap-16"
+        className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:gap-12"
       >
         <div>
           <motion.div custom={0} variants={fadeUp}>
@@ -112,7 +112,7 @@ export function Hero() {
           <motion.h1
             custom={1}
             variants={fadeUp}
-            className="mt-7 text-[clamp(2.75rem,8vw,5.25rem)] leading-[0.97] font-semibold tracking-[-0.045em] text-foreground"
+            className="mt-6 text-[clamp(2.5rem,7vw,4.5rem)] leading-[0.97] font-semibold tracking-[-0.045em] text-foreground"
           >
             Lokesh Addagiri
           </motion.h1>
@@ -120,7 +120,7 @@ export function Hero() {
           <motion.p
             custom={2}
             variants={fadeUp}
-            className="mt-5 text-[clamp(1.125rem,2.6vw,1.5rem)] leading-[1.3] font-medium tracking-[-0.025em] text-foreground-secondary"
+            className="mt-4 text-[clamp(1.0625rem,2.3vw,1.375rem)] leading-[1.3] font-medium tracking-[-0.025em] text-foreground-secondary"
           >
             Data Science and Business Administration at Northeastern University
           </motion.p>
@@ -137,7 +137,7 @@ export function Hero() {
           <motion.p
             custom={4}
             variants={fadeUp}
-            className="mt-7 max-w-2xl text-[17px] leading-[1.7] text-foreground-secondary"
+            className="mt-5 max-w-2xl text-[16px] leading-[1.65] text-foreground-secondary"
           >
             {HEADLINE_EVIDENCE}
           </motion.p>
@@ -145,7 +145,7 @@ export function Hero() {
           <motion.div
             custom={5}
             variants={fadeUp}
-            className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
+            className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
           >
             <Link
               href="#projects"
@@ -175,7 +175,7 @@ export function Hero() {
         <motion.div
           custom={6}
           variants={fadeUp}
-          className="glass-strong rounded-3xl p-7 sm:p-8"
+          className="glass-strong rounded-3xl p-6 sm:p-7"
         >
           <p className="text-[11px] font-semibold tracking-[0.16em] text-muted uppercase">
             Looking for

@@ -72,14 +72,14 @@ const facts = [
 
 export function GreecePreview() {
   return (
-    <section id="greece-2026" className="px-6 py-24 lg:px-8">
+    <section id="greece-2026" className="px-6 py-10 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
           variants={staggerContainer}
-          className="relative overflow-hidden rounded-[2rem] p-9 sm:p-12 lg:p-14"
+          className="relative overflow-hidden rounded-[2rem] p-7 sm:p-9 lg:p-10"
           style={{
             border: `1px solid rgba(${GREEK_BLUE_RGB}, 0.28)`,
             boxShadow: `0 24px 80px rgba(${GREEK_BLUE_RGB}, 0.12)`,
@@ -99,7 +99,7 @@ export function GreecePreview() {
           />
           <GreekCanton />
 
-          <div className="relative grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
+          <div className="relative grid gap-7 lg:grid-cols-2 lg:items-center lg:gap-10">
             <div>
               <motion.div
                 custom={0}
@@ -118,7 +118,7 @@ export function GreecePreview() {
               <motion.h2
                 custom={1}
                 variants={fadeUp}
-                className="mt-4 text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.12] font-semibold tracking-[-0.04em] text-foreground"
+                className="mt-3 text-[clamp(1.5rem,3.2vw,2.25rem)] leading-[1.15] font-semibold tracking-[-0.04em] text-foreground"
               >
                 A month in Athens,
                 <br />
@@ -128,7 +128,7 @@ export function GreecePreview() {
               <motion.p
                 custom={2}
                 variants={fadeUp}
-                className="mt-5 max-w-lg text-[16px] leading-[1.7] text-muted"
+                className="mt-4 max-w-lg text-[15px] leading-[1.65] text-muted"
               >
                 Two courses on campus at Deree in Agia Paraskevi, plus Business
                 Statistics run remotely from Athens at the same time. Finished
@@ -139,7 +139,7 @@ export function GreecePreview() {
               <motion.div custom={3} variants={fadeUp}>
                 <Link
                   href="/greece-2026"
-                  className="group/link mt-9 inline-flex h-[50px] items-center gap-2 rounded-full px-7 text-[15px] font-medium tracking-[-0.02em] text-white transition-all duration-300 hover:scale-[1.03]"
+                  className="group/link mt-7 inline-flex h-[46px] items-center gap-2 rounded-full px-7 text-[15px] font-medium tracking-[-0.02em] text-white transition-all duration-300 hover:scale-[1.03]"
                   style={{
                     backgroundColor: GREEK_BLUE,
                     boxShadow: `0 0 40px rgba(${GREEK_BLUE_RGB}, 0.35)`,
@@ -157,7 +157,7 @@ export function GreecePreview() {
                   key={fact.label}
                   custom={i + 1}
                   variants={fadeUp}
-                  className="rounded-2xl px-5 py-5 backdrop-blur-xl"
+                  className="rounded-2xl px-4 py-4 backdrop-blur-xl"
                   style={{
                     border: `1px solid rgba(${GREEK_BLUE_RGB}, 0.25)`,
                     backgroundColor: `rgba(${GREEK_BLUE_RGB}, 0.07)`,

@@ -13,7 +13,7 @@ export function SectionLabel({ children }: { children: React.ReactNode }) {
 
 export function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.12] font-semibold tracking-[-0.04em] text-foreground">
+    <h2 className="mt-2 text-[clamp(1.5rem,3.2vw,2.25rem)] leading-[1.15] font-semibold tracking-[-0.04em] text-foreground">
       {children}
     </h2>
   );
@@ -39,13 +39,13 @@ export function SectionHeader({
       viewport={viewport}
       variants={fadeUp}
       custom={0}
-      className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+      className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
     >
       <div className="max-w-2xl">
         <SectionLabel>{label}</SectionLabel>
         <SectionTitle>{title}</SectionTitle>
         {description && (
-          <p className="mt-4 text-[16px] leading-[1.7] text-muted">
+          <p className="mt-3 text-[15px] leading-[1.6] text-muted">
             {description}
           </p>
         )}

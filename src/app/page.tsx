@@ -1,4 +1,3 @@
-import { BackgroundSection } from "@/components/home/background-section";
 import { ConnectSection } from "@/components/home/connect-section";
 import { CourseworkSection } from "@/components/home/coursework-section";
 import { ExperienceSection } from "@/components/home/experience-section";
@@ -18,7 +17,6 @@ export default function Home() {
 
       <main className="relative z-10">
         <Hero />
-        <BackgroundSection />
         <ProjectsSection />
         <ExperienceSection />
         <CourseworkSection />

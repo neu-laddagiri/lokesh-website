@@ -14,6 +14,8 @@ export type Project = {
   period: string;
   /** The question or problem the project answers, in one line. */
   premise: string;
+  /** Shorter than the premise, for the homepage tiles. Falls back to premise. */
+  tagline?: string;
   bullets: readonly string[];
   stack: readonly string[];
   links: readonly ProjectLink[];
@@ -37,7 +39,6 @@ export const projects: readonly Project[] = [
       "Collected roughly 35,000 consumer complaints through the CFPB API, handling paginated JSON and restructuring nested payloads into analysis-ready tables.",
       "Compared complaint patterns at Wells Fargo and TD Bank around major enforcement events.",
       "Built time-series visualizations and institution-level breakdowns.",
-      "Delivered a written report and a team presentation.",
     ],
     stack: ["Python", "Pandas", "Matplotlib", "REST APIs", "Git"],
     links: [
@@ -62,6 +63,8 @@ export const projects: readonly Project[] = [
     period: "June 2026 to present",
     premise:
       "A mobile-first poker and blackjack decision trainer. The interesting part is the simulation, not the card game.",
+    tagline:
+      "Poker and blackjack decision trainer, with the equity math simulated in the browser.",
     bullets: [
       "Monte Carlo equity simulator running in cancellable Web Workers, reporting 95% confidence intervals across Fast, Balanced, and Precise modes, with caching to avoid redundant computation.",
       "Rule-aware blackjack basic strategy across deck counts, H17/S17, double-after-split, and late surrender.",
@@ -96,6 +99,8 @@ export const projects: readonly Project[] = [
     period: "June 2026 to present",
     premise:
       "A privacy-first Instagram data export analyzer. The export is parsed locally in the browser and the raw file never leaves the device.",
+    tagline:
+      "Instagram export analyzer. The archive is parsed locally and never leaves the device.",
     bullets: [
       "Local ZIP and JSON parsing with JSZip, handling export formats that vary by region and app version.",
       "Unified social graph connecting follows, DMs, and interactions, with scoring for relationship strength, cleanup priority, and privacy exposure.",
@@ -121,7 +126,7 @@ export const projects: readonly Project[] = [
       { label: "Source", href: "https://github.com/neu-laddagiri/ig-wrapped" },
     ],
     accent: "#8b5cf6",
-    note: "No upload needed: the app ships with synthetic demo data built in.",
+    note: "No upload needed. Ships with synthetic demo data.",
   },
   {
     id: "nfl-salary",
@@ -130,6 +135,8 @@ export const projects: readonly Project[] = [
     period: "Spring 2026",
     premise:
       "Ten seasons of NFL salary allocation (2013 to 2022) modeled against team results, with an interactive dashboard.",
+    tagline:
+      "Ten NFL seasons of salary allocation modeled against team results.",
     bullets: [
       "Assembled a decade of salary cap allocation and season outcomes into a single modeling dataset.",
       "Modeled spending by position group against team results.",
