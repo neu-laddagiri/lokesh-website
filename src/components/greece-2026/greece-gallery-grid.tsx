@@ -12,7 +12,6 @@ export type ResolvedPhoto = {
   group: GalleryGroupId;
   alt: string;
   caption: string;
-  wide: boolean;
   src: string;
 };
 
@@ -161,7 +160,7 @@ export function GreeceGalleryGrid({ photos, groups }: Props) {
           whileInView="visible"
           viewport={greeceViewport}
           variants={greeceStagger}
-          className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4"
+          className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
         >
           {visible.map((photo, i) => (
             <motion.button
@@ -170,20 +169,18 @@ export function GreeceGalleryGrid({ photos, groups }: Props) {
               custom={i}
               variants={greeceFadeUp}
               onClick={() => setLightbox(i)}
-              className={`group relative overflow-hidden rounded-2xl border border-border bg-card focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                photo.wide ? "col-span-2" : ""
-              }`}
-              style={{ aspectRatio: photo.wide ? "16 / 11" : "3 / 4" }}
+              /* The collages are 9:16, so the tiles match rather than crop. */
+              className="group relative aspect-[9/16] overflow-hidden rounded-2xl border border-border bg-card focus-visible:outline-2 focus-visible:outline-offset-2"
               aria-label={`Open ${photo.caption}`}
             >
               <Image
                 src={photo.src}
                 alt={photo.alt}
                 fill
-                sizes={photo.wide ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
               />
-              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent px-3.5 pt-8 pb-3 text-left text-[12px] leading-snug font-medium text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent px-3 pt-10 pb-3 text-left text-[11.5px] leading-snug font-medium text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 {photo.caption}
               </span>
             </motion.button>

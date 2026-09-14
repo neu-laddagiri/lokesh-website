@@ -249,8 +249,6 @@ export type GalleryEntry = {
   group: GalleryGroupId;
   alt: string;
   caption: string;
-  /** Wide entries span two columns. */
-  wide?: boolean;
 };
 
 export const galleryGroups: readonly {
@@ -274,7 +272,6 @@ export const galleryEntries: readonly GalleryEntry[] = [
     group: "athens",
     alt: "The Parthenon on the Acropolis with the Greek flag flying above Athens",
     caption: "The Parthenon, and the flag at the east end of the rock",
-    wide: true,
   },
   {
     slug: "athens-acropolis-night",
@@ -311,7 +308,6 @@ export const galleryEntries: readonly GalleryEntry[] = [
     group: "athens",
     alt: "Grid of street cats photographed around Athens",
     caption: "A running tally of the Athens street cats",
-    wide: true,
   },
   {
     slug: "greece-food",
@@ -324,7 +320,6 @@ export const galleryEntries: readonly GalleryEntry[] = [
     group: "islands",
     alt: "Sunset over the Santorini caldera, Oia terraces, and a full moon over the Aegean",
     caption: "Caldera sunset from Oia, and the moon an hour later",
-    wide: true,
   },
   {
     slug: "santorini-oia-night",
@@ -349,14 +344,12 @@ export const galleryEntries: readonly GalleryEntry[] = [
     group: "islands",
     alt: "Chania old Venetian harbor and lighthouse at sunset, and the old town streets",
     caption: "Chania harbor and the Venetian lighthouse",
-    wide: true,
   },
   {
     slug: "rome-colosseum",
     group: "italy",
     alt: "The Colosseum in Rome from several angles",
     caption: "The Colosseum, first stop off the plane",
-    wide: true,
   },
   {
     slug: "rome-forum-vittoriano",

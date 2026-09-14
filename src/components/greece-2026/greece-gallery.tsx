@@ -40,7 +40,6 @@ function resolvePhotos(entries: readonly GalleryEntry[]): ResolvedPhoto[] {
       group: entry.group,
       alt: entry.alt,
       caption: entry.caption,
-      wide: entry.wide ?? false,
       src: `/images/greece-2026/${file}`,
     });
   }
