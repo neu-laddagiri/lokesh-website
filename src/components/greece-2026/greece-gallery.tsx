@@ -63,7 +63,7 @@ export function GreeceGallery() {
   return (
     <section
       id="gallery"
-      className="scroll-mt-32 px-6 py-24 lg:px-8 lg:py-32"
+      className="scroll-mt-32 px-6 py-12 lg:px-8 lg:py-14"
     >
       <div className="mx-auto max-w-6xl">
         <motion.div
@@ -96,7 +96,7 @@ export function GreeceGallery() {
           whileInView="visible"
           viewport={greeceViewport}
           variants={greeceStagger}
-          className="mt-12 grid auto-rows-[minmax(140px,1fr)] grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
+          className="mt-8 grid auto-rows-[minmax(140px,1fr)] grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
         >
           {hasPhotos
             ? greeceGalleryPhotos.map((photo, i) => (

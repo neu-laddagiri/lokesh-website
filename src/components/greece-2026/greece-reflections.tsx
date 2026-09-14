@@ -46,7 +46,7 @@ export function GreeceReflections() {
   return (
     <section
       id="reflections"
-      className="scroll-mt-32 px-6 py-24 lg:px-8 lg:py-32"
+      className="scroll-mt-32 px-6 py-12 lg:px-8 lg:py-14"
     >
       <div className="mx-auto max-w-3xl">
         <motion.div
@@ -70,7 +70,7 @@ export function GreeceReflections() {
           whileInView="visible"
           viewport={greeceViewport}
           variants={greeceStagger}
-          className="mt-14 space-y-5"
+          className="mt-8 space-y-5"
         >
           {greeceReflections.map((reflection, i) => (
             <ReflectionBlock

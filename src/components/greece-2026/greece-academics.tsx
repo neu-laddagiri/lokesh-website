@@ -100,7 +100,7 @@ export function GreeceAcademics() {
   return (
     <section
       id="academics"
-      className="scroll-mt-32 border-t border-white/[0.04] px-6 py-24 lg:px-8 lg:py-32"
+      className="scroll-mt-32 border-t border-white/[0.04] px-6 py-12 lg:px-8 lg:py-14"
     >
       <div className="mx-auto max-w-6xl">
         <motion.div
@@ -124,7 +124,7 @@ export function GreeceAcademics() {
           whileInView="visible"
           viewport={greeceViewport}
           variants={greeceStagger}
-          className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3"
+          className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3"
         >
           {greeceAcademicCourses.map((course, i) => (
             <AcademicCard key={course.id} course={course} index={i + 1} />

@@ -193,13 +193,13 @@ const simulationSummaries = [
   },
 ] as const;
 
-/** Preview heights: ~35% larger than original */
+/** Preview heights. Thumbnails only: each card links out to the full PDF. */
 const PREVIEW = {
-  project: "h-[min(62vw,448px)]",
-  simulation: "h-[min(58vw,390px)]",
-  spotify: "h-[min(75vw,680px)]",
-  defense: "h-[min(68vw,600px)]",
-  appleFeatured: "h-[min(58vw,480px)] sm:h-[min(42vw,520px)]",
+  project: "h-[min(50vw,320px)]",
+  simulation: "h-[min(46vw,280px)]",
+  spotify: "h-[min(58vw,430px)]",
+  defense: "h-[min(54vw,390px)]",
+  appleFeatured: "h-[min(48vw,340px)] sm:h-[min(34vw,360px)]",
 } as const;
 
 const defenseFiles = {
@@ -276,7 +276,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         style={{ backgroundColor: ACCENT }}
         aria-hidden
       />
-      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
+      <p className="text-[12px] font-medium tracking-[0.2em] text-muted uppercase">
         {children}
       </p>
     </div>
@@ -285,7 +285,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
+    <h2 className="mt-2 text-[clamp(1.375rem,3vw,1.875rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -422,7 +422,7 @@ function SimulationTimeline() {
 function PdfEmbedPreview({
   src,
   title,
-  heightClass = "h-[min(52vw,380px)]",
+  heightClass = "h-[min(46vw,310px)]",
 }: {
   src: string;
   title: string;
@@ -903,7 +903,7 @@ export default function MKTG2201Page() {
       </motion.header>
 
       <main className="relative z-10">
-        <section className="px-6 pt-36 pb-6 lg:px-8 lg:pt-44 lg:pb-8">
+        <section className="px-6 pt-28 pb-4 lg:px-8 lg:pt-32 lg:pb-6">
           <div className="mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
@@ -940,7 +940,7 @@ export default function MKTG2201Page() {
               <motion.div
                 custom={3}
                 variants={fadeUp}
-                className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3"
+                className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3"
               >
                 {courseMeta.map((item) => (
                   <div
@@ -960,7 +960,7 @@ export default function MKTG2201Page() {
               <motion.p
                 custom={4}
                 variants={fadeUp}
-                className="mt-8 max-w-3xl text-[clamp(1rem,2vw,1.125rem)] leading-[1.8] text-muted"
+                className="mt-6 max-w-3xl text-[clamp(1rem,2vw,1.125rem)] leading-[1.8] text-muted"
               >
                 This course explored marketing strategy, consumer behavior,
                 branding, positioning, pricing, promotion, digital marketing,
@@ -988,7 +988,7 @@ export default function MKTG2201Page() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-16 px-6 pb-32 lg:space-y-20 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-12 px-6 pb-16 lg:space-y-14 lg:px-8">
           {/* Semester Projects */}
           <motion.section
             initial="hidden"
@@ -1008,7 +1008,7 @@ export default function MKTG2201Page() {
               </p>
             </motion.div>
 
-            <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {semesterProjects.map((project, i) => (
                 <ProjectCard
                   key={project.title}
@@ -1038,7 +1038,7 @@ export default function MKTG2201Page() {
             viewport={viewport}
             variants={fadeUp}
             custom={0}
-            className="relative -mx-6 overflow-hidden rounded-[2rem] px-6 py-20 lg:-mx-8 lg:px-10 lg:py-24"
+            className="relative -mx-6 overflow-hidden rounded-[2rem] px-6 py-10 lg:-mx-8 lg:px-10 lg:py-24"
             style={{
               background: `linear-gradient(180deg, rgba(${ACCENT_RGB}, 0.08) 0%, rgba(${SPOTIFY_RGB}, 0.06) 45%, rgba(${ACCENT_RGB}, 0.03) 100%)`,
             }}
@@ -1079,7 +1079,7 @@ export default function MKTG2201Page() {
 
             <motion.article
               whileHover={{ y: -6, transition: { duration: 0.45, ease: EASE } }}
-              className="glass-strong group relative mt-10 overflow-hidden rounded-3xl border p-6 sm:p-10 lg:p-14"
+              className="glass-strong group relative mt-6 overflow-hidden rounded-3xl border p-6 sm:p-10 lg:p-14"
               style={{
                 borderColor: `rgba(${SPOTIFY_RGB}, 0.32)`,
                 boxShadow: `0 0 100px rgba(${SPOTIFY_RGB}, 0.14), 0 32px 80px rgba(0,0,0,0.35)`,
@@ -1100,7 +1100,7 @@ export default function MKTG2201Page() {
                 aria-hidden
               />
 
-              <div className="grid grid-cols-1 gap-10 xl:grid-cols-[1.15fr_0.85fr] xl:gap-14">
+              <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1.15fr_0.85fr] xl:gap-8">
                 <div>
                   <PdfEmbedPreview
                     src={SPOTIFY_PDF}
@@ -1133,7 +1133,7 @@ export default function MKTG2201Page() {
                     and ethical considerations.
                   </p>
 
-                  <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {spotifyFeatures.map((feature, i) => (
                       <motion.div
                         key={feature.title}
@@ -1184,7 +1184,7 @@ export default function MKTG2201Page() {
             whileInView="visible"
             viewport={viewport}
             variants={staggerContainer}
-            className="relative -mx-6 rounded-[2rem] px-6 py-20 lg:-mx-8 lg:px-10 lg:py-24"
+            className="relative -mx-6 rounded-[2rem] px-6 py-10 lg:-mx-8 lg:px-10 lg:py-24"
             style={{
               background: `linear-gradient(180deg, rgba(${SKY_RGB}, 0.06) 0%, rgba(${ACCENT_RGB}, 0.05) 100%)`,
             }}
@@ -1225,7 +1225,7 @@ export default function MKTG2201Page() {
 
             <SimulationTimeline />
 
-            <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {simulationSummaries.map((summary, i) => (
                 <SimulationCard
                   key={summary.title}

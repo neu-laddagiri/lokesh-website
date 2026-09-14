@@ -58,7 +58,7 @@ export function GreecePlaces() {
   return (
     <section
       id="places"
-      className="scroll-mt-32 border-t border-white/[0.04] px-6 py-24 lg:px-8 lg:py-32"
+      className="scroll-mt-32 border-t border-white/[0.04] px-6 py-12 lg:px-8 lg:py-14"
     >
       <div className="mx-auto max-w-6xl">
         <motion.div
@@ -82,7 +82,7 @@ export function GreecePlaces() {
           whileInView="visible"
           viewport={greeceViewport}
           variants={greeceStagger}
-          className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5 lg:gap-5"
+          className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5 lg:gap-5"
         >
           {greecePlaces.map((place, i) => (
             <PlaceCard key={place.id} place={place} index={i + 1} />

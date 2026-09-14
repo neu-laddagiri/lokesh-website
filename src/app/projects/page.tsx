@@ -17,7 +17,7 @@ export default function ProjectsPage() {
       <SubpageNav />
 
       <main className="relative z-10">
-        <section className="relative overflow-hidden px-6 pt-36 pb-16 lg:px-8">
+        <section className="relative overflow-hidden px-6 pt-28 pb-10 lg:px-8">
           <div className="pointer-events-none absolute inset-0">
             <div className="animate-gradient-shift absolute top-[-30%] left-1/2 h-[50vh] w-[80vw] max-w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(41,151,255,0.14)_0%,transparent_70%)] blur-3xl" />
           </div>
@@ -38,14 +38,14 @@ export default function ProjectsPage() {
             <motion.h1
               custom={1}
               variants={fadeUp}
-              className="mt-4 max-w-3xl text-[clamp(2.25rem,6vw,3.75rem)] leading-[1.05] font-semibold tracking-[-0.045em] text-foreground"
+              className="mt-3 max-w-3xl text-[clamp(2rem,5vw,3rem)] leading-[1.08] font-semibold tracking-[-0.045em] text-foreground"
             >
               What I have built, in full detail.
             </motion.h1>
             <motion.p
               custom={2}
               variants={fadeUp}
-              className="mt-6 max-w-2xl text-[17px] leading-[1.7] text-muted"
+              className="mt-4 max-w-2xl text-[16px] leading-[1.65] text-muted"
             >
               Every project below links to the thing itself: a live app, a
               repository, or the report I wrote. Nothing here is a course
@@ -54,7 +54,7 @@ export default function ProjectsPage() {
           </motion.div>
         </section>
 
-        <section className="px-6 pb-24 lg:px-8">
+        <section className="px-6 pb-12 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -73,14 +73,14 @@ export default function ProjectsPage() {
           </motion.div>
         </section>
 
-        <section className="px-6 pb-28 lg:px-8">
+        <section className="px-6 pb-16 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
             variants={fadeUp}
             custom={0}
-            className="glass-strong mx-auto max-w-3xl rounded-[2rem] px-8 py-14 text-center sm:px-14"
+            className="glass-strong mx-auto max-w-3xl rounded-[2rem] px-8 py-10 text-center sm:px-14"
           >
             <h2 className="text-[clamp(1.5rem,3.5vw,2.25rem)] font-semibold tracking-[-0.04em] text-foreground">
               {CO_OP.status}, {CO_OP.term}

@@ -313,7 +313,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         style={{ backgroundColor: ACCENT }}
         aria-hidden
       />
-      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
+      <p className="text-[12px] font-medium tracking-[0.2em] text-muted uppercase">
         {children}
       </p>
     </div>
@@ -322,7 +322,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
+    <h2 className="mt-2 text-[clamp(1.375rem,3vw,1.875rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -348,7 +348,7 @@ function aspectForLayout(
   variant: "default" | "showcase" = "default",
 ) {
   if (layout === "landscape") {
-    return variant === "showcase" ? "aspect-[16/11.7]" : "aspect-[16/10]";
+    return variant === "showcase" ? "aspect-[16/10]" : "aspect-[16/10]";
   }
   if (layout === "chart") return "aspect-[4/3]";
   return "aspect-[3/4]";
@@ -586,7 +586,7 @@ export default function MGSC2301Page() {
 
       <main className="relative z-10">
         {/* Hero */}
-        <section className="px-6 pt-36 pb-16 lg:px-8 lg:pt-44 lg:pb-20">
+        <section className="px-6 pt-28 pb-10 lg:px-8 lg:pt-32 lg:pb-12">
           <div className="mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
@@ -643,7 +643,7 @@ export default function MGSC2301Page() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-24 px-6 pb-32 lg:space-y-32 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-12 px-6 pb-16 lg:space-y-14 lg:px-8">
           {/* Course Overview */}
           <motion.section
             initial="hidden"
@@ -656,7 +656,7 @@ export default function MGSC2301Page() {
             <SectionHeading>
               Foundations of data-driven decision making.
             </SectionHeading>
-            <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
+            <div className="glass-strong mt-8 rounded-2xl p-6 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 MGSC 2301 introduced the statistical methods that underpin modern
                 business analytics, from descriptive summaries and probability
@@ -685,7 +685,7 @@ export default function MGSC2301Page() {
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map((skill, i) => (
                 <motion.div
                   key={skill}
@@ -726,7 +726,7 @@ export default function MGSC2301Page() {
 
             <motion.article
               whileHover={{ y: -6, transition: { duration: 0.35 } }}
-              className="glass-strong group relative mt-8 overflow-hidden rounded-3xl p-8 sm:p-10 transition-shadow duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]"
+              className="glass-strong group relative mt-8 overflow-hidden rounded-2xl p-6 sm:p-10 transition-shadow duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]"
             >
               <div
                 className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
@@ -756,7 +756,7 @@ export default function MGSC2301Page() {
                 and final SEC standings.
               </p>
 
-              <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
+              <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-2">
                 <div>
                   <p className="text-[12px] font-medium tracking-[0.14em] text-muted uppercase">
                     Project Highlights
@@ -834,14 +834,14 @@ export default function MGSC2301Page() {
               <SectionHeading>What the data revealed.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {dataInsights.map((insight, i) => (
                 <motion.div
                   key={insight.title}
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
+                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
                 >
                   <p
                     className="text-[13px] font-medium tracking-[0.14em] uppercase"
@@ -885,7 +885,7 @@ export default function MGSC2301Page() {
               <SectionHeading>Exploring the data.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {exploreImages.map((image, i) => (
                 <GalleryCard
                   key={image.src}
@@ -909,7 +909,7 @@ export default function MGSC2301Page() {
             <SectionHeading>Regression analysis.</SectionHeading>
 
             <div
-              className="mt-8 rounded-3xl p-px shadow-[0_0_60px_rgba(27,105,143,0.12)]"
+              className="mt-6 rounded-3xl p-px shadow-[0_0_60px_rgba(27,105,143,0.12)]"
               style={{
                 background: `linear-gradient(135deg, rgba(${ACCENT_RGB},0.4), rgba(${ACCENT_RGB},0.06))`,
               }}
@@ -935,7 +935,7 @@ export default function MGSC2301Page() {
               <SectionHeading>Statistical evidence.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 items-stretch gap-5 lg:grid-cols-2">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
               <GalleryCard
                 image={regressionOutputImage}
                 index={1}
@@ -957,7 +957,7 @@ export default function MGSC2301Page() {
                   Key Findings
                 </p>
 
-                <div className="mt-8 space-y-4">
+                <div className="mt-6 space-y-4">
                   {keyFindings.map((finding) => (
                     <div
                       key={finding.title}
@@ -1025,7 +1025,7 @@ export default function MGSC2301Page() {
             <SectionHeading>What the analysis actually means.</SectionHeading>
 
             <motion.div
-              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border border-[#1b698f]/30 p-8 sm:p-12"
+              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border border-[#1b698f]/30 p-6 sm:p-8"
               style={{
                 boxShadow: "0 0 80px rgba(27, 105, 143, 0.1)",
               }}
@@ -1034,7 +1034,7 @@ export default function MGSC2301Page() {
                 className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl"
                 style={{ backgroundColor: "rgba(27, 105, 143, 0.08)" }}
               />
-              <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
+              <p className="relative text-[15px] leading-[1.7] text-foreground-secondary">
                 Although spending showed a statistically significant relationship
                 with SEC performance, the low R² value indicates that financial
                 investment alone does not explain success. Factors such as
@@ -1090,7 +1090,7 @@ export default function MGSC2301Page() {
               <iframe
                 src={PDF_SRC}
                 title="SEC Football Spending vs. Performance Analysis Report"
-                className="h-[min(85vh,900px)] w-full bg-[#0a0a0a]"
+                className="h-[min(60vh,520px)] w-full bg-[#0a0a0a]"
               />
             </motion.div>
           </motion.section>
@@ -1159,17 +1159,17 @@ export default function MGSC2301Page() {
               <SectionHeading>What I carried forward from this course.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {takeaways.map((item, i) => (
                 <motion.div
                   key={item.title}
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
+                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
                 >
                   <div
-                    className="mb-5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
+                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
                     style={{
                       backgroundColor: "rgba(27, 105, 143, 0.12)",
                       color: ACCENT,
@@ -1180,7 +1180,7 @@ export default function MGSC2301Page() {
                   <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
+                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
                     {item.description}
                   </p>
                 </motion.div>

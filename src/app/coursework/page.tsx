@@ -122,7 +122,7 @@ function ChevronIcon({ open }: { open: boolean }) {
 
 function SectionDivider() {
   return (
-    <div className="py-6" aria-hidden>
+    <div className="py-3" aria-hidden>
       <div
         className="h-px w-full"
         style={{
@@ -186,7 +186,7 @@ function CourseCard({
       custom={index}
       variants={fadeUp}
       whileHover={{ y: -8, transition: { duration: 0.4, ease: EASE } }}
-      className="glass-strong group relative flex h-full flex-col overflow-hidden rounded-[1.5rem] border p-6 transition-all duration-500 sm:p-7"
+      className="glass-strong group relative flex h-full flex-col overflow-hidden rounded-[1.5rem] border p-5 transition-all duration-500 sm:p-6"
       style={{
         borderColor: `rgba(${rgb}, 0.14)`,
         boxShadow: "none",
@@ -215,7 +215,7 @@ function CourseCard({
 
       <div className="flex items-start justify-between gap-3">
         <div
-          className="h-10 w-1 shrink-0 rounded-full"
+          className="h-7 w-1 shrink-0 rounded-full"
           style={{ backgroundColor: course.accent }}
           aria-hidden
         />
@@ -245,13 +245,13 @@ function CourseCard({
       </div>
 
       <p
-        className="mt-5 text-[12px] font-semibold tracking-[0.14em] uppercase"
+        className="mt-4 text-[11px] font-semibold tracking-[0.14em] uppercase"
         style={{ color: course.accent }}
       >
         {course.code}
       </p>
 
-      <h3 className="mt-2 text-[clamp(1.35rem,2.5vw,1.65rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-foreground">
+      <h3 className="mt-1.5 text-[clamp(1.125rem,1.9vw,1.3rem)] font-semibold leading-[1.2] tracking-[-0.03em] text-foreground">
         {course.title}
       </h3>
 
@@ -267,12 +267,12 @@ function CourseCard({
         </p>
       )}
 
-      <p className="mt-4 flex-1 text-[14px] leading-[1.7] text-muted">
+      <p className="mt-3 line-clamp-3 flex-1 text-[13.5px] leading-[1.6] text-muted">
         {course.description}
       </p>
 
       {course.courseComponents && course.courseComponents.length > 0 && (
-        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+        <div className="mt-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-2.5">
           <p className="text-[10px] font-semibold tracking-[0.12em] text-muted uppercase">
             Course Components
           </p>
@@ -293,11 +293,11 @@ function CourseCard({
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        {course.skills.map((skill, i) => (
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {course.skills.slice(0, 3).map((skill, i) => (
           <span
             key={skill}
-            className="rounded-full border px-3 py-1 text-[11px] font-medium tracking-[-0.01em] text-foreground-secondary transition-all duration-500 group-hover:translate-y-[-1px]"
+            className="rounded-full border px-2.5 py-0.5 text-[11px] font-medium tracking-[-0.01em] text-foreground-secondary transition-all duration-500 group-hover:translate-y-[-1px]"
             style={{
               borderColor: `rgba(${rgb}, 0.15)`,
               backgroundColor: `rgba(${rgb}, 0.05)`,
@@ -307,11 +307,16 @@ function CourseCard({
             {skill}
           </span>
         ))}
+        {course.skills.length > 3 && (
+          <span className="rounded-full border border-border px-2.5 py-0.5 text-[11px] font-medium text-muted">
+            +{course.skills.length - 3}
+          </span>
+        )}
       </div>
 
       <Link
         href={course.href}
-        className="group/btn mt-8 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-500 hover:text-white"
+        className="group/btn mt-5 inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-500 hover:text-white"
         style={{
           borderColor: `rgba(${rgb}, 0.22)`,
           backgroundColor: `rgba(${rgb}, 0.05)`,
@@ -481,7 +486,7 @@ function SemesterSection({
       whileInView="visible"
       viewport={viewport}
       variants={staggerContainer}
-      className={`scroll-mt-32 rounded-[1.75rem] border border-transparent px-5 py-10 sm:px-7 sm:py-12 ${
+      className={`scroll-mt-32 rounded-[1.75rem] border border-transparent px-5 py-6 sm:px-7 sm:py-7 ${
         alternateBg
           ? "border-white/[0.04] bg-white/[0.02]"
           : "bg-transparent"
@@ -490,7 +495,7 @@ function SemesterSection({
       <motion.div
         variants={fadeUp}
         custom={0}
-        className="flex flex-col gap-4 border-b border-white/[0.06] pb-6"
+        className="flex flex-col gap-3 border-b border-white/[0.06] pb-4"
       >
         <div className="flex items-start gap-4">
           <span
@@ -508,7 +513,7 @@ function SemesterSection({
                 {semester.period}
               </p>
             )}
-            <h3 className="mt-1.5 text-[clamp(1.35rem,3vw,1.85rem)] font-semibold tracking-[-0.03em] text-foreground">
+            <h3 className="mt-1 text-[clamp(1.25rem,2.4vw,1.5rem)] font-semibold tracking-[-0.03em] text-foreground">
               {semester.label}
             </h3>
             <p className="mt-1.5 text-[13px] font-medium tracking-[-0.01em] text-foreground-secondary">
@@ -518,7 +523,7 @@ function SemesterSection({
               <p className="mt-1 text-[12px] text-muted">{semester.location}</p>
             )}
             {semester.description && (
-              <p className="mt-3 max-w-3xl text-[13px] leading-[1.7] text-muted">
+              <p className="mt-2 max-w-3xl text-[13px] leading-[1.6] text-muted">
                 {semester.description}
               </p>
             )}
@@ -648,7 +653,7 @@ export default function CourseworkPage() {
         {/* Hero */}
         <section
           id="archive-hero"
-          className="scroll-mt-28 px-6 pt-36 pb-12 lg:px-8 lg:pt-44 lg:pb-14"
+          className="scroll-mt-28 px-6 pt-28 pb-8 lg:px-8 lg:pt-32 lg:pb-10"
         >
           <div className="mx-auto max-w-6xl">
             <motion.div
@@ -695,7 +700,7 @@ export default function CourseworkPage() {
               <motion.div
                 custom={4}
                 variants={fadeUp}
-                className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
+                className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
               >
                 {archiveStats.map((stat) => (
                   <StatCard key={stat.label} value={stat.value} label={stat.label} />
@@ -709,7 +714,7 @@ export default function CourseworkPage() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-14 px-6 pb-28 lg:space-y-20 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-10 px-6 pb-16 lg:space-y-12 lg:px-8">
           {/* In progress */}
           <motion.section
             id="in-progress"

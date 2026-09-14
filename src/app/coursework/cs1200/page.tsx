@@ -254,7 +254,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         style={{ backgroundColor: ACCENT }}
         aria-hidden
       />
-      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
+      <p className="text-[12px] font-medium tracking-[0.2em] text-muted uppercase">
         {children}
       </p>
     </div>
@@ -263,7 +263,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
+    <h2 className="mt-2 text-[clamp(1.375rem,3vw,1.875rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -533,7 +533,7 @@ export default function CS1200Page() {
       </motion.header>
 
       <main className="relative z-10">
-        <section className="px-6 pt-36 pb-16 lg:px-8 lg:pt-44 lg:pb-20">
+        <section className="px-6 pt-28 pb-10 lg:px-8 lg:pt-32 lg:pb-12">
           <div className="mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
@@ -591,7 +591,7 @@ export default function CS1200Page() {
               <motion.div
                 custom={4}
                 variants={fadeUp}
-                className="mt-8 flex flex-wrap gap-3"
+                className="mt-6 flex flex-wrap gap-3"
               >
                 {heroTags.map((tag) => (
                   <span
@@ -606,7 +606,7 @@ export default function CS1200Page() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-24 px-6 pb-32 lg:space-y-32 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-12 px-6 pb-16 lg:space-y-14 lg:px-8">
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -618,7 +618,7 @@ export default function CS1200Page() {
             <SectionHeading>
               Where my software engineering journey began.
             </SectionHeading>
-            <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
+            <div className="glass-strong mt-8 rounded-2xl p-6 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 Although CS 1200 was a first-year seminar, it became the
                 foundation of my technical workflow. The course was designed to
@@ -650,7 +650,7 @@ export default function CS1200Page() {
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map((skill, i) => (
                 <motion.div
                   key={skill}
@@ -689,7 +689,7 @@ export default function CS1200Page() {
               </SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
               <motion.article
                 custom={1}
                 variants={fadeUp}
@@ -791,9 +791,9 @@ export default function CS1200Page() {
                   how you collaborate. This assignment made version control feel
                   real, not theoretical.
                 </p>
-                <div className="mt-8 flex-1">
+                <div className="mt-6 flex-1">
                   <VSCodeFrame>
-                    <div className="relative aspect-[16/11] overflow-hidden">
+                    <div className="relative aspect-[16/10] overflow-hidden">
                       <Image
                         src={GITHUB_README_IMAGE}
                         alt="GitHub profile README displayed in a code editor"
@@ -834,7 +834,7 @@ export default function CS1200Page() {
             <SectionLabel>Documents</SectionLabel>
             <SectionHeading>Course files and deliverables.</SectionHeading>
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-6 flex justify-center">
               <motion.a
                 href={SYLLABUS_PDF}
                 target="_blank"
@@ -887,17 +887,17 @@ export default function CS1200Page() {
               <SectionHeading>What this course taught me to do.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-5">
+            <div className="mt-6 flex flex-wrap justify-center gap-5">
               {learningOutcomes.map((outcome, i) => (
                 <motion.div
                   key={outcome.title}
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className={`glass-strong rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)] ${BALANCED_GRID_ITEM}`}
+                  className={`glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)] ${BALANCED_GRID_ITEM}`}
                 >
                   <div
-                    className="mb-5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
+                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
                     style={{
                       backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
                       color: ACCENT,
@@ -908,7 +908,7 @@ export default function CS1200Page() {
                   <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {outcome.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
+                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
                     {outcome.description}
                   </p>
                 </motion.div>
@@ -929,7 +929,7 @@ export default function CS1200Page() {
             </SectionHeading>
 
             <motion.div
-              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-8 sm:p-12"
+              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-6 sm:p-8"
               style={{
                 borderColor: `rgba(${ACCENT_RGB}, 0.3)`,
                 boxShadow: `0 0 80px rgba(${ACCENT_RGB}, 0.1)`,
@@ -939,7 +939,7 @@ export default function CS1200Page() {
                 className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl"
                 style={{ backgroundColor: `rgba(${ACCENT_RGB}, 0.08)` }}
               />
-              <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
+              <p className="relative text-[15px] leading-[1.7] text-foreground-secondary">
                 CS 1200 became the starting point for every software project
                 that followed. Before this course, I had never committed code,
                 opened a pull request, or thought about how developers present
@@ -947,7 +947,7 @@ export default function CS1200Page() {
                 workflow I still use daily: branch, commit, push, document,
                 iterate.
               </p>
-              <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
+              <p className="relative mt-5 text-[15px] leading-[1.7] text-muted">
                 That foundation directly enabled projects like my{" "}
                 <span className="font-medium text-foreground">
                   Personal Portfolio Website
@@ -976,7 +976,7 @@ export default function CS1200Page() {
             <SectionLabel>Course Highlights</SectionLabel>
             <SectionHeading>What the syllabus introduced.</SectionHeading>
 
-            <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
+            <div className="glass-strong mt-8 rounded-2xl p-6 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 CS 1200 is an asynchronous first-year seminar designed to
                 support students entering Khoury and Northeastern. Per the
@@ -992,7 +992,7 @@ export default function CS1200Page() {
                 including GitHub assignments such as First Flight, Version
                 Control, and a personal profile README submission.
               </p>
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {courseHighlights.map((item) => (
                   <div
                     key={item}

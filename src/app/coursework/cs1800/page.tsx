@@ -276,7 +276,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         style={{ backgroundColor: ACCENT }}
         aria-hidden
       />
-      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
+      <p className="text-[12px] font-medium tracking-[0.2em] text-muted uppercase">
         {children}
       </p>
     </div>
@@ -285,7 +285,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
+    <h2 className="mt-2 text-[clamp(1.375rem,3vw,1.875rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -469,7 +469,7 @@ export default function CS1800Page() {
       </motion.header>
 
       <main className="relative z-10">
-        <section className="px-6 pt-36 pb-16 lg:px-8 lg:pt-44 lg:pb-20">
+        <section className="px-6 pt-28 pb-10 lg:px-8 lg:pt-32 lg:pb-12">
           <div className="mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
@@ -527,7 +527,7 @@ export default function CS1800Page() {
               <motion.div
                 custom={4}
                 variants={fadeUp}
-                className="mt-8 flex flex-wrap gap-3"
+                className="mt-6 flex flex-wrap gap-3"
               >
                 {heroTags.map((tag) => (
                   <span
@@ -542,7 +542,7 @@ export default function CS1800Page() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-24 px-6 pb-32 lg:space-y-32 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-12 px-6 pb-16 lg:space-y-14 lg:px-8">
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -554,7 +554,7 @@ export default function CS1800Page() {
             <SectionHeading>
               The mathematical backbone of computer science.
             </SectionHeading>
-            <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
+            <div className="glass-strong mt-8 rounded-2xl p-6 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 CS 1800 introduces the abstract discrete structures that underpin
                 computing. Per the Fall 2025 syllabus, the course begins with
@@ -586,7 +586,7 @@ export default function CS1800Page() {
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map((skill, i) => (
                 <motion.div
                   key={skill}
@@ -625,7 +625,7 @@ export default function CS1800Page() {
               </SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3 lg:gap-8">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {courseTopics.map((topic, i) => (
                 <motion.article
                   key={topic.title}
@@ -685,17 +685,17 @@ export default function CS1800Page() {
               <SectionHeading>What this course taught me to do.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {learningOutcomes.map((outcome, i) => (
                 <motion.div
                   key={outcome.title}
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                  className="glass-strong rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
+                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
                 >
                   <div
-                    className="mb-5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
+                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
                     style={{
                       backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
                       color: ACCENT,
@@ -706,7 +706,7 @@ export default function CS1800Page() {
                   <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {outcome.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
+                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
                     {outcome.description}
                   </p>
                 </motion.div>
@@ -724,45 +724,29 @@ export default function CS1800Page() {
             <SectionLabel>Course Structure</SectionLabel>
             <SectionHeading>How the semester progressed.</SectionHeading>
 
-            <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-12">
-              <p className="mb-10 max-w-2xl text-[16px] leading-[1.75] text-muted">
+            <div className="glass-strong mt-8 rounded-3xl p-6 sm:p-8">
+              <p className="mb-6 max-w-2xl text-[15px] leading-[1.7] text-muted">
                 Following the syllabus topic sequence, CS 1800 moved from formal
                 logic through sets and counting, into probability and induction,
                 and concluded with graph theory and asymptotic analysis.
               </p>
-              <div className="mx-auto flex max-w-xs flex-col items-center">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-2.5">
                 {timelineSteps.map((step, i) => (
-                  <div key={step} className="flex w-full flex-col items-center">
-                    <div
-                      className="glass flex w-full items-center justify-center rounded-2xl border px-6 py-4 text-center text-[15px] font-medium tracking-[-0.01em] text-foreground"
+                  <div key={step} className="flex items-center gap-2">
+                    <span
+                      className="glass rounded-full border px-3.5 py-1.5 text-[13.5px] font-medium tracking-[-0.01em] text-foreground"
                       style={{ borderColor: `rgba(${ACCENT_RGB}, 0.2)` }}
                     >
                       {step}
-                    </div>
+                    </span>
                     {i < timelineSteps.length - 1 && (
-                      <div
-                        className="flex flex-col items-center py-2"
+                      <span
+                        className="text-[12px]"
+                        style={{ color: ACCENT_LIGHT }}
                         aria-hidden
                       >
-                        <span
-                          className="h-6 w-px"
-                          style={{
-                            backgroundColor: `rgba(${ACCENT_RGB}, 0.35)`,
-                          }}
-                        />
-                        <span
-                          className="text-[12px]"
-                          style={{ color: ACCENT_LIGHT }}
-                        >
-                          ↓
-                        </span>
-                        <span
-                          className="h-6 w-px"
-                          style={{
-                            backgroundColor: `rgba(${ACCENT_RGB}, 0.35)`,
-                          }}
-                        />
-                      </div>
+                        →
+                      </span>
                     )}
                   </div>
                 ))}
@@ -780,7 +764,7 @@ export default function CS1800Page() {
             <SectionLabel>Resources</SectionLabel>
             <SectionHeading>Course files.</SectionHeading>
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-6 flex justify-center">
               <motion.a
                 href={SYLLABUS_PDF}
                 target="_blank"
@@ -834,7 +818,7 @@ export default function CS1800Page() {
             </SectionHeading>
 
             <motion.div
-              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-8 sm:p-12"
+              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-6 sm:p-8"
               style={{
                 borderColor: `rgba(${ACCENT_RGB}, 0.28)`,
                 boxShadow: `0 0 80px rgba(${ACCENT_RGB}, 0.08)`,
@@ -844,7 +828,7 @@ export default function CS1800Page() {
                 className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl"
                 style={{ backgroundColor: `rgba(${ACCENT_RGB}, 0.07)` }}
               />
-              <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
+              <p className="relative text-[15px] leading-[1.7] text-foreground-secondary">
                 CS 1800 fundamentally changed how I approach technical problems.
                 Before this course, I could follow instructions and write code,
                 but I had not yet learned to think rigorously about whether a
@@ -852,7 +836,7 @@ export default function CS1800Page() {
                 slow down, define terms precisely, and prove claims instead of
                 relying on intuition alone.
               </p>
-              <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
+              <p className="relative mt-5 text-[15px] leading-[1.7] text-muted">
                 That shift matters for everything that comes next:{" "}
                 <span className="font-medium text-foreground">CS 2500</span>,{" "}
                 <span className="font-medium text-foreground">Algorithms</span>,{" "}
@@ -890,7 +874,7 @@ export default function CS1800Page() {
               <SectionHeading>Why Discrete Structures matters.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {realWorldApplications.map((item, i) => (
                 <motion.div
                   key={item.title}

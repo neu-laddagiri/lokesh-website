@@ -296,7 +296,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         style={{ backgroundColor: ACCENT }}
         aria-hidden
       />
-      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
+      <p className="text-[12px] font-medium tracking-[0.2em] text-muted uppercase">
         {children}
       </p>
     </div>
@@ -305,7 +305,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
+    <h2 className="mt-2 text-[clamp(1.375rem,3vw,1.875rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -479,7 +479,7 @@ export default function FINA2201Page() {
       </motion.header>
 
       <main className="relative z-10">
-        <section className="px-6 pt-36 pb-16 lg:px-8 lg:pt-44 lg:pb-20">
+        <section className="px-6 pt-28 pb-10 lg:px-8 lg:pt-32 lg:pb-12">
           <div className="mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
@@ -537,7 +537,7 @@ export default function FINA2201Page() {
               <motion.div
                 custom={4}
                 variants={fadeUp}
-                className="mt-8 flex flex-wrap gap-3"
+                className="mt-6 flex flex-wrap gap-3"
               >
                 {heroTags.map((tag) => (
                   <span
@@ -552,7 +552,7 @@ export default function FINA2201Page() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-24 px-6 pb-32 lg:space-y-32 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-12 px-6 pb-16 lg:space-y-14 lg:px-8">
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -564,7 +564,7 @@ export default function FINA2201Page() {
             <SectionHeading>
               Financial decision-making in modern business.
             </SectionHeading>
-            <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
+            <div className="glass-strong mt-8 rounded-2xl p-6 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 FINA 2201 introduced the financial principles used by businesses
                 to evaluate investments, raise capital, manage risk, and maximize
@@ -592,7 +592,7 @@ export default function FINA2201Page() {
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map((skill, i) => (
                 <motion.div
                   key={skill}
@@ -630,7 +630,7 @@ export default function FINA2201Page() {
 
             <motion.article
               whileHover={{ y: -6, transition: { duration: 0.35 } }}
-              className="glass-strong group relative mt-8 overflow-hidden rounded-3xl border p-8 sm:p-12 lg:p-14 transition-shadow duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]"
+              className="glass-strong group relative mt-8 overflow-hidden rounded-3xl border p-6 sm:p-8 lg:p-14 transition-shadow duration-500 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)]"
               style={{
                 borderColor: `rgba(${ACCENT_RGB}, 0.32)`,
                 boxShadow: `0 0 80px rgba(${ACCENT_RGB}, 0.1)`,
@@ -668,7 +668,7 @@ export default function FINA2201Page() {
                 developed throughout the semester.
               </p>
 
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <AccentLinkButton href={SYLLABUS_PDF}>
                   View Syllabus
                 </AccentLinkButton>
@@ -737,7 +737,7 @@ export default function FINA2201Page() {
               <SectionHeading>Course files.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid max-w-md grid-cols-1 items-stretch gap-5">
+            <div className="mt-6 grid max-w-md grid-cols-1 items-stretch gap-5">
               {downloads.map((item, i) => (
                 <DownloadCard key={item.title} item={item} index={i + 1} />
               ))}
@@ -755,17 +755,17 @@ export default function FINA2201Page() {
               <SectionHeading>What this course taught me to do.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {learningOutcomes.map((outcome, i) => (
                 <motion.div
                   key={outcome.title}
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
+                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
                 >
                   <div
-                    className="mb-5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
+                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
                     style={{
                       backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
                       color: ACCENT,
@@ -776,7 +776,7 @@ export default function FINA2201Page() {
                   <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {outcome.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
+                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
                     {outcome.description}
                   </p>
                 </motion.div>
@@ -797,7 +797,7 @@ export default function FINA2201Page() {
             </SectionHeading>
 
             <motion.div
-              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-8 sm:p-12"
+              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-6 sm:p-8"
               style={{
                 borderColor: `rgba(${ACCENT_RGB}, 0.3)`,
                 boxShadow: `0 0 80px rgba(${ACCENT_RGB}, 0.1)`,
@@ -807,14 +807,14 @@ export default function FINA2201Page() {
                 className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl"
                 style={{ backgroundColor: `rgba(${CYAN_RGB}, 0.08)` }}
               />
-              <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
+              <p className="relative text-[15px] leading-[1.7] text-foreground-secondary">
                 FINA 2201 strengthened my understanding of how businesses make
                 financial decisions using quantitative analysis. Learning valuation
                 methods, discounted cash flow models, and capital budgeting
                 frameworks gave me practical tools that directly connect finance
                 with data analytics and business strategy.
               </p>
-              <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
+              <p className="relative mt-5 text-[15px] leading-[1.7] text-muted">
                 The course also reinforced spreadsheet modeling, financial
                 reasoning, and investment analysis, skills that complement my
                 studies in business administration and data science while

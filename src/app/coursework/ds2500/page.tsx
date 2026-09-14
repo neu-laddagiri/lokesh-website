@@ -329,7 +329,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         style={{ backgroundColor: ACCENT }}
         aria-hidden
       />
-      <p className="text-[13px] font-medium tracking-[0.22em] text-muted uppercase">
+      <p className="text-[12px] font-medium tracking-[0.2em] text-muted uppercase">
         {children}
       </p>
     </div>
@@ -338,7 +338,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-3 text-[clamp(1.5rem,4vw,2.25rem)] font-semibold tracking-[-0.03em] text-foreground">
+    <h2 className="mt-2 text-[clamp(1.375rem,3vw,1.875rem)] font-semibold tracking-[-0.03em] text-foreground">
       {children}
     </h2>
   );
@@ -686,7 +686,7 @@ export default function DS2500Page() {
       </motion.header>
 
       <main className="relative z-10">
-        <section className="px-6 pt-36 pb-16 lg:px-8 lg:pt-44 lg:pb-20">
+        <section className="px-6 pt-28 pb-10 lg:px-8 lg:pt-32 lg:pb-12">
           <div className="mx-auto max-w-6xl">
             <motion.div
               initial="hidden"
@@ -746,7 +746,7 @@ export default function DS2500Page() {
               <motion.div
                 custom={4}
                 variants={fadeUp}
-                className="mt-8 flex flex-wrap gap-3"
+                className="mt-6 flex flex-wrap gap-3"
               >
                 {heroTags.map((tag) => (
                   <span
@@ -761,7 +761,7 @@ export default function DS2500Page() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl space-y-24 px-6 pb-32 lg:space-y-32 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-12 px-6 pb-16 lg:space-y-14 lg:px-8">
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -773,7 +773,7 @@ export default function DS2500Page() {
             <SectionHeading>
               Programming with data, not just for data.
             </SectionHeading>
-            <div className="glass-strong mt-8 rounded-3xl p-8 sm:p-10">
+            <div className="glass-strong mt-8 rounded-2xl p-6 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
                 DS 2500 focused on intermediate Python programming for data
                 science, object-oriented design, working with APIs, cleaning
@@ -803,7 +803,7 @@ export default function DS2500Page() {
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map((skill, i) => (
                 <motion.div
                   key={skill}
@@ -843,7 +843,7 @@ export default function DS2500Page() {
 
             <motion.article
               whileHover={{ y: -4, transition: { duration: 0.35 } }}
-              className="glass-strong group relative mt-8 overflow-hidden rounded-3xl border p-8 sm:p-12 lg:p-14"
+              className="glass-strong group relative mt-8 overflow-hidden rounded-3xl border p-6 sm:p-8 lg:p-14"
               style={{
                 borderColor: `rgba(${ACCENT_RGB}, 0.32)`,
                 boxShadow: `0 0 80px rgba(${ACCENT_RGB}, 0.1)`,
@@ -890,7 +890,7 @@ export default function DS2500Page() {
                 comparisons across multiple financial institutions.
               </p>
 
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <AccentLinkButton href={FINAL_REPORT}>
                   View Final Report
                 </AccentLinkButton>
@@ -912,7 +912,7 @@ export default function DS2500Page() {
               <SectionHeading>Visuals from the capstone analysis.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {projectPreviews.map((item, i) => (
                 <PreviewCard
                   key={item.src}
@@ -935,7 +935,7 @@ export default function DS2500Page() {
               <SectionHeading>Reports, slides, and course files.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {downloads.map((item, i) => (
                 <DownloadCard key={item.title} item={item} index={i + 1} />
               ))}
@@ -953,17 +953,17 @@ export default function DS2500Page() {
               <SectionHeading>What this course taught me to do.</SectionHeading>
             </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {learningOutcomes.map((outcome, i) => (
                 <motion.div
                   key={outcome.title}
                   custom={i + 1}
                   variants={fadeUp}
                   whileHover={{ y: -5, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-3xl p-8 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
+                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
                 >
                   <div
-                    className="mb-5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
+                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
                     style={{
                       backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
                       color: ACCENT,
@@ -974,7 +974,7 @@ export default function DS2500Page() {
                   <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {outcome.title}
                   </h3>
-                  <p className="mt-3 text-[15px] leading-[1.7] text-muted">
+                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
                     {outcome.description}
                   </p>
                 </motion.div>
@@ -995,7 +995,7 @@ export default function DS2500Page() {
             </SectionHeading>
 
             <motion.div
-              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-8 sm:p-12"
+              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border p-6 sm:p-8"
               style={{
                 borderColor: `rgba(${ACCENT_RGB}, 0.28)`,
                 boxShadow: `0 0 80px rgba(${ACCENT_RGB}, 0.08)`,
@@ -1005,7 +1005,7 @@ export default function DS2500Page() {
                 className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl"
                 style={{ backgroundColor: `rgba(${ACCENT_RGB}, 0.1)` }}
               />
-              <p className="relative text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-foreground-secondary">
+              <p className="relative text-[15px] leading-[1.7] text-foreground-secondary">
                 DS 2500 significantly strengthened my programming abilities
                 beyond introductory Python. I learned to work with real-world
                 APIs, clean messy datasets that never arrive in tidy CSV form,
@@ -1014,7 +1014,7 @@ export default function DS2500Page() {
                 technical findings through written reports and presentations
                 became as important as writing the code itself.
               </p>
-              <p className="relative mt-5 text-[clamp(1rem,2vw,1.125rem)] leading-[1.85] text-muted">
+              <p className="relative mt-5 text-[15px] leading-[1.7] text-muted">
                 The CFPB banking project was my first complete end-to-end data
                 science workflow, from API collection through exploratory
                 analysis to a defended conclusion. Collaborating with Git,

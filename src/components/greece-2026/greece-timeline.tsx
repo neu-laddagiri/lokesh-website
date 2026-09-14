@@ -81,7 +81,7 @@ function TimelineNode({
 
 export function GreeceTimeline() {
   return (
-    <section id="timeline" className="scroll-mt-32 px-6 py-24 lg:px-8 lg:py-32">
+    <section id="timeline" className="scroll-mt-32 px-6 py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-3xl">
         <motion.div
           initial="hidden"
@@ -103,7 +103,7 @@ export function GreeceTimeline() {
           whileInView="visible"
           viewport={greeceViewport}
           variants={greeceStagger}
-          className="mt-14 list-none pl-0"
+          className="mt-8 list-none pl-0"
         >
           {greeceTimeline.map((milestone, i) => (
             <TimelineNode
