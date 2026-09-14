@@ -23,16 +23,11 @@ export type Semester = {
   courses: readonly CourseEntry[];
 };
 
-export type UpcomingCourse = {
+export type InProgressCourse = {
   code: string;
   title: string;
   description: string;
   focus: readonly string[];
-};
-
-export type ArchiveStat = {
-  value: string;
-  label: string;
 };
 
 export type NavFilter = {
@@ -40,24 +35,16 @@ export type NavFilter = {
   label: string;
 };
 
-export const archiveStats: readonly ArchiveStat[] = [
-  { value: "13", label: "Courses Completed" },
-  { value: "50+", label: "Projects & Presentations" },
-  { value: "75+", label: "Technical Skills" },
-  { value: "4", label: "Academic Terms" },
-  { value: "3.8~", label: "Current GPA" },
-];
-
 export const navFilters: readonly NavFilter[] = [
   { id: "archive-hero", label: "All" },
   { id: "summer-full-2025", label: "Summer Full 2025" },
   { id: "fall-2025", label: "Fall 2025" },
   { id: "spring-2026", label: "Spring 2026" },
   { id: "summer-i-2026", label: "Summer I" },
-  { id: "upcoming", label: "Upcoming" },
+  { id: "in-progress", label: "In Progress" },
 ];
 
-export const upcomingCourses: readonly UpcomingCourse[] = [
+export const inProgressCourses: readonly InProgressCourse[] = [
   {
     code: "DS 3500",
     title: "Advanced Programming with Data",
@@ -134,7 +121,7 @@ export const academicSemesters: readonly Semester[] = [
     id: "summer-full-2025",
     label: "Summer Full 2025",
     institution: "Northeastern University",
-    period: "May — August 2025",
+    period: "May to August 2025",
     contextualBadges: ["First Semester"],
     courses: [
       {
@@ -158,7 +145,7 @@ export const academicSemesters: readonly Semester[] = [
     id: "fall-2025",
     label: "Fall 2025",
     institution: "Northeastern University",
-    period: "September — December 2025",
+    period: "September to December 2025",
     contextualBadges: ["Boston Campus", "Honors"],
     courses: [
       {
@@ -200,8 +187,8 @@ export const academicSemesters: readonly Semester[] = [
         ],
         accent: "#8B5CF6",
         courseComponents: [
-          "Lecture — CS 1800",
-          "Required Seminar — CS 1802",
+          "Lecture: CS 1800",
+          "Required Seminar: CS 1802",
         ],
       },
       {
@@ -240,7 +227,7 @@ export const academicSemesters: readonly Semester[] = [
     id: "spring-2026",
     label: "Spring 2026",
     institution: "Northeastern University",
-    period: "January — April 2026",
+    period: "January to April 2026",
     contextualBadges: ["Boston Campus", "Global Learning"],
     courses: [
       {
@@ -252,8 +239,8 @@ export const academicSemesters: readonly Semester[] = [
         skills: ["Python", "Pandas", "APIs", "Data Viz", "Machine Learning"],
         accent: "#F59E0B",
         courseComponents: [
-          "Lecture — DS 2500",
-          "Required Lab — DS 2501",
+          "Lecture: DS 2500",
+          "Required Lab: DS 2501",
         ],
       },
       {
@@ -323,7 +310,7 @@ export const academicSemesters: readonly Semester[] = [
     label: "Summer I 2026",
     institution: "Northeastern University + American College of Greece",
     location: "Boston, MA • Athens, Greece",
-    period: "May — June 2026",
+    period: "May to June 2026",
     description:
       "A combination of Northeastern coursework completed while studying abroad and courses taken directly at the American College of Greece.",
     contextualBadges: [

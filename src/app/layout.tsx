@@ -19,22 +19,24 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://lokeshaddagiri.com"),
 
   title: {
-    default: "Lokesh Addagiri",
+    default: "Lokesh Addagiri | Data Science and Business Administration",
     template: "%s | Lokesh Addagiri",
   },
 
   description:
-    "Data Science & Business Administration student at Northeastern University. Portfolio featuring coursework, analytics projects, business intelligence dashboards, technical projects, and academic work.",
+    "Northeastern University Data Science and Business Administration student, available for a January to June 2027 co-op. Projects, coursework archive, and reports.",
 
   keywords: [
     "Lokesh Addagiri",
     "Data Science",
     "Business Administration",
     "Northeastern University",
+    "Co-op 2027",
+    "Data Engineer",
+    "Data Analyst",
+    "Business Intelligence Analyst",
     "Portfolio",
     "Analytics",
-    "Business Intelligence",
-    "Machine Learning",
     "Statistics",
     "Data Visualization",
     "Python",
@@ -49,9 +51,9 @@ export const metadata: Metadata = {
 
   // TODO: Add OG image at public/og-image.png (served as https://lokeshaddagiri.com/og-image.png)
   openGraph: {
-    title: "Lokesh Addagiri",
+    title: "Lokesh Addagiri | Data Science and Business Administration",
     description:
-      "Data Science & Business Administration student at Northeastern University.",
+      "Northeastern University student available for a January to June 2027 co-op. Data pipelines, web apps, and a full coursework archive.",
     url: "https://lokeshaddagiri.com",
     siteName: "Lokesh Addagiri",
     locale: "en_US",
@@ -61,16 +63,16 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Lokesh Addagiri — Data Science & Business Administration Portfolio",
+        alt: "Lokesh Addagiri, Data Science and Business Administration portfolio",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Lokesh Addagiri",
+    title: "Lokesh Addagiri | Data Science and Business Administration",
     description:
-      "Data Science & Business Administration student at Northeastern University.",
+      "Northeastern University student available for a January to June 2027 co-op. Data pipelines, web apps, and a full coursework archive.",
     images: ["/og-image.png"],
   },
 

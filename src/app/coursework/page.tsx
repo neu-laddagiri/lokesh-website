@@ -3,13 +3,13 @@
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   academicSemesters,
-  archiveStats,
   navFilters,
-  upcomingCourses,
+  inProgressCourses,
   type CourseEntry,
   type Semester,
-  type UpcomingCourse,
+  type InProgressCourse,
 } from "@/lib/coursework-archive";
+import { archiveStats } from "@/lib/site-facts";
 import { resumeExternalProps } from "@/lib/profile-links";
 import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
@@ -335,22 +335,13 @@ function CourseCard({
 }
 
 function StatCard({ value, label }: { value: string; label: string }) {
-  const isGpa = label === "Current GPA";
-
   return (
     <div className="glass-strong rounded-2xl px-4 py-5 text-center transition-all duration-500 hover:shadow-[0_16px_48px_rgba(41,151,255,0.1)] sm:px-5">
       <p
         className="text-[clamp(1.5rem,4vw,2rem)] font-semibold tracking-[-0.04em]"
         style={{ color: ACCENT }}
       >
-        {isGpa ? (
-          <>
-            3.8
-            <span className="text-[0.72em] font-medium text-muted/70">~</span>
-          </>
-        ) : (
-          value
-        )}
+        {value}
       </p>
       <p className="mt-1.5 text-[10px] font-medium tracking-[0.08em] text-muted uppercase sm:text-[11px]">
         {label}
@@ -359,11 +350,11 @@ function StatCard({ value, label }: { value: string; label: string }) {
   );
 }
 
-function UpcomingCourseCard({
+function InProgressCourseCard({
   course,
   index,
 }: {
-  course: UpcomingCourse;
+  course: InProgressCourse;
   index: number;
 }) {
   const [open, setOpen] = useState(false);
@@ -404,7 +395,7 @@ function UpcomingCourseCard({
           color: ACCENT,
         }}
       >
-        Coming Fall 2026
+        In Progress
       </span>
 
       <p
@@ -719,9 +710,9 @@ export default function CourseworkPage() {
         </section>
 
         <div className="mx-auto max-w-6xl space-y-14 px-6 pb-28 lg:space-y-20 lg:px-8">
-          {/* Upcoming */}
+          {/* In progress */}
           <motion.section
-            id="upcoming"
+            id="in-progress"
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
@@ -730,16 +721,16 @@ export default function CourseworkPage() {
           >
             <motion.div variants={fadeUp} custom={0}>
               <p className="text-[12px] font-medium tracking-[0.2em] text-muted uppercase">
-                Upcoming Coursework
+                In Progress
               </p>
               <h2 className="mt-2 text-[clamp(1.5rem,3.5vw,2rem)] font-semibold tracking-[-0.03em] text-foreground">
-                Courses beginning Fall 2026
+                Fall 2026 coursework, underway now
               </h2>
             </motion.div>
 
             <div className="mt-5 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {upcomingCourses.map((course, i) => (
-                <UpcomingCourseCard key={course.code} course={course} index={i + 1} />
+              {inProgressCourses.map((course, i) => (
+                <InProgressCourseCard key={course.code} course={course} index={i + 1} />
               ))}
             </div>
           </motion.section>

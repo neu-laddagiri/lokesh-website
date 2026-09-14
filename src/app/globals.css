@@ -17,6 +17,9 @@
   --grid-dot: rgba(255, 255, 255, 1);
   --cta-bg: #f5f5f7;
   --cta-text: #000000;
+  /* Greek flag motif on the Greece 2026 preview. */
+  --greek-stripe: rgba(13, 94, 175, 0.16);
+  --greek-canton: rgba(13, 94, 175, 0.15);
 }
 
 .light {
@@ -36,6 +39,8 @@
   --grid-dot: rgba(0, 0, 0, 0.12);
   --cta-bg: #1d1d1f;
   --cta-text: #f5f5f7;
+  --greek-stripe: rgba(13, 94, 175, 0.1);
+  --greek-canton: rgba(13, 94, 175, 0.1);
 }
 
 @theme inline {
