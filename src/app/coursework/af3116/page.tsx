@@ -12,14 +12,15 @@ import {
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 const COPYRIGHT_YEAR = 2026;
 
 /** Greece study abroad accent: page-local only */
-const ACCENT = "#8045da";
-const ACCENT_LIGHT = "#a67eef";
-const ACCENT_GLOW = "rgba(128, 69, 218, 0.35)";
-const ACCENT_RGB = "128, 69, 218";
+const ACCENT = courseColors.af3116.accent;
+const ACCENT_LIGHT = courseColors.af3116.light;
+const ACCENT_GLOW = "rgba(192, 138, 30, 0.35)";
+const ACCENT_RGB = courseColors.af3116.rgb;
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -79,7 +80,7 @@ const artifacts = [
 
 const takeaways = [
   {
-    title: "Accounting supports strategy, not just reporting.",
+    title: "Costing a decision before it is made.",
     description:
       "Managerial accounting provides information that helps leaders make better operational and long-term decisions.",
   },
@@ -390,7 +391,7 @@ export default function AF3116Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Course Overview</SectionLabel>
+            <SectionLabel>About</SectionLabel>
             <SectionHeading>
               The financial lens for managerial decision making.
             </SectionHeading>
@@ -422,7 +423,7 @@ export default function AF3116Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Skills Learned</SectionLabel>
+              <SectionLabel>Skills</SectionLabel>
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
@@ -519,7 +520,7 @@ export default function AF3116Page() {
                     {keyMetrics.map((metric) => (
                       <div
                         key={metric.label}
-                        className="glass rounded-2xl border border-border px-5 py-5 transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(128,69,218,0.1)]"
+                        className="glass rounded-2xl border border-border px-5 py-5 transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(192, 138, 30,0.1)]"
                       >
                         <p
                           className="text-[clamp(1.75rem,4vw,2.25rem)] font-semibold leading-none tracking-[-0.03em]"
@@ -561,11 +562,11 @@ export default function AF3116Page() {
                     scale: 1.015,
                     transition: { duration: 0.3 },
                   }}
-                  className="glass-strong relative overflow-hidden rounded-3xl border border-[#8045da]/20 p-7 transition-all duration-500 sm:p-8"
+                  className="glass-strong relative overflow-hidden rounded-3xl border border-[#C08A1E]/20 p-7 transition-all duration-500 sm:p-8"
                   style={{ boxShadow: "none" }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.boxShadow =
-                      "0 24px 60px rgba(128, 69, 218, 0.2)";
+                      "0 24px 60px rgba(192, 138, 30, 0.2)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.boxShadow = "none";
@@ -598,7 +599,7 @@ export default function AF3116Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Artifacts</SectionLabel>
+              <SectionLabel>Documents</SectionLabel>
               <SectionHeading>Course deliverables and outputs.</SectionHeading>
             </motion.div>
 
@@ -636,7 +637,7 @@ export default function AF3116Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Key Takeaways</SectionLabel>
+              <SectionLabel>Reflection</SectionLabel>
               <SectionHeading>
                 What I carried forward from this course.
               </SectionHeading>

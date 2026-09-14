@@ -19,14 +19,15 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Project management accent: page-local only */
-const ACCENT = "#8045da";
-const ACCENT_LIGHT = "#a67eef";
+const ACCENT = courseColors.mg4057.accent;
+const ACCENT_LIGHT = courseColors.mg4057.light;
 const ACCENT_GLOW = "rgba(128, 69, 218, 0.35)";
 const ACCENT_GLOW_STRONG = "rgba(128, 69, 218, 0.45)";
 const ACCENT_GLOW_HERO = "rgba(128, 69, 218, 0.55)";
-const ACCENT_RGB = "128, 69, 218";
+const ACCENT_RGB = courseColors.mg4057.rgb;
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -657,7 +658,7 @@ export default function MG4057Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Course Overview</SectionLabel>
+            <SectionLabel>About</SectionLabel>
             <SectionHeading>
               Delivering projects through structured planning and execution.
             </SectionHeading>
@@ -685,7 +686,7 @@ export default function MG4057Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Skills Learned</SectionLabel>
+              <SectionLabel>Skills</SectionLabel>
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
@@ -838,7 +839,7 @@ export default function MG4057Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Schedule &amp; Timeline</SectionLabel>
+            <SectionLabel>Schedule and Timeline</SectionLabel>
             <SectionHeading>
               Project scheduling and execution planning.
             </SectionHeading>
@@ -867,8 +868,8 @@ export default function MG4057Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Governance &amp; Risk</SectionLabel>
-              <SectionHeading>Project Governance &amp; Risk Management</SectionHeading>
+              <SectionLabel>Governance and Risk</SectionLabel>
+              <SectionHeading>Governance and risk, planned up front.</SectionHeading>
               <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-muted">
                 Stakeholder prioritization, governance structures, and oversight
                 frameworks used to support communication, risk management, and
@@ -902,8 +903,8 @@ export default function MG4057Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Project Insights</SectionLabel>
-              <SectionHeading>Project Management Insights</SectionHeading>
+              <SectionLabel>Analysis</SectionLabel>
+              <SectionHeading>What the plan exposed.</SectionHeading>
             </motion.div>
 
             <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
@@ -1010,7 +1011,7 @@ export default function MG4057Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Artifacts</SectionLabel>
+              <SectionLabel>Documents</SectionLabel>
               <SectionHeading>Course deliverables and outputs.</SectionHeading>
             </motion.div>
 
@@ -1062,7 +1063,7 @@ export default function MG4057Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Key Takeaways</SectionLabel>
+              <SectionLabel>Reflection</SectionLabel>
               <SectionHeading>What I carried forward from this course.</SectionHeading>
             </motion.div>
 

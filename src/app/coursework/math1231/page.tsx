@@ -19,12 +19,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Northeastern-inspired accent: page-local only */
-const ACCENT = "#C8102E";
-const ACCENT_LIGHT = "#E8324A";
+const ACCENT = courseColors.math1231.accent;
+const ACCENT_LIGHT = courseColors.math1231.light;
 const ACCENT_GLOW = "rgba(200, 16, 46, 0.35)";
-const ACCENT_RGB = "200, 16, 46";
+const ACCENT_RGB = courseColors.math1231.rgb;
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -599,7 +600,7 @@ export default function MATH1231Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Course Overview</SectionLabel>
+            <SectionLabel>About</SectionLabel>
             <SectionHeading>
               Mathematics that powers business decisions.
             </SectionHeading>
@@ -630,7 +631,7 @@ export default function MATH1231Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Skills Learned</SectionLabel>
+              <SectionLabel>Skills</SectionLabel>
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
@@ -670,7 +671,7 @@ export default function MATH1231Page() {
           >
             <SectionLabel>Featured Project</SectionLabel>
             <SectionHeading>
-              From survey data to optimal pricing.
+              Pricing a t-shirt with calculus.
             </SectionHeading>
 
             <motion.article
@@ -742,11 +743,7 @@ export default function MATH1231Page() {
                           {metric.label}
                         </p>
                         <p
-                          className={`mt-2 font-semibold tracking-[-0.02em] ${
-                            metric.featured
-                              ? "text-[clamp(1.5rem,3vw,2rem)]"
-                              : "text-xl"
-                          }`}
+                          className="mt-2 text-xl font-semibold tracking-[-0.02em]"
                           style={{
                             color: metric.featured ? ACCENT_LIGHT : "#f5f5f7",
                           }}
@@ -777,7 +774,7 @@ export default function MATH1231Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Project Design &amp; Analysis</SectionLabel>
+              <SectionLabel>Project Design and Analysis</SectionLabel>
               <SectionHeading>
                 Turning survey data into a complete product and pricing strategy.
               </SectionHeading>
@@ -889,7 +886,7 @@ export default function MATH1231Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Artifacts</SectionLabel>
+              <SectionLabel>Documents</SectionLabel>
               <SectionHeading>Course deliverables and outputs.</SectionHeading>
             </motion.div>
 
@@ -941,7 +938,7 @@ export default function MATH1231Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Key Takeaways</SectionLabel>
+              <SectionLabel>Reflection</SectionLabel>
               <SectionHeading>What I carried forward from this course.</SectionHeading>
             </motion.div>
 

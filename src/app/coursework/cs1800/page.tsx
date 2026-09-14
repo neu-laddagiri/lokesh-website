@@ -14,12 +14,13 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Deep emerald / teal: page-local only */
-const ACCENT = "#2DD4BF";
-const ACCENT_LIGHT = "#5EEAD4";
-const ACCENT_GLOW = "rgba(45, 212, 191, 0.35)";
-const ACCENT_RGB = "45, 212, 191";
+const ACCENT = courseColors.cs1800.accent;
+const ACCENT_LIGHT = courseColors.cs1800.light;
+const ACCENT_GLOW = "rgba(23, 163, 152, 0.35)";
+const ACCENT_RGB = courseColors.cs1800.rgb;
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -96,69 +97,6 @@ const courseTopics = [
   },
 ] as const;
 
-const learningOutcomes = [
-  {
-    title: "Logical Reasoning",
-    description:
-      "Evaluating statements systematically using propositional and predicate logic.",
-  },
-  {
-    title: "Formal Proof Construction",
-    description:
-      "Building valid arguments through direct proof, contradiction, and induction.",
-  },
-  {
-    title: "Critical Thinking",
-    description:
-      "Questioning assumptions and identifying gaps in informal reasoning.",
-  },
-  {
-    title: "Recursive Thinking",
-    description:
-      "Defining structures and functions inductively and reasoning about base cases.",
-  },
-  {
-    title: "Algorithmic Foundations",
-    description:
-      "Connecting discrete math to how programs are analyzed and designed.",
-  },
-  {
-    title: "Graph Modeling",
-    description:
-      "Representing networks, dependencies, and relationships as graphs.",
-  },
-  {
-    title: "Probability Analysis",
-    description:
-      "Quantifying uncertainty with joint, conditional, and expected values.",
-  },
-  {
-    title: "Mathematical Communication",
-    description:
-      "Expressing ideas with precise notation, definitions, and proof structure.",
-  },
-  {
-    title: "Computational Problem Solving",
-    description:
-      "Translating word problems into formal structures before solving them.",
-  },
-  {
-    title: "Theoretical Computer Science",
-    description:
-      "Understanding the mathematical backbone behind computing disciplines.",
-  },
-  {
-    title: "Pattern Recognition",
-    description:
-      "Identifying recurring structures across logic, counting, and graph problems.",
-  },
-  {
-    title: "Precision in Reasoning",
-    description:
-      "Preferring rigor over guesswork when correctness must be guaranteed.",
-  },
-] as const;
-
 const timelineSteps = [
   "Logic",
   "Sets",
@@ -167,49 +105,6 @@ const timelineSteps = [
   "Induction",
   "Graph Theory",
   "Asymptotic Analysis",
-] as const;
-
-const realWorldApplications = [
-  {
-    title: "Google Search",
-    description:
-      "PageRank models the web as a graph, ranking pages by link structure and connectivity.",
-  },
-  {
-    title: "Navigation Algorithms",
-    description:
-      "Shortest-path and traversal algorithms on weighted graphs power GPS routing.",
-  },
-  {
-    title: "Social Networks",
-    description:
-      "Graph theory explains communities, influence, and how information spreads online.",
-  },
-  {
-    title: "Cryptography",
-    description:
-      "Modular arithmetic, primes, and discrete structures secure modern encryption.",
-  },
-  {
-    title: "Artificial Intelligence",
-    description:
-      "Probability and combinatorics underpin Bayesian models, search, and decision making.",
-  },
-  {
-    title: "Database Design",
-    description:
-      "Relations, sets, and formal logic structure queries, schemas, and integrity constraints.",
-  },
-  {
-    title: "Recommendation Systems",
-    description:
-      "Counting and probability drive collaborative filtering and ranking predictions.",
-  },
-  {
-    title: "Computer Networks",
-    description:
-      "Graphs model routers, paths, and flow, optimizing how data moves across systems.",
-  },
 ] as const;
 
 const EASE = [0.25, 0.4, 0.25, 1] as const;
@@ -678,46 +573,6 @@ export default function CS1800Page() {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Learning Outcomes</SectionLabel>
-              <SectionHeading>What this course taught me to do.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {learningOutcomes.map((outcome, i) => (
-                <motion.div
-                  key={outcome.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
-                >
-                  <div
-                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
-                    style={{
-                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {outcome.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
-                    {outcome.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
             variants={fadeUp}
             custom={0}
           >
@@ -761,7 +616,7 @@ export default function CS1800Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Resources</SectionLabel>
+            <SectionLabel>Documents</SectionLabel>
             <SectionHeading>Course files.</SectionHeading>
 
             <div className="mt-6 flex justify-center">
@@ -770,7 +625,7 @@ export default function CS1800Page() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                className="glass-strong group relative flex w-full max-w-md flex-col overflow-hidden rounded-3xl p-7 transition-all duration-500 sm:p-8 hover:shadow-[0_24px_60px_rgba(45,212,191,0.18)]"
+                className="glass-strong group relative flex w-full max-w-md flex-col overflow-hidden rounded-3xl p-7 transition-all duration-500 sm:p-8 hover:shadow-[0_24px_60px_rgba(23, 163, 152,0.18)]"
               >
                 <div
                   className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
@@ -793,7 +648,7 @@ export default function CS1800Page() {
                   sequence, evaluation structure, and CS 1802 recitation details.
                 </p>
                 <span
-                  className="relative z-10 mt-6 inline-flex h-11 w-full items-center justify-center rounded-full border text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 group-hover:border-[#2DD4BF] group-hover:bg-[#2DD4BF] group-hover:text-[#0a0f0e] group-hover:shadow-[0_0_40px_rgba(45,212,191,0.35)]"
+                  className="relative z-10 mt-6 inline-flex h-11 w-full items-center justify-center rounded-full border text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 group-hover:border-[#17A398] group-hover:bg-[#17A398] group-hover:text-[#0a0f0e] group-hover:shadow-[0_0_40px_rgba(23, 163, 152,0.35)]"
                   style={{
                     borderColor: `rgba(${ACCENT_RGB}, 0.25)`,
                     backgroundColor: `rgba(${ACCENT_RGB}, 0.06)`,
@@ -814,7 +669,7 @@ export default function CS1800Page() {
           >
             <SectionLabel>Reflection</SectionLabel>
             <SectionHeading>
-              Learning to prove, not just implement.
+              Proofs before code.
             </SectionHeading>
 
             <motion.div
@@ -863,40 +718,6 @@ export default function CS1800Page() {
             </motion.div>
           </motion.section>
 
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Interesting Facts</SectionLabel>
-              <SectionHeading>Why Discrete Structures matters.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {realWorldApplications.map((item, i) => (
-                <motion.div
-                  key={item.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                  className="glass rounded-2xl border p-6 transition-shadow duration-500 hover:shadow-[0_16px_50px_rgba(0,0,0,0.35)]"
-                  style={{ borderColor: `rgba(${ACCENT_RGB}, 0.12)` }}
-                >
-                  <h3
-                    className="text-[15px] font-semibold tracking-[-0.02em]"
-                    style={{ color: ACCENT_LIGHT }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-[14px] leading-[1.65] text-muted">
-                    {item.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
         </div>
       </main>
 

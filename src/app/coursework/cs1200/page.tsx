@@ -16,12 +16,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** GitHub / VS Code inspired accent: page-local only */
-const ACCENT = "#58A6FF";
-const ACCENT_LIGHT = "#79B8FF";
-const ACCENT_GLOW = "rgba(88, 166, 255, 0.35)";
-const ACCENT_RGB = "88, 166, 255";
+const ACCENT = courseColors.cs1200.accent;
+const ACCENT_LIGHT = courseColors.cs1200.light;
+const ACCENT_GLOW = "rgba(100, 116, 139, 0.35)";
+const ACCENT_RGB = courseColors.cs1200.rgb;
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -79,62 +80,6 @@ const courseHighlights = [
   "Khoury Odyssey modules",
   "Academic & career planning",
 ] as const;
-
-const learningOutcomes = [
-  {
-    title: "Git",
-    description:
-      "Staging, committing, branching, and tracking project history with confidence.",
-  },
-  {
-    title: "GitHub",
-    description:
-      "Publishing repositories, managing remotes, and presenting work professionally online.",
-  },
-  {
-    title: "Repositories",
-    description:
-      "Organizing codebases, README files, and project structure for long-term maintainability.",
-  },
-  {
-    title: "Markdown",
-    description:
-      "Writing clean technical documentation that renders beautifully on GitHub.",
-  },
-  {
-    title: "Version Control",
-    description:
-      "Understanding why disciplined change tracking is essential in modern software teams.",
-  },
-  {
-    title: "Developer Collaboration",
-    description:
-      "Working asynchronously, reviewing contributions, and communicating through shared repos.",
-  },
-  {
-    title: "Documentation",
-    description:
-      "Explaining projects clearly so others (and future you) can understand the work.",
-  },
-  {
-    title: "Professional Software Workflow",
-    description:
-      "Adopting habits used across industry: commits, issues, READMEs, and reproducible setup.",
-  },
-  {
-    title: "Problem Solving",
-    description:
-      "Breaking unfamiliar tooling challenges into steps and learning through hands-on exploration.",
-  },
-  {
-    title: "Technical Communication",
-    description:
-      "Presenting technical identity and project work in a polished, recruiter-ready format.",
-  },
-] as const;
-
-const BALANCED_GRID_ITEM =
-  "w-full sm:w-[calc(50%-0.375rem)] lg:w-[calc(33.333%-0.5rem)]";
 
 const ambientParticles = [
   { top: "14%", left: "10%", size: 4, delay: 0 },
@@ -616,7 +561,7 @@ export default function CS1200Page() {
           >
             <SectionLabel>About</SectionLabel>
             <SectionHeading>
-              Where my software engineering journey began.
+              Where the Git habit started.
             </SectionHeading>
             <div className="glass-strong mt-8 rounded-2xl p-6 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
@@ -840,7 +785,7 @@ export default function CS1200Page() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -6, transition: { duration: 0.35 } }}
-                className="glass-strong group relative flex w-full max-w-md flex-col overflow-hidden rounded-3xl p-7 transition-all duration-500 sm:p-8 hover:shadow-[0_24px_60px_rgba(88,166,255,0.2)]"
+                className="glass-strong group relative flex w-full max-w-md flex-col overflow-hidden rounded-3xl p-7 transition-all duration-500 sm:p-8 hover:shadow-[0_24px_60px_rgba(100, 116, 139,0.2)]"
               >
                 <div
                   className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
@@ -873,46 +818,6 @@ export default function CS1200Page() {
                   Open PDF
                 </span>
               </motion.a>
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Learning Outcomes</SectionLabel>
-              <SectionHeading>What this course taught me to do.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 flex flex-wrap justify-center gap-5">
-              {learningOutcomes.map((outcome, i) => (
-                <motion.div
-                  key={outcome.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className={`glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)] ${BALANCED_GRID_ITEM}`}
-                >
-                  <div
-                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
-                    style={{
-                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {outcome.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
-                    {outcome.description}
-                  </p>
-                </motion.div>
-              ))}
             </div>
           </motion.section>
 

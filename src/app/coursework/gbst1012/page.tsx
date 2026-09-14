@@ -14,14 +14,15 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Navy & gold: page-local accent only */
-const ACCENT = "#183A63";
-const ACCENT_LIGHT = "#2A5A8F";
+const ACCENT = courseColors.gbst1012.accent;
+const ACCENT_LIGHT = courseColors.gbst1012.light;
 const GOLD = "#D4A64A";
 const GOLD_LIGHT = "#E4BC6A";
 const ACCENT_GLOW = "rgba(24, 58, 99, 0.35)";
-const ACCENT_RGB = "24, 58, 99";
+const ACCENT_RGB = courseColors.gbst1012.rgb;
 const GOLD_RGB = "212, 166, 74";
 
 const courseAccent: CourseAccent = {
@@ -77,69 +78,6 @@ const projectPreviewItems = [
     caption:
       "Group presentation summarizing stakeholder analysis, comparative findings, and intercultural communication insights.",
     actionLabel: "Open PDF",
-  },
-] as const;
-
-const learningOutcomes = [
-  {
-    title: "Global Citizenship",
-    description:
-      "Understanding responsibilities and ethical engagement in an interconnected world.",
-  },
-  {
-    title: "Intercultural Communication",
-    description:
-      "Navigating cultural differences through frameworks like Hofstede and Hall's context theory.",
-  },
-  {
-    title: "Globalization",
-    description:
-      "Analyzing how economic integration and cultural exchange reshape local communities.",
-  },
-  {
-    title: "Cultural Identity",
-    description:
-      "Examining how heritage, norms, and belonging shape individual and collective perspectives.",
-  },
-  {
-    title: "Research",
-    description:
-      "Designing and executing interdisciplinary research on comparative global issues.",
-  },
-  {
-    title: "Stakeholder Analysis",
-    description:
-      "Identifying and evaluating the interests of residents, businesses, governments, and visitors.",
-  },
-  {
-    title: "Historical Analysis",
-    description:
-      "Connecting past events and policy decisions to present-day global challenges.",
-  },
-  {
-    title: "Ethical Decision Making",
-    description:
-      "Weighing social justice, equity, and fairness in complex international contexts.",
-  },
-  {
-    title: "Presentation Skills",
-    description:
-      "Communicating research findings clearly to diverse academic and public audiences.",
-  },
-  {
-    title: "Global Collaboration",
-    description:
-      "Working effectively across backgrounds, disciplines, and perspectives in team settings.",
-  },
-  {
-    title: "Critical Thinking",
-    description:
-      "Questioning assumptions and synthesizing evidence from multiple disciplinary lenses.",
-  },
-  {
-    title: "Intercultural Praxis",
-    description:
-      "Applying theory to real-world intercultural situations through reflection and dialogue.",
   },
 ] as const;
 
@@ -637,49 +575,9 @@ export default function GBST1012Page() {
               <SectionHeading>Research deliverables at a glance.</SectionHeading>
             </motion.div>
 
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2">
               {projectPreviewItems.map((item, i) => (
                 <PdfPreviewCard key={item.src} item={item} index={i + 1} />
-              ))}
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Learning Outcomes</SectionLabel>
-              <SectionHeading>What this course taught me to do.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {learningOutcomes.map((outcome, i) => (
-                <motion.div
-                  key={outcome.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
-                >
-                  <div
-                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
-                    style={{
-                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT_LIGHT,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {outcome.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
-                    {outcome.description}
-                  </p>
-                </motion.div>
               ))}
             </div>
           </motion.section>

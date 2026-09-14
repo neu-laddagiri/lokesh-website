@@ -19,12 +19,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Analytics dashboard accent: page-local only */
-const ACCENT = "#1b698f";
-const ACCENT_LIGHT = "#2d8ab8";
+const ACCENT = courseColors.mgsc2301.accent;
+const ACCENT_LIGHT = courseColors.mgsc2301.light;
 const ACCENT_GLOW = "rgba(27, 105, 143, 0.35)";
-const ACCENT_RGB = "27, 105, 143";
+const ACCENT_RGB = courseColors.mgsc2301.rgb;
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -343,12 +344,9 @@ function artifactIcon(type: string) {
   }
 }
 
-function aspectForLayout(
-  layout: GalleryImage["layout"],
-  variant: "default" | "showcase" = "default",
-) {
+function aspectForLayout(layout: GalleryImage["layout"]) {
   if (layout === "landscape") {
-    return variant === "showcase" ? "aspect-[16/10]" : "aspect-[16/10]";
+    return "aspect-[16/10]";
   }
   if (layout === "chart") return "aspect-[4/3]";
   return "aspect-[3/4]";
@@ -365,7 +363,7 @@ function GalleryCard({
   onOpen: (image: GalleryImage) => void;
   variant?: "default" | "showcase";
 }) {
-  const aspectClass = aspectForLayout(image.layout, variant);
+  const aspectClass = aspectForLayout(image.layout);
   const isShowcase = variant === "showcase";
 
   return (
@@ -404,7 +402,7 @@ function GalleryCard({
           }
           className="object-contain transition-transform duration-500 group-hover:scale-[1.03]"
         />
-        <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] transition-all duration-300 group-hover:ring-[#1b698f]/30" />
+        <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] transition-all duration-300 group-hover:ring-[#1B698F]/30" />
       </div>
       {image.title ? (
         <>
@@ -472,7 +470,7 @@ function ImageLightbox({
               <CloseIcon />
             </button>
             <div
-              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-background/60 ${aspectForLayout(image.layout, image.layout === "landscape" ? "showcase" : "default")} max-h-[75vh]`}
+              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-background/60 ${aspectForLayout(image.layout)} max-h-[75vh]`}
             >
               <Image
                 src={image.src}
@@ -652,7 +650,7 @@ export default function MGSC2301Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Course Overview</SectionLabel>
+            <SectionLabel>About</SectionLabel>
             <SectionHeading>
               Foundations of data-driven decision making.
             </SectionHeading>
@@ -681,7 +679,7 @@ export default function MGSC2301Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Skills Learned</SectionLabel>
+              <SectionLabel>Skills</SectionLabel>
               <SectionHeading>Core competencies from this course.</SectionHeading>
             </motion.div>
 
@@ -787,7 +785,7 @@ export default function MGSC2301Page() {
                         key={metric.label}
                         className={`rounded-2xl px-5 py-5 transition-shadow duration-300 ${
                           metric.featured
-                            ? "border border-[#1b698f]/35 bg-[#1b698f]/[0.08] shadow-[0_0_40px_rgba(27,105,143,0.15)]"
+                            ? "border border-[#1B698F]/35 bg-[#1B698F]/[0.08] shadow-[0_0_40px_rgba(27,105,143,0.15)]"
                             : "glass border border-border"
                         }`}
                       >
@@ -795,11 +793,7 @@ export default function MGSC2301Page() {
                           {metric.label}
                         </p>
                         <p
-                          className={`mt-2 font-semibold tracking-[-0.02em] ${
-                            metric.featured
-                              ? "text-[clamp(1.5rem,3vw,2rem)]"
-                              : "text-xl"
-                          }`}
+                          className="mt-2 text-xl font-semibold tracking-[-0.02em]"
                           style={{
                             color: metric.featured ? ACCENT_LIGHT : "#f5f5f7",
                           }}
@@ -935,7 +929,7 @@ export default function MGSC2301Page() {
               <SectionHeading>Statistical evidence.</SectionHeading>
             </motion.div>
 
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2">
               <GalleryCard
                 image={regressionOutputImage}
                 index={1}
@@ -945,7 +939,7 @@ export default function MGSC2301Page() {
               <motion.div
                 custom={2}
                 variants={fadeUp}
-                className="glass-strong flex flex-col rounded-3xl border border-[#1b698f]/25 p-8 sm:p-10"
+                className="glass-strong flex flex-col rounded-3xl border border-[#1B698F]/25 p-8 sm:p-10"
                 style={{
                   boxShadow: "0 0 40px rgba(27, 105, 143, 0.08)",
                 }}
@@ -963,7 +957,7 @@ export default function MGSC2301Page() {
                       key={finding.title}
                       className={`rounded-2xl border px-5 py-4 transition-colors duration-300 ${
                         finding.type === "positive"
-                          ? "border-[#1b698f]/20 bg-[#1b698f]/[0.06]"
+                          ? "border-[#1B698F]/20 bg-[#1B698F]/[0.06]"
                           : "border-amber-500/20 bg-amber-500/[0.04]"
                       }`}
                     >
@@ -971,7 +965,7 @@ export default function MGSC2301Page() {
                         <span
                           className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold ${
                             finding.type === "positive"
-                              ? "text-[#1b698f]"
+                              ? "text-[#1B698F]"
                               : "text-amber-400"
                           }`}
                           style={
@@ -1021,11 +1015,11 @@ export default function MGSC2301Page() {
             variants={fadeUp}
             custom={0}
           >
-            <SectionLabel>Insight</SectionLabel>
+            <SectionLabel>Interpretation</SectionLabel>
             <SectionHeading>What the analysis actually means.</SectionHeading>
 
             <motion.div
-              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border border-[#1b698f]/30 p-6 sm:p-8"
+              className="glass-strong relative mt-8 overflow-hidden rounded-3xl border border-[#1B698F]/30 p-6 sm:p-8"
               style={{
                 boxShadow: "0 0 80px rgba(27, 105, 143, 0.1)",
               }}
@@ -1103,7 +1097,7 @@ export default function MGSC2301Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Artifacts</SectionLabel>
+              <SectionLabel>Documents</SectionLabel>
               <SectionHeading>Course deliverables and outputs.</SectionHeading>
             </motion.div>
 
@@ -1155,7 +1149,7 @@ export default function MGSC2301Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Key Takeaways</SectionLabel>
+              <SectionLabel>Reflection</SectionLabel>
               <SectionHeading>What I carried forward from this course.</SectionHeading>
             </motion.div>
 

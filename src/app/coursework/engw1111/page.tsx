@@ -19,14 +19,15 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Northeastern red: page-local accent only */
-const ACCENT = "#C8102E";
-const ACCENT_LIGHT = "#E8324A";
+const ACCENT = courseColors.engw1111.accent;
+const ACCENT_LIGHT = courseColors.engw1111.light;
 const NAVY = "#1E3A5F";
 const NAVY_LIGHT = "#3B6EA5";
-const ACCENT_GLOW = "rgba(200, 16, 46, 0.35)";
-const ACCENT_RGB = "200, 16, 46";
+const ACCENT_GLOW = "rgba(184, 72, 158, 0.35)";
+const ACCENT_RGB = courseColors.engw1111.rgb;
 const NAVY_RGB = "30, 58, 95";
 
 const courseAccent: CourseAccent = {
@@ -254,7 +255,7 @@ function StoryMapLaunchFallback() {
         className="pointer-events-none absolute top-8 right-0 left-0 h-24 opacity-30"
         style={{
           background:
-            "linear-gradient(180deg, rgba(200,16,46,0.2), transparent)",
+            "linear-gradient(180deg, rgba(184, 72, 158,0.2), transparent)",
         }}
         aria-hidden
       />
@@ -651,7 +652,7 @@ export default function ENGW1111Page() {
                   color: ACCENT_LIGHT,
                 }}
               >
-                Writing &amp; Communication
+                Writing and Communication
               </motion.span>
 
               <motion.h1
@@ -765,7 +766,7 @@ export default function ENGW1111Page() {
           >
             <SectionLabel>Featured Project</SectionLabel>
             <SectionHeading>
-              A semester-long journey in digital storytelling.
+              Boston, mapped through its sports venues.
             </SectionHeading>
 
             <motion.article

@@ -14,13 +14,14 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Deep finance blue & cyan: page-local accent only */
-const ACCENT = "#2563EB";
-const ACCENT_LIGHT = "#60A5FA";
+const ACCENT = courseColors.fina2201.accent;
+const ACCENT_LIGHT = courseColors.fina2201.light;
 const ACCENT_CYAN = "#22D3EE";
 const ACCENT_GLOW = "rgba(37, 99, 235, 0.35)";
-const ACCENT_RGB = "37, 99, 235";
+const ACCENT_RGB = courseColors.fina2201.rgb;
 const CYAN_RGB = "34, 211, 238";
 
 const courseAccent: CourseAccent = {
@@ -68,69 +69,6 @@ const financeConcepts = [
   { title: "Financial Markets", icon: "markets" },
   { title: "Risk & Return", icon: "risk" },
   { title: "Corporate Financing", icon: "finance" },
-] as const;
-
-const learningOutcomes = [
-  {
-    title: "Time Value of Money",
-    description:
-      "Applying present and future value calculations to evaluate cash flows across time.",
-  },
-  {
-    title: "Financial Statement Analysis",
-    description:
-      "Reading balance sheets, income statements, and cash flows to assess firm performance.",
-  },
-  {
-    title: "Bond Pricing",
-    description:
-      "Valuing fixed-income securities using yield, coupon rates, and interest rate dynamics.",
-  },
-  {
-    title: "Stock Valuation",
-    description:
-      "Estimating equity value through dividend models and earnings-based approaches.",
-  },
-  {
-    title: "Capital Budgeting",
-    description:
-      "Evaluating long-term projects using NPV, IRR, and payback decision criteria.",
-  },
-  {
-    title: "Discounted Cash Flow",
-    description:
-      "Building DCF models to estimate intrinsic firm and project value.",
-  },
-  {
-    title: "CAPM",
-    description:
-      "Measuring systematic risk and expected return using the capital asset pricing model.",
-  },
-  {
-    title: "Cost of Capital",
-    description:
-      "Calculating weighted average cost of capital for investment and valuation decisions.",
-  },
-  {
-    title: "Risk Assessment",
-    description:
-      "Analyzing uncertainty, diversification, and return trade-offs in financial decisions.",
-  },
-  {
-    title: "Corporate Financing",
-    description:
-      "Understanding how firms raise capital through debt, equity, and hybrid instruments.",
-  },
-  {
-    title: "Excel Modeling",
-    description:
-      "Building spreadsheet models for valuation, forecasting, and scenario analysis.",
-  },
-  {
-    title: "Investment Decision Making",
-    description:
-      "Applying quantitative frameworks to accept or reject investment opportunities.",
-  },
 ] as const;
 
 const downloads = [
@@ -733,53 +671,13 @@ export default function FINA2201Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Downloads</SectionLabel>
+              <SectionLabel>Documents</SectionLabel>
               <SectionHeading>Course files.</SectionHeading>
             </motion.div>
 
             <div className="mt-6 grid max-w-md grid-cols-1 items-stretch gap-5">
               {downloads.map((item, i) => (
                 <DownloadCard key={item.title} item={item} index={i + 1} />
-              ))}
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Learning Outcomes</SectionLabel>
-              <SectionHeading>What this course taught me to do.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {learningOutcomes.map((outcome, i) => (
-                <motion.div
-                  key={outcome.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
-                >
-                  <div
-                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
-                    style={{
-                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {outcome.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
-                    {outcome.description}
-                  </p>
-                </motion.div>
               ))}
             </div>
           </motion.section>

@@ -1,3 +1,5 @@
+import { courseColors } from "@/lib/course-colors";
+
 export type CourseEntry = {
   code: string;
   title: string;
@@ -137,7 +139,7 @@ export const academicSemesters: readonly Semester[] = [
           "Integration",
           "Business Calculus",
         ],
-        accent: "#C8102E",
+        accent: courseColors.math1231.accent,
       },
     ],
   },
@@ -161,7 +163,7 @@ export const academicSemesters: readonly Semester[] = [
           "SEC EDGAR",
           "Valuation",
         ],
-        accent: "#34C759",
+        accent: courseColors.acct1201.accent,
       },
       {
         code: "CS 1200",
@@ -170,7 +172,7 @@ export const academicSemesters: readonly Semester[] = [
         description:
           "Developer fundamentals including Git, GitHub, and professional CS workflow.",
         skills: ["Git", "GitHub", "Version Control", "Markdown", "Dev Workflow"],
-        accent: "#2997ff",
+        accent: courseColors.cs1200.accent,
       },
       {
         code: "CS 1800",
@@ -185,7 +187,7 @@ export const academicSemesters: readonly Semester[] = [
           "Combinatorics",
           "Big-O Analysis",
         ],
-        accent: "#8B5CF6",
+        accent: courseColors.cs1800.accent,
         courseComponents: [
           "Lecture: CS 1800",
           "Required Seminar: CS 1802",
@@ -204,7 +206,7 @@ export const academicSemesters: readonly Semester[] = [
           "Trade",
           "Policy Evaluation",
         ],
-        accent: "#CC0001",
+        accent: courseColors.econ1115.accent,
       },
       {
         code: "HONR 1102",
@@ -219,7 +221,7 @@ export const academicSemesters: readonly Semester[] = [
           "Research",
           "Systems Thinking",
         ],
-        accent: "#312E81",
+        accent: courseColors.honr1102.accent,
       },
     ],
   },
@@ -237,7 +239,7 @@ export const academicSemesters: readonly Semester[] = [
         description:
           "Python, Pandas, APIs, data visualization, and introductory machine learning.",
         skills: ["Python", "Pandas", "APIs", "Data Viz", "Machine Learning"],
-        accent: "#F59E0B",
+        accent: courseColors.ds2500.accent,
         courseComponents: [
           "Lecture: DS 2500",
           "Required Lab: DS 2501",
@@ -256,7 +258,7 @@ export const academicSemesters: readonly Semester[] = [
           "Research",
           "Communication",
         ],
-        accent: "#C8102E",
+        accent: courseColors.engw1111.accent,
       },
       {
         code: "FINA 2201",
@@ -271,7 +273,7 @@ export const academicSemesters: readonly Semester[] = [
           "Capital Budgeting",
           "Financial Modeling",
         ],
-        accent: "#2563EB",
+        accent: courseColors.fina2201.accent,
       },
       {
         code: "GBST 1012",
@@ -286,7 +288,7 @@ export const academicSemesters: readonly Semester[] = [
           "Globalization",
           "Ethics",
         ],
-        accent: "#183A63",
+        accent: courseColors.gbst1012.accent,
       },
       {
         code: "MKTG 2201",
@@ -301,7 +303,7 @@ export const academicSemesters: readonly Semester[] = [
           "Positioning",
           "Digital Marketing",
         ],
-        accent: "#007AFF",
+        accent: courseColors.mktg2201.accent,
       },
     ],
   },
@@ -331,7 +333,7 @@ export const academicSemesters: readonly Semester[] = [
           "SPSS",
           "Inference",
         ],
-        accent: "#1b698f",
+        accent: courseColors.mgsc2301.accent,
         institution: "Northeastern University",
         subtitle: "Completed remotely while studying in Athens, Greece.",
       },
@@ -348,7 +350,7 @@ export const academicSemesters: readonly Semester[] = [
           "CVP",
           "Planning",
         ],
-        accent: "#0D9488",
+        accent: courseColors.af3116.accent,
         transferNote: "Completed as AF 3116",
         institutionBadge: "American College of Greece",
       },
@@ -365,7 +367,7 @@ export const academicSemesters: readonly Semester[] = [
           "Stakeholders",
           "Planning",
         ],
-        accent: "#8045da",
+        accent: courseColors.mg4057.accent,
         transferNote: "Completed as MG 4057",
         institutionBadge: "American College of Greece",
       },

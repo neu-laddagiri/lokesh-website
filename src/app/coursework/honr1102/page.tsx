@@ -19,15 +19,16 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Deep indigo, violet & Northeastern red: page-local accent only */
-const ACCENT = "#312E81";
-const ACCENT_LIGHT = "#6366F1";
+const ACCENT = courseColors.honr1102.accent;
+const ACCENT_LIGHT = courseColors.honr1102.light;
 const VIOLET = "#7C3AED";
 const VIOLET_LIGHT = "#A78BFA";
 const RED = "#C8102E";
-const ACCENT_GLOW = "rgba(49, 46, 129, 0.38)";
-const ACCENT_RGB = "49, 46, 129";
+const ACCENT_GLOW = "rgba(76, 81, 191, 0.38)";
+const ACCENT_RGB = courseColors.honr1102.rgb;
 const VIOLET_RGB = "124, 58, 237";
 const RED_RGB = "200, 16, 46";
 
@@ -92,69 +93,6 @@ const reflectionPreview = {
     "Final reflection on how the StoryMap reshaped my understanding of youth mental health, digital access, and community-based solutions.",
   actionLabel: "Open PDF",
 } as const;
-
-const learningOutcomes = [
-  {
-    title: "Interdisciplinary Thinking",
-    description:
-      "Analyzing how two or more fields collaborate to address complex social and environmental challenges.",
-  },
-  {
-    title: "Community Engagement",
-    description:
-      "Identifying stakeholders affected by an impact area and recognizing community strengths through ABCD.",
-  },
-  {
-    title: "Asset-Based Community Development",
-    description:
-      "Focusing on what communities do well rather than deficit-based narratives when researching local issues.",
-  },
-  {
-    title: "Research",
-    description:
-      "Locating academic and non-academic sources, annotating them, and evaluating reliability with proper attribution.",
-  },
-  {
-    title: "Digital Storytelling",
-    description:
-      "Communicating findings through a Knight Lab StoryMap that links narrative, media, and geography.",
-  },
-  {
-    title: "Systems Thinking",
-    description:
-      "Seeing how schools, nonprofits, hospitals, and policy actors interact within a single impact area.",
-  },
-  {
-    title: "Reflective Learning",
-    description:
-      "Using journal prompts and the final reflection essay to connect coursework with personal growth.",
-  },
-  {
-    title: "Ethical Reasoning",
-    description:
-      "Considering privacy, equity, and social responsibility when researching vulnerable populations.",
-  },
-  {
-    title: "Global Citizenship",
-    description:
-      "Applying GlobeSmart cultural dimensions to communicate and make impact across diverse communities.",
-  },
-  {
-    title: "Communication",
-    description:
-      "Presenting research clearly through maps, discussion posts, and the Honors Resource Fair.",
-  },
-  {
-    title: "Leadership",
-    description:
-      "Examining personal goals and values to understand how you can lead through service and discovery.",
-  },
-  {
-    title: "Professional Growth",
-    description:
-      "Building networks, exploring Honors resources, and planning pathways toward the Honors Impact Badge.",
-  },
-] as const;
 
 const EASE = [0.25, 0.4, 0.25, 1] as const;
 
@@ -745,7 +683,7 @@ export default function HONR1102Page() {
           >
             <SectionLabel>Featured Project</SectionLabel>
             <SectionHeading>
-              A semester-long journey in digital storytelling.
+              Youth mental health, mapped place by place.
             </SectionHeading>
 
             <motion.article
@@ -901,46 +839,6 @@ export default function HONR1102Page() {
 
             <div className="mt-6 grid max-w-2xl grid-cols-1">
               <PdfPreviewCard item={reflectionPreview} index={1} />
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Learning Outcomes</SectionLabel>
-              <SectionHeading>What this course taught me to do.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {learningOutcomes.map((outcome, i) => (
-                <motion.div
-                  key={outcome.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
-                >
-                  <div
-                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
-                    style={{
-                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT_LIGHT,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {outcome.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
-                    {outcome.description}
-                  </p>
-                </motion.div>
-              ))}
             </div>
           </motion.section>
 

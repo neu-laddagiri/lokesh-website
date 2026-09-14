@@ -11,14 +11,15 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Marketing blue: page-local accent */
-const ACCENT = "#007AFF";
-const ACCENT_LIGHT = "#47A3FF";
+const ACCENT = courseColors.mktg2201.accent;
+const ACCENT_LIGHT = courseColors.mktg2201.light;
 const ACCENT_SKY = "#5AC8FA";
 const SPOTIFY = "#1DB954";
-const ACCENT_GLOW = "rgba(0, 122, 255, 0.35)";
-const ACCENT_RGB = "0, 122, 255";
+const ACCENT_GLOW = "rgba(224, 69, 123, 0.35)";
+const ACCENT_RGB = courseColors.mktg2201.rgb;
 const SPOTIFY_RGB = "29, 185, 84";
 const SKY_RGB = "90, 200, 250";
 
@@ -332,7 +333,7 @@ function CourseStatsStrip() {
       {courseStats.map((stat) => (
         <div
           key={stat.label}
-          className="glass-strong rounded-2xl px-4 py-4 text-center transition-shadow duration-500 hover:shadow-[0_16px_48px_rgba(0,122,255,0.12)] sm:px-5 sm:py-5"
+          className="glass-strong rounded-2xl px-4 py-4 text-center transition-shadow duration-500 hover:shadow-[0_16px_48px_rgba(224, 69, 123,0.12)] sm:px-5 sm:py-5"
         >
           <p
             className="text-[clamp(1.5rem,4vw,2rem)] font-semibold tracking-[-0.04em]"
@@ -631,7 +632,7 @@ function ProjectCard({
       className="glass-strong group flex h-full flex-col overflow-hidden rounded-3xl transition-all duration-700"
       style={{ boxShadow: "none" }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `0 20px 56px rgba(0, 122, 255, 0.18)`;
+        e.currentTarget.style.boxShadow = `0 20px 56px rgba(224, 69, 123, 0.18)`;
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.boxShadow = "none";
@@ -686,7 +687,7 @@ function FeaturedAppleProject({ index }: { index: number }) {
         boxShadow: `0 0 48px rgba(${APPLE_MUTED_RGB}, 0.06)`,
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `0 24px 64px rgba(0, 122, 255, 0.12), 0 0 40px rgba(${APPLE_MUTED_RGB}, 0.1)`;
+        e.currentTarget.style.boxShadow = `0 24px 64px rgba(224, 69, 123, 0.12), 0 0 40px rgba(${APPLE_MUTED_RGB}, 0.1)`;
         e.currentTarget.style.borderColor = `rgba(${APPLE_MUTED_RGB}, 0.32)`;
       }}
       onMouseLeave={(e) => {
@@ -786,7 +787,7 @@ function SimulationCard({
         boxShadow: "none",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `0 18px 48px rgba(0, 122, 255, 0.14)`;
+        e.currentTarget.style.boxShadow = `0 18px 48px rgba(224, 69, 123, 0.14)`;
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.boxShadow = "none";
@@ -1002,9 +1003,8 @@ export default function MKTG2201Page() {
                 Strategy, research, and real-world marketing analysis.
               </SectionHeading>
               <p className="mt-3 max-w-3xl text-[15px] leading-[1.7] text-muted">
-                From case studies to digital audits, each project applied core
-                marketing frameworks to real companies, campaigns, and consumer
-                decisions.
+                Each project put the same frameworks against a different
+                brand, from a flower retailer to a Super Bowl spot.
               </p>
             </motion.div>
 

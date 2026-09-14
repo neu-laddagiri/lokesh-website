@@ -16,12 +16,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Northeastern red accent: page-local only */
-const ACCENT = "#C8102E";
-const ACCENT_LIGHT = "#E8324A";
-const ACCENT_GLOW = "rgba(200, 16, 46, 0.35)";
-const ACCENT_RGB = "200, 16, 46";
+const ACCENT = courseColors.acct1201.accent;
+const ACCENT_LIGHT = courseColors.acct1201.light;
+const ACCENT_GLOW = "rgba(46, 158, 91, 0.35)";
+const ACCENT_RGB = courseColors.acct1201.rgb;
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -137,54 +138,6 @@ const downloadItems = [
     href: ALUMNI_PANEL,
     icon: "event",
     actionLabel: "Open PDF",
-  },
-] as const;
-
-const learningOutcomes = [
-  {
-    title: "Reading SEC Filings",
-    description:
-      "Navigating EDGAR, locating 10-K reports, and extracting relevant financial disclosures.",
-  },
-  {
-    title: "Financial Modeling",
-    description:
-      "Building structured Excel models that connect statements, assumptions, and forecasts.",
-  },
-  {
-    title: "Ratio Analysis",
-    description:
-      "Calculating and interpreting liquidity, profitability, efficiency, and leverage ratios.",
-  },
-  {
-    title: "Investment Analysis",
-    description:
-      "Evaluating public companies using quantitative evidence and qualitative business context.",
-  },
-  {
-    title: "Corporate Decision Making",
-    description:
-      "Connecting accounting outputs to strategy, risk, and stakeholder decision making.",
-  },
-  {
-    title: "Excel",
-    description:
-      "Using spreadsheets to organize data, automate calculations, and present findings clearly.",
-  },
-  {
-    title: "Business Writing",
-    description:
-      "Communicating financial analysis in a clear, professional, evidence-based format.",
-  },
-  {
-    title: "Professional Accounting",
-    description:
-      "Understanding how accountants support transparency, compliance, and business reporting.",
-  },
-  {
-    title: "AI-assisted Accounting",
-    description:
-      "Evaluating when AI tools help analysis and when professional judgement remains essential.",
   },
 ] as const;
 
@@ -391,12 +344,9 @@ function artifactIcon(type: string) {
   }
 }
 
-function aspectForLayout(
-  layout: GalleryImage["layout"],
-  variant: "default" | "showcase" = "default",
-) {
+function aspectForLayout(layout: GalleryImage["layout"]) {
   if (layout === "landscape") {
-    return variant === "showcase" ? "aspect-[16/10]" : "aspect-[16/10]";
+    return "aspect-[16/10]";
   }
   if (layout === "chart") return "aspect-[4/3]";
   return "aspect-[3/4]";
@@ -513,7 +463,7 @@ function HighlightCard({
           sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-contain transition-transform duration-500 group-hover:scale-[1.03]"
         />
-        <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] transition-all duration-300 group-hover:ring-[#C8102E]/30" />
+        <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] transition-all duration-300 group-hover:ring-[#2E9E5B]/30" />
       </div>
       <p className="mt-3 text-[14px] leading-relaxed text-muted transition-colors duration-300 group-hover:text-foreground-secondary">
         {imageItem.caption}
@@ -585,7 +535,7 @@ function DownloadCard({
         {description}
       </p>
       <span
-        className="relative z-10 mt-6 inline-flex h-11 w-full items-center justify-center rounded-full border border-[#C8102E]/25 bg-[#C8102E]/[0.06] text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 group-hover:border-[#C8102E] group-hover:bg-[#C8102E] group-hover:text-white group-hover:shadow-[0_0_40px_rgba(200,16,46,0.35)]"
+        className="relative z-10 mt-6 inline-flex h-11 w-full items-center justify-center rounded-full border border-[#2E9E5B]/25 bg-[#2E9E5B]/[0.06] text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 group-hover:border-[#2E9E5B] group-hover:bg-[#2E9E5B] group-hover:text-white group-hover:shadow-[0_0_40px_rgba(46, 158, 91,0.35)]"
       >
         {actionLabel}
       </span>
@@ -635,7 +585,7 @@ function ImageLightbox({
               <CloseIcon />
             </button>
             <div
-              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-background/60 ${aspectForLayout(image.layout, image.layout === "landscape" ? "showcase" : "default")} max-h-[75vh]`}
+              className={`relative mx-auto w-full overflow-hidden rounded-2xl bg-background/60 ${aspectForLayout(image.layout)} max-h-[75vh]`}
             >
               <Image
                 src={image.src}
@@ -998,7 +948,7 @@ export default function ACCT1201Page() {
               <SectionHeading>Key visuals from the semester project.</SectionHeading>
             </motion.div>
 
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2">
               {projectHighlights.map((item, i) => (
                 <HighlightCard
                   key={item.title}
@@ -1017,7 +967,7 @@ export default function ACCT1201Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Downloads</SectionLabel>
+              <SectionLabel>Documents</SectionLabel>
               <SectionHeading>Course files and deliverables.</SectionHeading>
             </motion.div>
 
@@ -1080,46 +1030,6 @@ export default function ACCT1201Page() {
                 <ProjectButton href={ALUMNI_PANEL}>View Flyer</ProjectButton>
               </div>
             </motion.article>
-          </motion.section>
-
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Learning Outcomes</SectionLabel>
-              <SectionHeading>What this course taught me to do.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {learningOutcomes.map((outcome, i) => (
-                <motion.div
-                  key={outcome.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
-                >
-                  <div
-                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
-                    style={{
-                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {outcome.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
-                    {outcome.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
           </motion.section>
 
           <motion.section

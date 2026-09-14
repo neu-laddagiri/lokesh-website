@@ -14,15 +14,16 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Malaysia flag red & gold: page-local accent only */
-const ACCENT = "#CC0001";
-const ACCENT_LIGHT = "#E63946";
+const ACCENT = courseColors.econ1115.accent;
+const ACCENT_LIGHT = courseColors.econ1115.light;
 const GOLD = "#FFCC00";
 const GOLD_LIGHT = "#FFD84D";
 const NAVY = "#010066";
-const ACCENT_GLOW = "rgba(204, 0, 1, 0.35)";
-const ACCENT_RGB = "204, 0, 1";
+const ACCENT_GLOW = "rgba(226, 113, 29, 0.35)";
+const ACCENT_RGB = courseColors.econ1115.rgb;
 const GOLD_RGB = "255, 204, 0";
 
 const courseAccent: CourseAccent = {
@@ -109,69 +110,6 @@ const downloads = [
       "ECON 1115 syllabus covering macroeconomic theory, policy, and assessment structure.",
     href: SYLLABUS_PDF,
     actionLabel: "Open PDF",
-  },
-] as const;
-
-const learningOutcomes = [
-  {
-    title: "GDP Analysis",
-    description:
-      "Measuring and interpreting national output, growth rates, and living standards over time.",
-  },
-  {
-    title: "Inflation Analysis",
-    description:
-      "Understanding price-level dynamics and their impact on households and policy.",
-  },
-  {
-    title: "Monetary Policy",
-    description:
-      "Evaluating how central banks influence interest rates, money supply, and credit conditions.",
-  },
-  {
-    title: "Fiscal Policy",
-    description:
-      "Analyzing government spending, taxation, and deficits as macroeconomic stabilizers.",
-  },
-  {
-    title: "International Trade",
-    description:
-      "Explaining comparative advantage, trade balances, and global market integration.",
-  },
-  {
-    title: "Current Account Analysis",
-    description:
-      "Tracking net exports, income flows, and transfers in open-economy accounting.",
-  },
-  {
-    title: "Saving & Investment",
-    description:
-      "Connecting domestic saving to capital formation and long-run growth capacity.",
-  },
-  {
-    title: "IMF Data",
-    description:
-      "Working with World Economic Outlook datasets for cross-country macro research.",
-  },
-  {
-    title: "Economic Indicators",
-    description:
-      "Reading and comparing standard metrics used by policymakers and institutions.",
-  },
-  {
-    title: "Economic Forecasting",
-    description:
-      "Interpreting projections and understanding limits of forward-looking macro models.",
-  },
-  {
-    title: "Policy Evaluation",
-    description:
-      "Assessing whether fiscal and monetary responses achieve stated economic objectives.",
-  },
-  {
-    title: "Research Communication",
-    description:
-      "Presenting macroeconomic findings clearly through posters and written analysis.",
   },
 ] as const;
 
@@ -359,7 +297,7 @@ function DownloadCard({
         {item.description}
       </p>
       <span
-        className="relative z-10 mt-6 inline-flex h-11 w-full items-center justify-center rounded-full border text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 group-hover:border-[#CC0001] group-hover:bg-[#CC0001] group-hover:text-white group-hover:shadow-[0_0_40px_rgba(204,0,1,0.35)]"
+        className="relative z-10 mt-6 inline-flex h-11 w-full items-center justify-center rounded-full border text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 group-hover:border-[#E2711D] group-hover:bg-[#E2711D] group-hover:text-white group-hover:shadow-[0_0_40px_rgba(226, 113, 29,0.35)]"
         style={{
           borderColor: `rgba(${ACCENT_RGB}, 0.25)`,
           backgroundColor: `rgba(${ACCENT_RGB}, 0.06)`,
@@ -655,7 +593,7 @@ export default function ECON1115Page() {
           >
             <SectionLabel>Featured Project</SectionLabel>
             <SectionHeading>
-              Malaysia: savings, investment &amp; capital flows.
+              Malaysia: savings, investment and capital flows.
             </SectionHeading>
 
             <motion.article
@@ -690,7 +628,7 @@ export default function ECON1115Page() {
               </span>
 
               <h3 className="mt-6 text-[clamp(1.75rem,4vw,2.5rem)] font-semibold tracking-[-0.04em] text-foreground">
-                Malaysia: Savings, Investment &amp; Net Capital Flows (2000–2026)
+                Malaysia: Savings, Investment and Net Capital Flows (2000–2026)
               </h3>
               <p className="mt-6 max-w-3xl text-[17px] leading-[1.8] text-muted">
                 Analyze Malaysia&apos;s long-run economic performance using IMF
@@ -737,7 +675,7 @@ export default function ECON1115Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Downloads</SectionLabel>
+              <SectionLabel>Documents</SectionLabel>
               <SectionHeading>Course files and deliverables.</SectionHeading>
             </motion.div>
 
@@ -752,52 +690,12 @@ export default function ECON1115Page() {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Learning Outcomes</SectionLabel>
-              <SectionHeading>What this course taught me to do.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {learningOutcomes.map((outcome, i) => (
-                <motion.div
-                  key={outcome.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
-                >
-                  <div
-                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
-                    style={{
-                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {outcome.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
-                    {outcome.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
             variants={fadeUp}
             custom={0}
           >
             <SectionLabel>Reflection</SectionLabel>
             <SectionHeading>
-              From theory to international economic data.
+              Macro theory, checked against IMF numbers.
             </SectionHeading>
 
             <motion.div

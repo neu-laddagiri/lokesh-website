@@ -16,13 +16,14 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { courseColors } from "@/lib/course-colors";
 
 /** Deep blue / cyan: data science accent, page-local only */
-const ACCENT = "#0EA5E9";
-const ACCENT_LIGHT = "#38BDF8";
+const ACCENT = courseColors.ds2500.accent;
+const ACCENT_LIGHT = courseColors.ds2500.light;
 const ACCENT_CYAN = "#22D3EE";
-const ACCENT_GLOW = "rgba(14, 165, 233, 0.38)";
-const ACCENT_RGB = "14, 165, 233";
+const ACCENT_GLOW = "rgba(14, 159, 216, 0.38)";
+const ACCENT_RGB = courseColors.ds2500.rgb;
 
 const courseAccent: CourseAccent = {
   accent: ACCENT,
@@ -124,69 +125,6 @@ const downloads = [
     href: SYLLABUS_PDF,
     actionLabel: "Open PDF",
     icon: "syllabus",
-  },
-] as const;
-
-const learningOutcomes = [
-  {
-    title: "API Development",
-    description:
-      "Querying external data sources programmatically and handling paginated JSON responses.",
-  },
-  {
-    title: "JSON Processing",
-    description:
-      "Parsing, filtering, and restructuring nested API payloads into analysis-ready tables.",
-  },
-  {
-    title: "Data Visualization",
-    description:
-      "Communicating patterns clearly with Matplotlib charts tuned for technical audiences.",
-  },
-  {
-    title: "Exploratory Analysis",
-    description:
-      "Investigating distributions, outliers, and relationships before formal modeling.",
-  },
-  {
-    title: "Object-Oriented Programming",
-    description:
-      "Designing reusable Python classes that organize data pipelines and project logic.",
-  },
-  {
-    title: "Python Programming",
-    description:
-      "Writing intermediate-level scripts with functions, modules, and disciplined structure.",
-  },
-  {
-    title: "Machine Learning Concepts",
-    description:
-      "Applying foundational ML ideas to real datasets with appropriate skepticism and validation.",
-  },
-  {
-    title: "Team Software Development",
-    description:
-      "Dividing responsibilities, integrating contributions, and shipping a shared codebase.",
-  },
-  {
-    title: "Professional Research",
-    description:
-      "Framing questions, citing sources, and defending conclusions with evidence.",
-  },
-  {
-    title: "Git Collaboration",
-    description:
-      "Branching, merging, and reviewing teammate changes on a shared repository.",
-  },
-  {
-    title: "Statistical Thinking",
-    description:
-      "Comparing groups, interpreting variation, and avoiding overclaiming from noisy data.",
-  },
-  {
-    title: "Technical Presentation",
-    description:
-      "Distilling complex analysis into slides that non-specialists can follow.",
   },
 ] as const;
 
@@ -444,7 +382,7 @@ function PreviewCard({
           caption: item.caption,
         })
       }
-      className="glass-strong group w-full overflow-hidden rounded-3xl text-left transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(14,165,233,0.18)]"
+      className="glass-strong group w-full overflow-hidden rounded-3xl text-left transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(14, 159, 216,0.18)]"
     >
       <p className="border-b border-white/[0.06] px-5 py-4 text-[14px] font-medium tracking-[-0.01em] text-foreground">
         {item.title}
@@ -511,7 +449,7 @@ function DownloadCard({
         {item.description}
       </p>
       <span
-        className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-full border text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 group-hover:border-[#0EA5E9] group-hover:bg-[#0EA5E9] group-hover:text-white group-hover:shadow-[0_0_40px_rgba(14,165,233,0.35)]"
+        className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-full border text-[14px] font-medium tracking-[-0.01em] text-foreground transition-all duration-300 group-hover:border-[#0E9FD8] group-hover:bg-[#0E9FD8] group-hover:text-white group-hover:shadow-[0_0_40px_rgba(14, 159, 216,0.35)]"
         style={{
           borderColor: `rgba(${ACCENT_RGB}, 0.25)`,
           backgroundColor: `rgba(${ACCENT_RGB}, 0.06)`,
@@ -771,7 +709,7 @@ export default function DS2500Page() {
           >
             <SectionLabel>About</SectionLabel>
             <SectionHeading>
-              Programming with data, not just for data.
+              The first course where the dataset was real.
             </SectionHeading>
             <div className="glass-strong mt-8 rounded-2xl p-6 sm:p-10">
               <p className="text-[17px] leading-[1.8] text-foreground-secondary">
@@ -838,7 +776,7 @@ export default function DS2500Page() {
           >
             <SectionLabel>Featured Project</SectionLabel>
             <SectionHeading>
-              Banking fraud &amp; corporate misconduct.
+              Banking fraud and corporate misconduct.
             </SectionHeading>
 
             <motion.article
@@ -873,7 +811,7 @@ export default function DS2500Page() {
               </span>
 
               <h3 className="mt-6 text-[clamp(1.75rem,4vw,2.5rem)] font-semibold tracking-[-0.04em] text-foreground">
-                Banking Fraud &amp; Corporate Misconduct
+                Banking Fraud and Corporate Misconduct
               </h3>
               <p
                 className="mt-3 text-[18px] font-medium tracking-[-0.02em]"
@@ -912,7 +850,7 @@ export default function DS2500Page() {
               <SectionHeading>Visuals from the capstone analysis.</SectionHeading>
             </motion.div>
 
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2">
               {projectPreviews.map((item, i) => (
                 <PreviewCard
                   key={item.src}
@@ -931,53 +869,13 @@ export default function DS2500Page() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Downloads</SectionLabel>
+              <SectionLabel>Documents</SectionLabel>
               <SectionHeading>Reports, slides, and course files.</SectionHeading>
             </motion.div>
 
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2">
               {downloads.map((item, i) => (
                 <DownloadCard key={item.title} item={item} index={i + 1} />
-              ))}
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              <SectionLabel>Learning Outcomes</SectionLabel>
-              <SectionHeading>What this course taught me to do.</SectionHeading>
-            </motion.div>
-
-            <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {learningOutcomes.map((outcome, i) => (
-                <motion.div
-                  key={outcome.title}
-                  custom={i + 1}
-                  variants={fadeUp}
-                  whileHover={{ y: -5, transition: { duration: 0.3 } }}
-                  className="glass-strong rounded-2xl p-5 transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
-                >
-                  <div
-                    className="mb-3 flex h-7 w-7 items-center justify-center rounded-full text-[13px] font-semibold"
-                    style={{
-                      backgroundColor: `rgba(${ACCENT_RGB}, 0.12)`,
-                      color: ACCENT,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
-                    {outcome.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-muted">
-                    {outcome.description}
-                  </p>
-                </motion.div>
               ))}
             </div>
           </motion.section>
