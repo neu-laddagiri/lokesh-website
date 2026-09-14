@@ -20,6 +20,7 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { courseColors } from "@/lib/course-colors";
+import { useMounted } from "@/lib/use-mounted";
 
 /** Northeastern red: page-local accent only */
 const ACCENT = courseColors.engw1111.accent;
@@ -508,7 +509,7 @@ function AccentLinkButton({
 
 export default function ENGW1111Page() {
   const [navScrolled, setNavScrolled] = useState(false);
-  const [motionReady, setMotionReady] = useState(false);
+  const motionReady = useMounted();
   const [storymapFullscreen, setStorymapFullscreen] = useState(false);
   const { scrollY } = useScroll();
 
@@ -524,10 +525,6 @@ export default function ENGW1111Page() {
     document
       .getElementById("explore-the-story")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
-
-  useEffect(() => {
-    setMotionReady(true);
   }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {

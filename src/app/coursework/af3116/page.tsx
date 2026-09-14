@@ -11,8 +11,9 @@ import {
 } from "@/components/coursework/artifact-cards";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { courseColors } from "@/lib/course-colors";
+import { useMounted } from "@/lib/use-mounted";
 
 const COPYRIGHT_YEAR = 2026;
 
@@ -248,12 +249,8 @@ function artifactIcon(type: string) {
 
 export default function AF3116Page() {
   const [navScrolled, setNavScrolled] = useState(false);
-  const [motionReady, setMotionReady] = useState(false);
+  const motionReady = useMounted();
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-    setMotionReady(true);
-  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setNavScrolled(latest > 40);

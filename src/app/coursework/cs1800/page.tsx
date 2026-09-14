@@ -13,8 +13,9 @@ import {
   useScroll,
 } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { courseColors } from "@/lib/course-colors";
+import { useMounted } from "@/lib/use-mounted";
 
 /** Deep emerald / teal: page-local only */
 const ACCENT = courseColors.cs1800.accent;
@@ -285,12 +286,8 @@ function AmbientParticles() {
 
 export default function CS1800Page() {
   const [navScrolled, setNavScrolled] = useState(false);
-  const [motionReady, setMotionReady] = useState(false);
+  const motionReady = useMounted();
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-    setMotionReady(true);
-  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setNavScrolled(latest > 40);

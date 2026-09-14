@@ -17,6 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { courseColors } from "@/lib/course-colors";
+import { useMounted } from "@/lib/use-mounted";
 
 /** GitHub / VS Code inspired accent: page-local only */
 const ACCENT = courseColors.cs1200.accent;
@@ -369,12 +370,8 @@ function AmbientParticles() {
 export default function CS1200Page() {
   const [navScrolled, setNavScrolled] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<GalleryImage | null>(null);
-  const [motionReady, setMotionReady] = useState(false);
+  const motionReady = useMounted();
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-    setMotionReady(true);
-  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setNavScrolled(latest > 40);

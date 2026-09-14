@@ -10,8 +10,9 @@ import {
   useScroll,
 } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { courseColors } from "@/lib/course-colors";
+import { useMounted } from "@/lib/use-mounted";
 
 /** Marketing blue: page-local accent */
 const ACCENT = courseColors.mktg2201.accent;
@@ -823,12 +824,8 @@ function SimulationCard({
 
 export default function MKTG2201Page() {
   const [navScrolled, setNavScrolled] = useState(false);
-  const [motionReady, setMotionReady] = useState(false);
+  const motionReady = useMounted();
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-    setMotionReady(true);
-  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setNavScrolled(latest > 40);

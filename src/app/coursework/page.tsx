@@ -15,6 +15,7 @@ import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { useMounted } from "@/lib/use-mounted";
 
 const ACCENT = "#2997ff";
 const ACCENT_RGB = "41, 151, 255";
@@ -555,13 +556,9 @@ function SemesterSection({
 
 export default function CourseworkPage() {
   const [navScrolled, setNavScrolled] = useState(false);
-  const [motionReady, setMotionReady] = useState(false);
+  const motionReady = useMounted();
   const [activeSection, setActiveSection] = useState("archive-hero");
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-    setMotionReady(true);
-  }, []);
 
   useEffect(() => {
     const sectionIds = navFilters.map((f) => f.id);

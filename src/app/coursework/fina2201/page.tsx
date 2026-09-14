@@ -13,8 +13,9 @@ import {
   useScroll,
 } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { courseColors } from "@/lib/course-colors";
+import { useMounted } from "@/lib/use-mounted";
 
 /** Deep finance blue & cyan: page-local accent only */
 const ACCENT = courseColors.fina2201.accent;
@@ -340,12 +341,8 @@ function DownloadCard({
 
 export default function FINA2201Page() {
   const [navScrolled, setNavScrolled] = useState(false);
-  const [motionReady, setMotionReady] = useState(false);
+  const motionReady = useMounted();
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-    setMotionReady(true);
-  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setNavScrolled(latest > 40);

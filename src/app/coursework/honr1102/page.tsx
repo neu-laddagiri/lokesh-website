@@ -20,6 +20,7 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { courseColors } from "@/lib/course-colors";
+import { useMounted } from "@/lib/use-mounted";
 
 /** Deep indigo, violet & Northeastern red: page-local accent only */
 const ACCENT = courseColors.honr1102.accent;
@@ -421,7 +422,7 @@ function AccentLinkButton({
 
 export default function HONR1102Page() {
   const [navScrolled, setNavScrolled] = useState(false);
-  const [motionReady, setMotionReady] = useState(false);
+  const motionReady = useMounted();
   const [storymapFullscreen, setStorymapFullscreen] = useState(false);
   const { scrollY } = useScroll();
 
@@ -431,10 +432,6 @@ export default function HONR1102Page() {
 
   const closeStorymapFullscreen = useCallback(() => {
     setStorymapFullscreen(false);
-  }, []);
-
-  useEffect(() => {
-    setMotionReady(true);
   }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
