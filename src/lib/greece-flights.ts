@@ -13,15 +13,6 @@ export type GreeceAirport = {
   lng: number;
 };
 
-export type FlightPhoto = {
-  id: string;
-  src: string;
-  alt: string;
-  caption?: string;
-  aspect?: "landscape" | "portrait" | "square";
-  focalPoint?: { x: number; y: number };
-};
-
 export type GreeceFlight = {
   id: string;
   order: number;
@@ -42,7 +33,6 @@ export type GreeceFlight = {
   status: "Completed" | "Upcoming";
   arcColor: string;
   arcGlow: string;
-  photos?: readonly FlightPhoto[];
   notes?: string;
   seat?: string;
 };

@@ -63,7 +63,6 @@ function FlightCard({
   const to = greeceAirports[flight.to];
   const emphasized = selected || previewed;
   const arrivalSuffix = flight.arrivalDayOffset ? ` +${flight.arrivalDayOffset}` : "";
-  const photoCount = flight.photos?.length ?? 0;
 
   return (
     <button
@@ -103,13 +102,9 @@ function FlightCard({
             <p className="mt-0.5 text-[10px] text-white/38">{categoryLabel(flight.category)}</p>
           </div>
         </div>
-        {photoCount > 0 ? (
-          <span className="rounded-full bg-white/[0.07] px-2 py-1 text-[10px] text-white/55">
-            {photoCount} photo{photoCount === 1 ? "" : "s"}
-          </span>
-        ) : (
-          <span className="text-[11px] text-white/35 transition-transform group-hover:translate-x-0.5">→</span>
-        )}
+        <span className="text-[11px] text-white/35 transition-transform group-hover:translate-x-0.5">
+          →
+        </span>
       </div>
 
       <p className="mt-3 text-[1.3rem] font-semibold tracking-[-0.035em] text-white">
@@ -117,6 +112,9 @@ function FlightCard({
       </p>
       <p className="mt-0.5 text-[12px] text-white/50">
         {from.city} to {to.city}
+      </p>
+      <p className="mt-1 text-[11px] text-white/38">
+        {flight.airline} · {flight.flightNumber}
       </p>
 
       <div className="mt-4 flex items-start gap-2">

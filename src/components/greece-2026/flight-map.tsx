@@ -144,20 +144,23 @@ function projectArc(
   return { flight, path, midpoint: curved[middleIndex], angle };
 }
 
+export type MapInsets = { top?: number; bottom?: number; left?: number; right?: number };
+
 function fitMapToFilter(
   map: MaplibreMap,
   filter: FlightFilterId,
   reduceMotion: boolean,
+  insets: MapInsets = {},
 ) {
   const viewport = getFilterViewport(filter);
   const rect = map.getContainer().getBoundingClientRect();
   const horizontal = Math.max(26, Math.min(56, rect.width * 0.1));
   const vertical = Math.max(30, Math.min(64, rect.height * 0.12));
   const padding = {
-    top: vertical,
-    bottom: vertical,
-    left: horizontal,
-    right: horizontal,
+    top: Math.min(insets.top ?? vertical, rect.height * 0.42),
+    bottom: Math.min(insets.bottom ?? vertical, rect.height * 0.42),
+    left: Math.min(insets.left ?? horizontal, rect.width * 0.4),
+    right: Math.min(insets.right ?? horizontal, rect.width * 0.4),
   };
   const duration = reduceMotion ? 0 : 1100;
 
@@ -187,6 +190,7 @@ export function FlightMap({
   onSelect,
   onPreviewStart,
   onPreviewEnd,
+  insets,
 }: {
   flights: GreeceFlight[];
   filter: FlightFilterId;
@@ -196,6 +200,8 @@ export function FlightMap({
   onSelect: (id: string) => void;
   onPreviewStart: (id: string) => void;
   onPreviewEnd: (id: string) => void;
+  /** Screen-space room to leave for overlaid UI. */
+  insets?: MapInsets;
 }) {
   const reduceMotion = useReducedMotion();
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -256,7 +262,7 @@ export function FlightMap({
     let didLoad = false;
     const loadingTimer = window.setTimeout(() => {
       if (!didLoad) setMapStatus("error");
-    }, 9000);
+    }, 20000);
 
     void import("maplibre-gl")
       .then((maplibregl) => {
@@ -318,9 +324,9 @@ export function FlightMap({
     const map = mapRef.current;
     if (!map || !mapReady) return;
     map.setProjection({ type: projection });
-    fitMapToFilter(map, filter, Boolean(reduceMotion));
+    fitMapToFilter(map, filter, Boolean(reduceMotion), insets);
     scheduleOverlay();
-  }, [filter, mapReady, projection, reduceMotion, scheduleOverlay]);
+  }, [filter, insets, mapReady, projection, reduceMotion, scheduleOverlay]);
 
   const displayedArcs = overlay.arcs;
   const previewArc = useMemo(
@@ -512,26 +518,27 @@ export function FlightMap({
       </AnimatePresence>
 
       {mapStatus !== "ready" && (
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[#02040a]/45 px-6 text-center backdrop-blur-[2px]">
-          <div className={`${GLASS} max-w-xs px-5 py-4`} role="status" aria-live="polite">
-            {mapStatus === "loading" ? (
-              <>
-                <span
-                  className={`mx-auto block h-5 w-5 rounded-full border-2 border-white/20 border-t-white/80 ${
-                    reduceMotion ? "" : "animate-spin"
-                  }`}
-                />
-                <p className="mt-3 text-[12px] font-medium text-white/70">Loading the map</p>
-              </>
-            ) : (
-              <>
-                <p className="text-[12px] font-medium text-white/75">The live map could not load.</p>
-                <p className="mt-1 text-[11px] leading-4 text-white/45">
-                  Every flight remains available in the itinerary below.
-                </p>
-              </>
-            )}
-          </div>
+        <div
+          className={`pointer-events-none absolute bottom-3 left-3 z-10 flex items-center gap-2 rounded-full px-3 py-1.5 ${GLASS}`}
+          role="status"
+          aria-live="polite"
+        >
+          {mapStatus === "loading" ? (
+            <>
+              <span
+                className={`block h-3 w-3 shrink-0 rounded-full border-2 border-white/20 border-t-white/70 ${
+                  reduceMotion ? "" : "animate-spin"
+                }`}
+              />
+              <span className="text-[11px] font-medium text-white/60">
+                Loading the basemap
+              </span>
+            </>
+          ) : (
+            <span className="text-[11px] font-medium text-white/55">
+              Basemap unavailable. The route is listed below.
+            </span>
+          )}
         </div>
       )}
     </div>

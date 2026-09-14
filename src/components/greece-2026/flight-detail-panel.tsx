@@ -8,7 +8,6 @@ import {
   type GreeceFlight,
 } from "@/lib/greece-flights";
 import { motion, useReducedMotion } from "framer-motion";
-import Image from "next/image";
 import { GREECE_EASE } from "./motion-presets";
 
 const GLASS =
@@ -30,78 +29,11 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
-function CameraIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      aria-hidden
-    >
-      <path d="M4 7h3l1.5-2h7L17 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
-      <circle cx="12" cy="13" r="4" />
-    </svg>
-  );
-}
-
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid grid-cols-[88px_1fr] items-start gap-3 border-b border-white/[0.07] py-2.5 last:border-0">
       <dt className="text-[12px] leading-5 text-white/50">{label}</dt>
       <dd className="text-right text-[13px] leading-5 font-medium text-white/90">{value}</dd>
-    </div>
-  );
-}
-
-function FlightPhotos({ flight }: { flight: GreeceFlight }) {
-  const photos = flight.photos ?? [];
-
-  if (photos.length === 0) {
-    return (
-      <div className="mt-3 flex items-center gap-3 rounded-xl border border-dashed border-white/[0.13] bg-white/[0.035] px-3.5 py-3 text-white/55">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/[0.06] text-white/55">
-          <CameraIcon />
-        </span>
-        <div>
-          <p className="text-[12px] font-medium text-white/70">Flight photos ready</p>
-          <p className="mt-0.5 text-[11px] leading-4 text-white/40">
-            Cabin, window, and airport photos can drop in here later.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="hide-scrollbar mt-3 flex snap-x gap-2 overflow-x-auto pb-1">
-      {photos.map((photo) => {
-        const focalPoint = photo.focalPoint
-          ? `${photo.focalPoint.x * 100}% ${photo.focalPoint.y * 100}%`
-          : "center";
-
-        return (
-          <a
-            key={photo.id}
-            href={photo.src}
-            target="_blank"
-            rel="noreferrer"
-            className="group relative aspect-square w-[calc((100%_-_1rem)/3)] shrink-0 snap-start overflow-hidden rounded-xl border border-white/[0.1] bg-white/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            aria-label={`Open photo: ${photo.alt}`}
-          >
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-              style={{ objectPosition: focalPoint }}
-              sizes="(min-width: 1280px) 96px, 30vw"
-            />
-          </a>
-        );
-      })}
     </div>
   );
 }
@@ -215,17 +147,6 @@ export function FlightDetailPanel({
           </p>
         )}
 
-        <section className="mt-5" aria-label="Flight photos">
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-[10px] font-semibold tracking-[0.14em] text-white/45 uppercase">
-              Photos from this flight
-            </p>
-            {(flight.photos?.length ?? 0) > 0 && (
-              <span className="text-[11px] text-white/40">{flight.photos?.length}</span>
-            )}
-          </div>
-          <FlightPhotos flight={flight} />
-        </section>
       </div>
 
       {compact && (
