@@ -56,54 +56,56 @@ export function ExperienceSection() {
             ))}
           </motion.ol>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={staggerContainer}
-            className="glass h-fit space-y-4 rounded-2xl p-5"
-          >
-            {skillGroups.map((group, i) => (
-              <motion.div key={group.label} custom={i} variants={fadeUp}>
-                <p className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
-                  {group.label}
-                </p>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {group.items.map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-border bg-card px-2.5 py-1 text-[12.5px] font-medium tracking-[-0.01em] text-foreground-secondary"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+          <div className="h-fit space-y-4">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+              variants={staggerContainer}
+              className="glass h-fit space-y-4 rounded-2xl p-5"
+            >
+              {skillGroups.map((group, i) => (
+                <motion.div key={group.label} custom={i} variants={fadeUp}>
+                  <p className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+                    {group.label}
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {group.items.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-border bg-card px-2.5 py-1 text-[12.5px] font-medium tracking-[-0.01em] text-foreground-secondary"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={fadeUp}
-          custom={0}
-          className="mt-4 grid gap-x-8 gap-y-2 rounded-2xl border border-border bg-card px-5 py-4 text-[13px] leading-[1.6] text-muted sm:grid-cols-2"
-        >
-          <p>
-            <span className="font-semibold text-foreground-secondary">
-              Languages:
-            </span>{" "}
-            {EDUCATION.languages.join(", ")}
-          </p>
-          <p>
-            <span className="font-semibold text-foreground-secondary">
-              Activities:
-            </span>{" "}
-            {activities.join(", ")}
-          </p>
-        </motion.div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+              variants={fadeUp}
+              custom={0}
+              className="grid gap-x-8 gap-y-2 rounded-2xl border border-border bg-card px-5 py-4 text-[13px] leading-[1.6] text-muted sm:grid-cols-2 lg:grid-cols-1"
+            >
+              <p>
+                <span className="font-semibold text-foreground-secondary">
+                  Languages:
+                </span>{" "}
+                {EDUCATION.languages.join(", ")}
+              </p>
+              <p>
+                <span className="font-semibold text-foreground-secondary">
+                  Activities:
+                </span>{" "}
+                {activities.join(", ")}
+              </p>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

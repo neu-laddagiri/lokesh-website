@@ -28,7 +28,7 @@ export const EDUCATION = {
   major: "Data Science and Business Administration (combined major)",
   concentrations: ["International Business", "Supply Chain Management"],
   graduation: "May 2029",
-  gpa: "3.8 / 4.0",
+  gpa: "3.83 / 4.0",
   honors: ["John Martinson Honors Program", "Dean's List"],
   studyAbroad: "American College of Greece, Athens, May to June 2026",
   languages: [
@@ -125,6 +125,17 @@ export type ExperienceEntry = {
 };
 
 export const experience: readonly ExperienceEntry[] = [
+  {
+    role: "Junior Technology Consultant",
+    org: "Family Business Consulting Club",
+    location: "Boston, MA",
+    period: "Sep 2026 to present",
+    points: [
+      "Recruited into a newly created technical role at a 30-member student-run consultancy, owning its website, the primary inbound channel for clients.",
+      "Audited the live site and ranked six issues by priority, including a server error on a primary page and canonical tag mismatches across every case study.",
+      "Support consulting teams of 8 to 15 on 11-week engagements for family-owned clients in specialty finance, advertising technology, and consumer software.",
+    ],
+  },
   {
     role: "Product Engineering Intern",
     org: "Peak Innovations LLC",
