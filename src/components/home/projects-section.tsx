@@ -8,10 +8,11 @@ import { ArrowIcon, SectionHeader } from "@/components/home/section";
 import { projects } from "@/lib/projects";
 
 /**
- * Six tiles fill two rows of three (three rows of two on tablets). Adding or
- * removing a project leaves a short row, so rebalance the grid when that happens.
+ * Six equal tiles fill two rows of three (three rows of two on tablets). The
+ * portfolio itself stays on /projects, since the reader is already on it.
+ * Adding or removing a project leaves a short row, so rebalance the grid then.
  */
-const [lead, ...tiles] = projects;
+const tiles = projects.filter((project) => project.id !== "portfolio");
 
 export function ProjectsSection() {
   return (
@@ -36,15 +37,11 @@ export function ProjectsSection() {
           whileInView="visible"
           viewport={viewport}
           variants={staggerContainer}
-          className="space-y-4"
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         >
-          <ProjectCard project={lead} index={0} variant="full" />
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {tiles.map((project, i) => (
-              <ProjectCard key={project.id} project={project} index={i + 1} />
-            ))}
-          </div>
+          {tiles.map((project, i) => (
+            <ProjectCard key={project.id} project={project} index={i} />
+          ))}
         </motion.div>
       </div>
     </section>

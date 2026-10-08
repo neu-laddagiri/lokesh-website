@@ -30,7 +30,7 @@ export const EDUCATION = {
   location: "Boston, MA",
   degree: "Candidate for Bachelor of Science",
   major: "Data Science and Business Administration (combined major)",
-  concentrations: ["International Business", "Supply Chain Management"],
+  concentrations: ["Supply Chain Management", "International Business"],
   graduation: "May 2029",
   gpa: "3.83 / 4.0",
   honors: ["John Martinson Honors Program", "Dean's List"],
@@ -142,6 +142,7 @@ export type ExperienceEntry = {
   points: readonly string[];
 };
 
+/** Ordered by end date, most recent first, to match the resume. */
 export const experience: readonly ExperienceEntry[] = [
   {
     role: "Junior Technology Consultant",
@@ -149,20 +150,28 @@ export const experience: readonly ExperienceEntry[] = [
     location: "Boston, MA",
     period: "Sep 2026 to present",
     points: [
-      "Recruited into a newly created technical role at a 30-member student-run consultancy, owning its website, the primary inbound channel for clients.",
+      "Own the website, the main inbound channel for clients, in a new technical role at a 30-member student consultancy.",
       "Audited the live site and delivered a remediation plan ranking six issues by priority.",
-      "Support consulting teams of 8 to 15 on 11-week engagements for family-owned clients in specialty finance, advertising technology, and consumer software.",
+      "Support consulting teams of 8 to 15 on 11-week pro bono engagements with family-owned businesses.",
     ],
   },
   {
-    role: "Product Engineering Intern",
-    org: "Peak Innovations LLC",
-    location: "Remote",
-    period: "Sep to Dec 2024",
+    role: "Project Lead",
+    org: "DATA Club @ Northeastern University",
+    location: "Boston, MA",
+    period: "Jan to Apr 2026",
     points: [
-      "Eight-week Work-Based Learning Alliance consulting engagement.",
-      "Led CAD development for a redesigned lacrosse helmet prototype in a four-person team.",
-      "Conducted product and competitor research and design reviews, presenting recommendations directly to the company founder.",
+      "Led a four-person team from research question to final dashboard, setting the timeline and dividing the work.",
+      "Merged ten seasons of salary cap data, then built the scikit-learn model and the Panel and Plotly dashboard.",
+    ],
+  },
+  {
+    role: "USSF Certified Soccer Referee",
+    org: "U.S. Soccer Federation",
+    location: "Weymouth, MA",
+    period: "Sep 2019 to May 2025",
+    points: [
+      "Seven seasons and several hundred matches, usually the only official on the field.",
     ],
   },
   {
@@ -175,12 +184,14 @@ export const experience: readonly ExperienceEntry[] = [
     ],
   },
   {
-    role: "Certified Soccer Referee",
-    org: "Massachusetts Youth Soccer",
-    location: "Massachusetts",
-    period: "Sep 2019 to May 2025",
+    role: "Product Engineering Intern",
+    org: "Peak Innovations LLC",
+    location: "Remote",
+    period: "Sep to Dec 2024",
     points: [
-      "Seven seasons and several hundred matches, usually the only official on the field.",
+      "Eight-week Work-Based Learning Alliance consulting engagement.",
+      "Led CAD development for a redesigned lacrosse helmet prototype in a four-person team.",
+      "Conducted product and competitor research and design reviews, presenting recommendations directly to the company founder.",
     ],
   },
 ] as const;

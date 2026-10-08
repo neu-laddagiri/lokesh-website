@@ -2,7 +2,7 @@
 
 Portfolio and academic archive for Lokesh Addagiri, a Data Science and Business
 Administration combined major at Northeastern University (expected May 2029),
-with concentrations in International Business and Supply Chain Management.
+with concentrations in Supply Chain Management and International Business.
 
 **Available for a January to June 2027 co-op**, targeting data science, data
 analytics, and operations analytics roles across industries.

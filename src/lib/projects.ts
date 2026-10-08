@@ -59,7 +59,7 @@ export const projects: readonly Project[] = [
   {
     id: "shms-rollout",
     name: "Smart Health Monitoring System Rollout Plan",
-    role: "Project Management capstone (MG 4057), American College of Greece",
+    role: "Project Management capstone (MG 4057), American College of Greece, team project",
     period: "Summer 2026",
     premise:
       "Planned a 195-day, 55-task rollout across a healthcare network: scope and governance, a work breakdown structure, a Microsoft Project schedule across five phases with dependencies and milestones, a power-interest stakeholder matrix, and ten ranked risks.",
@@ -87,10 +87,10 @@ export const projects: readonly Project[] = [
     tagline:
       "Poker and blackjack decision trainer, with the equity math simulated in the browser.",
     bullets: [
-      "Monte Carlo equity simulator running in cancellable Web Workers, reporting 95% confidence intervals across Fast, Balanced, and Precise modes, with caching to avoid redundant computation.",
+      "Monte Carlo equity simulator running in cancellable Web Workers, reporting 95% confidence intervals across Fast, Balanced, and Precise modes, recommending each move by comparing that interval against the break-even pot-odds threshold, with caching to avoid redundant computation.",
       "Rule-aware blackjack basic strategy across deck counts, H17/S17, double-after-split, and late surrender.",
       "Validated dollar-stakes table engine with legal-action validation, split-pot accounting, and street advancement for 2 to 10 players.",
-      "Account-backed training history and profit/loss ledger on Supabase Postgres with row-level security. Guest mode works fully offline.",
+      "Account-backed training history and profit/loss ledger on Supabase Postgres with row-level security. Guest mode works fully with local-only storage.",
       "Deterministic unit tests with coverage gates, verified on every push by GitHub Actions.",
     ],
     stack: [
@@ -126,7 +126,7 @@ export const projects: readonly Project[] = [
       "Local ZIP and JSON parsing with JSZip, handling export formats that vary by region and app version.",
       "Unified social graph connecting follows, DMs, and interactions, with scoring for relationship strength, cleanup priority, and privacy exposure.",
       "Day-by-hour activity heatmaps, monthly timelines, and engagement breakdowns rendered with Recharts.",
-      "Optional Supabase cloud save that stores computed insights only, never raw messages or media.",
+      "Optional Supabase cloud save for the parsed analysis, never the original ZIP, media, or full message history.",
       "Fail-closed Presentation Mode that blocks identity, DM, and search views during screen sharing.",
     ],
     stack: [
@@ -152,13 +152,14 @@ export const projects: readonly Project[] = [
   {
     id: "nfl-salary",
     name: "NFL Salary vs. Team Performance",
-    role: "DATA Club bootcamp, four-person team",
+    role: "DATA Club, project lead of a four-person team",
     period: "Spring 2026",
     premise:
       "Ten seasons of NFL salary allocation (2013 to 2022) modeled against team results. I built the data cleaning and merging, the scikit-learn model, and the Panel and Plotly dashboard.",
     tagline:
       "Ten NFL seasons of salary allocation modeled against team results. I built the data cleaning and merging, the scikit-learn model, and the Panel and Plotly dashboard.",
     bullets: [
+      "Led the team from research question to final dashboard, setting the timeline and dividing the work.",
       "Assembled a decade of salary cap allocation and season outcomes into a single modeling dataset.",
       "Modeled spending by position group against team results.",
       "Built an interactive dashboard for exploring the relationship season by season.",
@@ -190,6 +191,8 @@ export const projects: readonly Project[] = [
     bullets: [
       "Publishes every course report, presentation, model, and poster as a linkable document.",
       "Server-rendered on the App Router with a light and dark theme, indexed through Google Search Console.",
+      "Counts and facts live in source-of-truth data files, so the homepage and archive can't disagree.",
+      "Built with Claude Code, with CLAUDE.md and AGENTS.md context files that keep AI-assisted changes consistent across sessions.",
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind 4", "Vercel"],
     links: [{ label: "Browse the archive", href: "/coursework", internal: true }],
