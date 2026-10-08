@@ -199,3 +199,14 @@ body {
     animation: none;
   }
 }
+
+/* Greece gallery: the autoplay timer is this bar filling, and the carousel
+   turns on animationend, so pausing the bar pauses the slideshow. */
+@keyframes greece-carousel-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

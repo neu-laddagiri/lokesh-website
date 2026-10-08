@@ -5,8 +5,9 @@ import {
   galleryGroups,
   type GalleryEntry,
   type GalleryGroupId,
+  type ResolvedPhoto,
 } from "@/lib/greece-2026";
-import { GreeceGalleryGrid, type ResolvedPhoto } from "./greece-gallery-grid";
+import { GreeceGalleryCarousel } from "./greece-gallery-carousel";
 
 const EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".avif"] as const;
 const PUBLIC_DIR = path.join(process.cwd(), "public", "images", "greece-2026");
@@ -53,5 +54,5 @@ export function GreeceGallery() {
   const present = new Set<GalleryGroupId>(photos.map((photo) => photo.group));
   const groups = galleryGroups.filter((group) => present.has(group.id));
 
-  return <GreeceGalleryGrid photos={photos} groups={groups} />;
+  return <GreeceGalleryCarousel photos={photos} groups={groups} />;
 }

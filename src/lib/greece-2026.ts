@@ -253,6 +253,9 @@ export type GalleryEntry = {
   caption: string;
 };
 
+/** A manifest entry whose file exists on disk, with its public URL. */
+export type ResolvedPhoto = GalleryEntry & { src: string };
+
 export const galleryGroups: readonly {
   id: GalleryGroupId;
   label: string;
