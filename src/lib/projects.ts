@@ -192,7 +192,6 @@ export const projects: readonly Project[] = [
       "Publishes every course report, presentation, model, and poster as a linkable document.",
       "Server-rendered on the App Router with a light and dark theme, indexed through Google Search Console.",
       "Counts and facts live in source-of-truth data files, so the homepage and archive can't disagree.",
-      "Built with Claude Code, with CLAUDE.md and AGENTS.md context files that keep AI-assisted changes consistent across sessions.",
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind 4", "Vercel"],
     links: [{ label: "Browse the archive", href: "/coursework", internal: true }],
