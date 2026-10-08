@@ -67,7 +67,9 @@ export const greeceCourses: readonly GreeceCourse[] = [
   {
     id: "acct2301",
     neuCode: "ACCT 2301",
-    neuTitle: "Profit Analysis for Managers and Advisors",
+    // Deree's title, as on the resume. Northeastern's own title for
+    // ACCT 2301 is Profit Analysis for Managers and Advisors.
+    neuTitle: "Management Accounting",
     acgCode: "AF 3116",
     institution: "American College of Greece (Deree)",
     mode: "On campus in Agia Paraskevi",
@@ -135,7 +137,7 @@ export const greeceTimeline: readonly GreeceTimelineMilestone[] = [
     date: "May 18 onward",
     label: "Classes start at Deree",
     description:
-      "Project Management and Profit Analysis on campus, Business Statistics remote across the seven-hour difference.",
+      "Project Management and Management Accounting on campus, Business Statistics remote across the seven-hour difference.",
   },
   {
     id: "santorini",

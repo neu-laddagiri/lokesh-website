@@ -12,12 +12,16 @@ export const CO_OP = {
   status: "Available for co-op",
   term: "January to June 2027",
   roles: [
-    "Data Engineer",
+    "Data Scientist",
     "Data Analyst",
+    "Operations Analyst",
     "Business Intelligence Analyst",
-    "Data Science Intern",
   ],
-  industry: "Financial services and investment firms",
+  /** Completes "Looking for a January to June 2027 co-op in ..." in the contact section. */
+  focus: "data science, analytics, or operations",
+  /** Shown under the role list in the hero. */
+  outlook:
+    "Open to any industry where data drives business decisions, including supply chain, e-commerce, healthcare, and financial services.",
   location: "Boston, MA",
 } as const;
 
@@ -97,7 +101,17 @@ export type SkillGroup = {
 export const skillGroups: readonly SkillGroup[] = [
   {
     label: "Data and Analysis",
-    items: ["Python", "Pandas", "Matplotlib", "REST APIs", "SQL", "SPSS", "Excel"],
+    items: [
+      "Python",
+      "Pandas",
+      "scikit-learn",
+      "Matplotlib",
+      "Plotly",
+      "REST APIs",
+      "SQL",
+      "SPSS",
+      "Excel",
+    ],
   },
   {
     label: "Engineering",
@@ -113,6 +127,10 @@ export const skillGroups: readonly SkillGroup[] = [
   {
     label: "Testing and Tooling",
     items: ["Vitest", "GitHub Actions", "Git", "Vercel"],
+  },
+  {
+    label: "AI Tools",
+    items: ["Claude Code", "ChatGPT", "Gemini", "GitHub Copilot", "Cursor"],
   },
 ] as const;
 
@@ -132,7 +150,7 @@ export const experience: readonly ExperienceEntry[] = [
     period: "Sep 2026 to present",
     points: [
       "Recruited into a newly created technical role at a 30-member student-run consultancy, owning its website, the primary inbound channel for clients.",
-      "Audited the live site and ranked six issues by priority, including a server error on a primary page and canonical tag mismatches across every case study.",
+      "Audited the live site and delivered a remediation plan ranking six issues by priority.",
       "Support consulting teams of 8 to 15 on 11-week engagements for family-owned clients in specialty finance, advertising technology, and consumer software.",
     ],
   },
@@ -144,7 +162,7 @@ export const experience: readonly ExperienceEntry[] = [
     points: [
       "Eight-week Work-Based Learning Alliance consulting engagement.",
       "Led CAD development for a redesigned lacrosse helmet prototype in a four-person team.",
-      "Presented recommendations directly to the company founder.",
+      "Conducted product and competitor research and design reviews, presenting recommendations directly to the company founder.",
     ],
   },
   {

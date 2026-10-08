@@ -144,7 +144,7 @@ export function ConnectSection() {
         <SectionHeader
           label="Contact"
           title="Let's talk about January 2027."
-          description={`Looking for a ${CO_OP.term} co-op in ${CO_OP.industry.toLowerCase()}. Email is fastest.`}
+          description={`Looking for a ${CO_OP.term} co-op in ${CO_OP.focus}. Email is fastest.`}
         />
 
         <motion.div

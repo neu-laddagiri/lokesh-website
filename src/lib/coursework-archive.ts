@@ -339,7 +339,9 @@ export const academicSemesters: readonly Semester[] = [
       },
       {
         code: "ACCT 2301",
-        title: "Profit Analysis for Managers and Advisors",
+        // Deree's title, as on the resume. Northeastern's own title for
+        // ACCT 2301 is Profit Analysis for Managers and Advisors.
+        title: "Management Accounting",
         href: "/coursework/af3116",
         description:
           "Cost analysis, budgeting, variance analysis, and managerial decision support.",

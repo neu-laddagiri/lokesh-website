@@ -7,9 +7,11 @@ import { staggerContainer, viewport } from "@/components/home/motion";
 import { ArrowIcon, SectionHeader } from "@/components/home/section";
 import { projects } from "@/lib/projects";
 
-const [lead, ...rest] = projects;
-/** The portfolio itself stays on /projects: the reader is already looking at it. */
-const tiles = rest.filter((project) => project.id !== "portfolio");
+/**
+ * Six tiles fill two rows of three (three rows of two on tablets). Adding or
+ * removing a project leaves a short row, so rebalance the grid when that happens.
+ */
+const [lead, ...tiles] = projects;
 
 export function ProjectsSection() {
   return (

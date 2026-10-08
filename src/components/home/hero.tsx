@@ -193,8 +193,7 @@ export function Hero() {
           </ul>
 
           <p className="mt-5 border-t border-border pt-5 text-[14px] leading-[1.6] text-muted">
-            Ideally in {CO_OP.industry.toLowerCase()}, where the combined major
-            and both concentrations matter.
+            {CO_OP.outlook}
           </p>
 
           <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-border pt-6">

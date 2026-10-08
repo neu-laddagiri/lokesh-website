@@ -87,7 +87,7 @@ export default function ProjectsPage() {
             </h2>
             <p className="mx-auto mt-4 max-w-md text-[16px] leading-relaxed text-muted">
               Looking for {CO_OP.roles.slice(0, 3).join(", ")}, or similar roles
-              in {CO_OP.industry.toLowerCase()}.
+              across industries.
             </p>
             <a
               href={"mailto:" + EMAIL}

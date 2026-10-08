@@ -31,7 +31,7 @@ export const courseColors = {
   math1231: { accent: "#C8102E", light: "#E8324A", rgb: "200, 16, 46" },
   /** Principles of Macroeconomics. */
   econ1115: { accent: "#E2711D", light: "#F59A4E", rgb: "226, 113, 29" },
-  /** Profit Analysis for Managers, taken at Deree as AF 3116. */
+  /** Management Accounting, taken at Deree as AF 3116. */
   af3116: { accent: "#C08A1E", light: "#E0AC46", rgb: "192, 138, 30" },
   /** Financial Accounting and Reporting. */
   acct1201: { accent: "#2E9E5B", light: "#4FC57F", rgb: "46, 158, 91" },
