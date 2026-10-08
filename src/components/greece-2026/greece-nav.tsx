@@ -2,7 +2,7 @@
 
 import { ThemeToggle } from "@/components/theme-toggle";
 import { isNavLinkActive, subpageNavLinks } from "@/lib/site-nav";
-import { resumeExternalProps } from "@/lib/profile-links";
+import { resumeLinkProps } from "@/lib/profile-links";
 import { greeceTheme } from "@/lib/greece-2026";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
@@ -65,7 +65,7 @@ export function GreeceNav() {
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.external ? resumeExternalProps : {})}
+                {...(link.external ? resumeLinkProps : {})}
                 className="text-[13px] transition-colors duration-200"
                 style={{
                   color: active ? greeceTheme.accent : "var(--muted)",
@@ -112,7 +112,7 @@ export function GreeceNav() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  {...(link.external ? resumeExternalProps : {})}
+                  {...(link.external ? resumeLinkProps : {})}
                   onClick={() => setMobileOpen(false)}
                   className="rounded-xl px-4 py-3 text-[15px] font-medium transition-colors"
                   style={{
@@ -152,7 +152,7 @@ export function GreeceFooter() {
             <Link
               key={link.label}
               href={link.href}
-              {...(link.external ? resumeExternalProps : {})}
+              {...(link.external ? resumeLinkProps : {})}
               className="text-[13px] text-muted transition-colors hover:text-foreground"
             >
               {link.label}

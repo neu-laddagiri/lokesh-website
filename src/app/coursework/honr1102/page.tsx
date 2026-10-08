@@ -5,7 +5,7 @@ import {
   HONR1102_STORYMAP_EMBED_URL,
   HONR1102_STORYMAP_PUBLIC_URL,
 } from "@/lib/honr1102-storymap";
-import { resumeExternalProps } from "@/lib/profile-links";
+import { resumeLinkProps } from "@/lib/profile-links";
 import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import {
   SyllabusHeaderButton,
@@ -486,7 +486,7 @@ export default function HONR1102Page() {
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.label === "Resume" ? resumeExternalProps : {})}
+                {...(link.label === "Resume" ? resumeLinkProps : {})}
                 className={`text-[13px] transition-colors duration-200 ${
                   link.label === "Coursework"
                     ? "text-foreground"
@@ -897,7 +897,7 @@ export default function HONR1102Page() {
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.label === "Resume" ? resumeExternalProps : {})}
+                {...(link.label === "Resume" ? resumeLinkProps : {})}
                 className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}

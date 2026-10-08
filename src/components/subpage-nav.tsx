@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { EASE } from "@/components/home/motion";
-import { resumeExternalProps } from "@/lib/profile-links";
+import { resumeLinkProps } from "@/lib/profile-links";
 import { isNavLinkActive, subpageNavLinks } from "@/lib/site-nav";
 
 function BackIcon() {
@@ -63,7 +63,7 @@ export function SubpageNav() {
             <Link
               key={link.label}
               href={link.href}
-              {...(link.external ? resumeExternalProps : {})}
+              {...(link.external ? resumeLinkProps : {})}
               className={`text-[13px] transition-colors duration-200 hover:text-foreground ${
                 isNavLinkActive(link, pathname)
                   ? "text-foreground"
@@ -108,7 +108,7 @@ export function SubpageNav() {
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.external ? resumeExternalProps : {})}
+                {...(link.external ? resumeLinkProps : {})}
                 onClick={() => setMobileOpen(false)}
                 className="rounded-xl px-4 py-3 text-[15px] font-medium text-foreground-secondary transition-colors hover:bg-card-hover"
               >
@@ -134,7 +134,7 @@ export function SubpageFooter() {
             <Link
               key={link.label}
               href={link.href}
-              {...(link.external ? resumeExternalProps : {})}
+              {...(link.external ? resumeLinkProps : {})}
               className="text-[13px] text-muted transition-colors hover:text-foreground"
             >
               {link.label}

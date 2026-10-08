@@ -1,7 +1,7 @@
 "use client";
 
 import { ThemeToggle } from "@/components/theme-toggle";
-import { resumeExternalProps } from "@/lib/profile-links";
+import { resumeLinkProps } from "@/lib/profile-links";
 import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import {
   motion,
@@ -874,7 +874,7 @@ export default function MKTG2201Page() {
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.label === "Resume" ? resumeExternalProps : {})}
+                {...(link.label === "Resume" ? resumeLinkProps : {})}
                 className={`text-[13px] transition-colors duration-200 ${
                   link.label === "Coursework"
                     ? "text-foreground"
@@ -1339,7 +1339,7 @@ export default function MKTG2201Page() {
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.label === "Resume" ? resumeExternalProps : {})}
+                {...(link.label === "Resume" ? resumeLinkProps : {})}
                 className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}

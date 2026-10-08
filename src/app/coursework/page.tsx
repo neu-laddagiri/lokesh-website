@@ -10,7 +10,7 @@ import {
   type InProgressCourse,
 } from "@/lib/coursework-archive";
 import { archiveStats } from "@/lib/site-facts";
-import { resumeExternalProps } from "@/lib/profile-links";
+import { resumeLinkProps } from "@/lib/profile-links";
 import { subpageNavLinks as navLinks } from "@/lib/site-nav";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
@@ -620,7 +620,7 @@ export default function CourseworkPage() {
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.label === "Resume" ? resumeExternalProps : {})}
+                {...(link.label === "Resume" ? resumeLinkProps : {})}
                 className={`text-[13px] transition-colors duration-200 ${
                   link.label === "Coursework"
                     ? "text-foreground"
@@ -779,7 +779,7 @@ export default function CourseworkPage() {
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.label === "Resume" ? resumeExternalProps : {})}
+                {...(link.label === "Resume" ? resumeLinkProps : {})}
                 className="text-[13px] text-muted transition-colors hover:text-foreground"
               >
                 {link.label}
