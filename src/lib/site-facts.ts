@@ -97,26 +97,33 @@ export type SkillGroup = {
   items: readonly string[];
 };
 
-/** Only technologies used in the work linked on this site. */
+/** Matches the Skills section of the resume. Update both together. */
 export const skillGroups: readonly SkillGroup[] = [
   {
     label: "Data and Analysis",
     items: [
       "Python",
       "Pandas",
+      "NumPy",
       "scikit-learn",
       "Matplotlib",
       "Plotly",
+      "Tableau",
       "REST APIs",
       "SQL",
       "SPSS",
       "Excel",
+      "Regression",
     ],
   },
   {
     label: "Engineering",
     items: [
       "TypeScript",
+      "JavaScript",
+      "Java",
+      "HTML",
+      "CSS",
       "React",
       "Next.js",
       "Tailwind",
@@ -126,11 +133,18 @@ export const skillGroups: readonly SkillGroup[] = [
   },
   {
     label: "Testing and Tooling",
-    items: ["Vitest", "GitHub Actions", "Git", "Vercel"],
+    items: ["Vitest", "GitHub Actions", "Git", "Vercel", "Microsoft Project"],
   },
   {
     label: "AI Tools",
-    items: ["Claude Code", "ChatGPT", "Gemini", "GitHub Copilot", "Cursor"],
+    items: [
+      "LLM APIs",
+      "Claude Code",
+      "ChatGPT",
+      "Gemini",
+      "GitHub Copilot",
+      "Cursor",
+    ],
   },
 ] as const;
 
@@ -150,9 +164,20 @@ export const experience: readonly ExperienceEntry[] = [
     location: "Boston, MA",
     period: "Sep 2026 to present",
     points: [
-      "Own the website, the main inbound channel for clients, in a new technical role at a 30-member student consultancy.",
-      "Audited the live site and delivered a remediation plan ranking six issues by priority.",
-      "Support consulting teams of 8 to 15 on 11-week pro bono engagements with family-owned businesses.",
+      "Selected through case interviews for a newly created technical role at a 30-member student consultancy.",
+      "Support consulting teams of 8 to 15 on data workstreams for clients in specialty finance, adtech, and consumer software.",
+      "Own the club's client-facing website, auditing it and ranking six fixes by priority in a remediation plan.",
+    ],
+  },
+  {
+    role: "Webmaster",
+    org: "INFORMS at Northeastern",
+    location: "Boston, MA",
+    period: "Oct 2026 to present",
+    points: [
+      "Selected to the officer board of an award-winning student chapter of INFORMS, the largest operations research society.",
+      "Plan chapter seminars, member meetings, and social events alongside graduate officers and faculty.",
+      "Own the chapter's website and its move to a custom domain, showcasing its events and leadership to members.",
     ],
   },
   {
@@ -161,8 +186,9 @@ export const experience: readonly ExperienceEntry[] = [
     location: "Boston, MA",
     period: "Jan to Apr 2026",
     points: [
-      "Led a four-person team from research question to final dashboard, setting the timeline and dividing the work.",
-      "Merged ten seasons of salary cap data, then built the scikit-learn model and the Panel and Plotly dashboard.",
+      "Studied whether the way NFL teams split salary cap dollars across position groups shows up in on-field results.",
+      "Led the four-person team from research question to final dashboard, setting the timeline and dividing the work.",
+      "Merged ten seasons (2013 to 2022) of cap and results data, then built the scikit-learn model and the Panel and Plotly dashboard.",
     ],
   },
   {
@@ -172,6 +198,7 @@ export const experience: readonly ExperienceEntry[] = [
     period: "Sep 2019 to May 2025",
     points: [
       "Seven seasons and several hundred matches, usually the only official on the field.",
+      "Made real-time calls under pressure and de-escalated disputes among players, coaches, and spectators.",
     ],
   },
   {
