@@ -271,7 +271,7 @@ export const experience: readonly ExperienceEntry[] = [
     location: "Weymouth, MA",
     period: "Sep 2019 to May 2025",
     points: [
-      "Seven seasons and several hundred matches, usually the only official on the field.",
+      "Officiated several hundred matches over six years, usually as the only official on the field.",
       "Made real-time calls under pressure and de-escalated disputes among players, coaches, and spectators.",
     ],
   },
