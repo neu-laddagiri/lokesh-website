@@ -15,6 +15,7 @@ import {
 } from "react";
 import { INTRO_SEEN_KEY } from "@/lib/coop";
 import { CoopCard, type CardEntrance } from "./coop-card";
+import type { Camera } from "./intro/coop-map";
 
 /** Code-split: visitors who never see the intro never download it or MapLibre. */
 const CoopIntro = dynamic(() => import("./intro/coop-intro").then((m) => m.CoopIntro), {
@@ -28,7 +29,7 @@ let decision: Decision | null = null;
 /**
  * Decided once per page load, on the client. The intro autoplays on the first
  * homepage visit of a browser session; ?intro=1 forces it and ?intro=0
- * suppresses it; reduced motion gets the card with a plain fade instead.
+ * suppresses it; reduced motion gets the card instead.
  * Cached at module scope so writing the session flag cannot unmount an intro
  * that has already started.
  */
@@ -72,6 +73,9 @@ export function CoopProvider({ children }: { children: ReactNode }) {
   const [replayKey, setReplayKey] = useState<number | null>(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [entrance, setEntrance] = useState<CardEntrance>("fade");
+  const [handoff, setHandoff] = useState<Camera | null>(null);
+  const [logoPending, setLogoPending] = useState(false);
+  const [panelReady, setPanelReady] = useState(false);
   const triggerRef = useRef<HTMLElement | null>(null);
 
   const onHome = pathname === "/";
@@ -98,42 +102,60 @@ export function CoopProvider({ children }: { children: ReactNode }) {
     window.requestAnimationFrame(() => target?.focus({ preventScroll: true }));
   }, []);
 
-  const openCard = useCallback((trigger?: HTMLElement | null) => {
-    triggerRef.current = trigger ?? null;
+  /** The card on its own, with a plain entrance and its own map camera. */
+  const showCard = useCallback(() => {
     setEntrance("fade");
+    setHandoff(null);
+    setLogoPending(false);
     setCardOpen(true);
   }, []);
+
+  const openCard = useCallback(
+    (trigger?: HTMLElement | null) => {
+      triggerRef.current = trigger ?? null;
+      showCard();
+    },
+    [showCard],
+  );
 
   const closeCard = useCallback(() => {
     setCardOpen(false);
     setAutoDone(true);
     setReplayKey(null);
+    setLogoPending(false);
     restoreFocus();
   }, [restoreFocus]);
 
   const replayIntro = useCallback(() => {
     setCardOpen(false);
     setAutoDone(true);
+    setPanelReady(false);
     setReplayKey((key) => (key ?? 0) + 1);
   }, []);
 
-  /** The intro hands off: the card rises over the dimmed map. */
-  const onLanding = useCallback(() => {
-    setEntrance("rise");
+  /** The intro hands off: the card appears and its map panel picks up the intro's final camera. */
+  const onLanding = useCallback((camera: Camera | null) => {
+    setEntrance("handoff");
+    setHandoff(camera);
+    setLogoPending(true);
+    setPanelReady(false);
     setCardOpen(true);
   }, []);
 
+  const onLogoLanded = useCallback(() => setLogoPending(false), []);
+  const onPanelReady = useCallback(() => setPanelReady(true), []);
+
   /** Skip, from any frame, lands on the same card. */
   const onSkip = useCallback(() => {
-    setEntrance("fade");
-    setCardOpen(true);
+    showCard();
     setAutoDone(true);
     setReplayKey(null);
-  }, []);
+  }, [showCard]);
 
   const onIntroEnd = useCallback(() => {
     setAutoDone(true);
     setReplayKey(null);
+    setLogoPending(false);
   }, []);
 
   const value = useMemo(() => ({ openCard, replayIntro }), [openCard, replayIntro]);
@@ -144,16 +166,27 @@ export function CoopProvider({ children }: { children: ReactNode }) {
       <div className="contents" inert={introVisible || cardVisible || undefined}>
         {children}
       </div>
+      <CoopCard
+        open={cardVisible}
+        entrance={entrance}
+        handoff={handoff}
+        logoPending={logoPending}
+        revealMap={!introVisible}
+        onPanelReady={onPanelReady}
+        onClose={closeCard}
+        onReplay={replayIntro}
+      />
       {introVisible && (
         <CoopIntro
           key={replayKey ?? "auto"}
           cardOpen={cardVisible}
+          panelReady={panelReady}
           onLanding={onLanding}
+          onLogoLanded={onLogoLanded}
           onSkip={onSkip}
           onEnd={onIntroEnd}
         />
       )}
-      <CoopCard open={cardVisible} entrance={entrance} onClose={closeCard} onReplay={replayIntro} />
     </CoopContext.Provider>
   );
 }

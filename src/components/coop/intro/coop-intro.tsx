@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { GREEK_FLAG, stripeColor } from "@/components/greece-2026/greek-flag";
 import {
   CARD_STATS,
-  COOP,
+  COOP_CAPTIONS,
   COOP_MAP,
   FUNNEL,
   ORBIT_LOGOS,
@@ -14,19 +13,11 @@ import {
   TIMELINE,
   type CoopLogo,
 } from "@/lib/coop";
-import {
-  ROUTE_HEADING_POINT,
-  STRIPE_SPACING,
-  STRIPE_WIDTH,
-  cameraAt,
-  loadIntroMap,
-  ribbonAt,
-  tipAt,
-  type IntroMap,
-} from "./coop-map";
 import { lockScroll } from "../scroll-lock";
+import { OFFICE, ORIGIN, cameraAt, loadIntroMap, routeLngLat, zooms, type Camera, type IntroMap } from "./coop-map";
 import { drawField, layoutDots, makeGlowSprite, type FieldLayout } from "./dots";
-import { ATLANTIC_ATHENS, ATLANTIC_BOSTON, FALLBACK_STRIPE, MapFallback, atlanticToScreen } from "./map-fallback";
+import { Journey, loadLogoImages, type LogoImages, type Point, type Rect } from "./journey";
+import { ATLANTIC_ATHENS, ATLANTIC_BOSTON, MapFallback, arcPoint, atlanticToScreen } from "./map-fallback";
 import {
   TIMINGS,
   clamp01,
@@ -43,15 +34,24 @@ import {
 } from "./timing";
 
 type Props = {
-  /** True once the card has risen over the intro, which then steps out of the way. */
+  /** True once the card is up; the intro then steps out of the way of the keyboard and the mouse. */
   cardOpen: boolean;
-  onLanding: () => void;
+  /** The card's map panel has its map ready under the intro's. */
+  panelReady: boolean;
+  /** The card appears; the camera is where the intro's map will end up, for the panel to start from. */
+  onLanding: (camera: Camera | null) => void;
+  onLogoLanded: () => void;
   onSkip: () => void;
   onEnd: () => void;
 };
 
 const TITLE = "Fall 2026. One co-op search.";
 const YES = CARD_STATS.find((stat) => stat.label === "yes");
+/** The card's map panel is rounded at 20 px; the shrinking map matches it. */
+const SLOT_RADIUS = 20;
+/** If the panel's map never reports in, the intro still lets go. */
+const MAX_WAIT_S = 1.8;
+const END_FADE_S = 0.32;
 
 type Layout = {
   vw: number;
@@ -103,22 +103,13 @@ function readQa(): { start: number; hold: boolean; forceMap: boolean } {
   };
 }
 
-/** The same line, turned the short way round. The flag's stripe pattern is symmetric, so either end can lead. */
-function halfTurn(angle: number): number {
-  let a = angle;
-  while (a > Math.PI / 2) a -= Math.PI;
-  while (a <= -Math.PI / 2) a += Math.PI;
-  return a;
-}
-
 function setText(el: HTMLElement | undefined, text: string) {
   if (el && el.textContent !== text) el.textContent = text;
 }
 
-/** Morph and peel flag sizes, in CSS pixels. */
 const SIZES = {
-  desktop: { logo: 48, flagW: 120, morphW: 216, morphH: 63, morphFont: 58, pinW: 30, pinH: 42 },
-  phone: { logo: 40, flagW: 84, morphW: 164, morphH: 48, morphFont: 44, pinW: 26, pinH: 36 },
+  desktop: { logo: 48, pinW: 30, pinH: 42 },
+  phone: { logo: 40, pinW: 26, pinH: 36 },
 } as const;
 
 function LogoBadge({ logo, size }: { logo: CoopLogo; size: number }) {
@@ -150,23 +141,36 @@ function LogoBadge({ logo, size }: { logo: CoopLogo; size: number }) {
   );
 }
 
+/** A screen rect for a DOM slot in the card, or null before the card has laid out. */
+function slotRect(selector: string): Rect | null {
+  const el = document.querySelector(selector);
+  if (!el) return null;
+  const r = el.getBoundingClientRect();
+  return r.width > 0 ? { x: r.left, y: r.top, w: r.width, h: r.height } : null;
+}
+
 /**
- * The co-op announcement intro: the search as 132 dots that compress into one,
- * the one becoming a pin in Boston after a flight from Athens, and the card.
- * React renders the structure once; a single loop drives every frame from one
- * clock, so Skip and pause are just changes to that clock.
+ * The co-op announcement intro: the search as 132 dots that compress into one;
+ * a Greek flag planted on Athens whose stripes blow off and stream across the
+ * Atlantic; the stripes becoming the Verisk logo over Lafayette City Center;
+ * and the map shrinking into the card's map panel while the logo flies onto
+ * the card. React renders the structure once; a single loop drives every
+ * frame from one clock, so Skip and pause are just changes to that clock.
  */
-export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
+export function CoopIntro({ cardOpen, panelReady, onLanding, onLogoLanded, onSkip, onEnd }: Props) {
   const [variant] = useState<Variant>(() => (window.innerWidth < 640 ? "phone" : "desktop"));
   const [qa] = useState(readQa);
   const [mapMode, setMapMode] = useState<"pending" | "map" | "fallback">("pending");
   const rootRef = useRef<HTMLDivElement>(null);
   const skipRef = useRef<HTMLButtonElement>(null);
+  const panelReadyRef = useRef(panelReady);
   const T: Timing = TIMINGS[variant];
   const size = SIZES[variant];
   const logos = (variant === "phone" ? PHONE_ORBIT_LOGOS : ORBIT_LOGOS).slice(0, T.maxLogos);
-  const flagH = (size.flagW * GREEK_FLAG.height) / GREEK_FLAG.width;
-  const morphFlagW = (size.morphH * GREEK_FLAG.width) / GREEK_FLAG.height;
+
+  useEffect(() => {
+    panelReadyRef.current = panelReady;
+  }, [panelReady]);
 
   // Skip is focused first, Esc skips, and the page behind stops scrolling.
   useEffect(() => {
@@ -197,6 +201,14 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
 
     const dots = layoutDots();
     const sprite = makeGlowSprite();
+    const journey = new Journey();
+    let images: LogoImages | null = null;
+    void loadLogoImages()
+      .then((loaded) => {
+        images = loaded;
+      })
+      .catch(() => {});
+
     const logoEls = all<HTMLElement>("[data-logo]");
     const counterEls = all<HTMLElement>("[data-counter]");
     const counterValues = all<HTMLElement>("[data-counter-value]");
@@ -211,21 +223,17 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
     const yesLabel = one<HTMLElement>("[data-yes-label]");
     const mapEl = one<HTMLElement>("[data-map]");
     const fallbackWrap = one<HTMLElement>("[data-fallback-wrap]");
-    const flag = one<HTMLElement>("[data-flag]");
-    const flagStripes = all<HTMLElement>("[data-flag-stripe]");
-    const flagCanton = one<HTMLElement>("[data-flag-canton]");
     const pin = one<HTMLElement>("[data-pin]");
     const ring = one<HTMLElement>("[data-ring]");
     const officeLabel = one<HTMLElement>("[data-office-label]");
-    const morph = one<HTMLElement>("[data-morph]");
-    const morphText = one<HTMLElement>("[data-morph-text]");
-    const morphStripes = all<HTMLElement>("[data-morph-stripe]");
-    const morphCanton = one<HTMLElement>("[data-morph-canton]");
+    const caption1 = one<HTMLElement>("[data-caption='1']");
+    const caption2 = one<HTMLElement>("[data-caption='2']");
     const skip = one<HTMLElement>("[data-skip]");
 
     let layout = computeLayout(variant, window.innerWidth, window.innerHeight);
+    let dpr = 1;
     const sizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(layout.vw * dpr);
       canvas.height = Math.round(layout.vh * dpr);
       canvas.style.width = `${layout.vw}px`;
@@ -268,37 +276,37 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
     };
 
     // Fallback nodes mount after the mode switch, so they are looked up lazily.
-    let fb: {
-      atlantic?: SVGElement;
-      boston?: SVGElement;
-      city?: SVGElement;
-      arc?: SVGPathElement;
-      arcLength: number;
-      stripes: SVGPathElement[];
-      glow?: SVGPathElement;
-    } | null = null;
+    let fb: { atlantic?: SVGElement; boston?: SVGElement; city?: SVGElement } | null = null;
     const fallbackNodes = () => {
-      if (fb?.arc) return fb;
-      const arc = one<SVGPathElement>("[data-fb='arc']");
-      if (!arc) return null;
-      fb = {
-        atlantic: one<SVGElement>("[data-fb='atlantic']"),
-        boston: one<SVGElement>("[data-fb='boston']"),
-        city: one<SVGElement>("[data-fb='city']"),
-        arc,
-        arcLength: arc.getTotalLength(),
-        stripes: all<SVGPathElement>("[data-fb='stripe']"),
-        glow: one<SVGPathElement>("[data-fb='glow']"),
-      };
+      if (fb?.atlantic) return fb;
+      const atlantic = one<SVGElement>("[data-fb='atlantic']");
+      if (!atlantic) return null;
+      fb = { atlantic, boston: one<SVGElement>("[data-fb='boston']"), city: one<SVGElement>("[data-fb='city']") };
       return fb;
     };
+
+    const { panel: panelZoom } = zooms(variant);
+    const endCamera = cameraAt(T.landing, T, variant);
+    const handoffCamera: Camera = {
+      center: [OFFICE[0], OFFICE[1]],
+      zoom: panelZoom,
+      pitch: 0,
+      bearing: endCamera.bearing,
+    };
+
+    let logoSignalled = false;
+    let endFadeAt: number | null = null;
 
     const render = (t: number) => {
       const { vw, vh, field, orbit } = layout;
       const cx = vw / 2;
       const cy = vh / 2;
+      const handing = easeInOutCubic(progress(t, T.handoff));
+      const ending = endFadeAt === null ? 0 : clamp01((t - endFadeAt) / END_FADE_S);
 
-      root.style.opacity = String(Math.min(easeOutCubic(progress(t, T.mountIn)), 1 - progress(t, T.fadeOut)));
+      root.style.opacity = String(easeOutCubic(progress(t, T.mountIn)));
+      // After the landing the intro's own background is gone: the card shows around the shrinking map.
+      root.style.backgroundColor = t >= T.landing ? "transparent" : "#02040a";
       if (title) title.style.opacity = String(window01(t, T.title.in, T.title.out));
 
       // Logos fly in, orbit, tighten as the search narrows, then fold into the center.
@@ -321,32 +329,107 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
         el.style.opacity = String(arrive * (1 - fold) * (0.5 + 0.42 * depth));
       });
 
-      // Where the surviving dot is: lifted beside the timeline, then over Athens,
-      // which is the camera center on the map and a fixed point on the drawn fallback.
+      // ---- Where things are on screen during the map scene ----
+      const nodes = mode === "fallback" ? fallbackNodes() : null;
+      const dive = easeInOutCubic(progress(t, T.zoom));
+      let athens: Point | null = null;
+      let office: Point | null = null;
+      let route: ((s: number) => Point) | null = null;
+      if (mode === "map" && map) {
+        const m: IntroMap = map;
+        athens = m.project(ORIGIN);
+        office = m.project(OFFICE);
+        route = (s) => m.project(routeLngLat(s));
+      } else if (nodes) {
+        const a = atlanticToScreen(ATLANTIC_ATHENS.x, ATLANTIC_ATHENS.y, vw, vh, variant);
+        const b = atlanticToScreen(ATLANTIC_BOSTON.x, ATLANTIC_BOSTON.y, vw, vh, variant);
+        athens = { x: a.x, y: a.y };
+        office = { x: lerp(b.x, cx, dive), y: lerp(b.y, cy, dive) };
+        route = (s) => {
+          const p = arcPoint(s);
+          const q = atlanticToScreen(p.x, p.y, vw, vh, variant);
+          return { x: q.x, y: q.y };
+        };
+      }
+
+      // ---- The map, or its fallback, and the handoff onto the card's map panel ----
+      const mapIn = easeInOutCubic(progress(t, T.mapIn));
+      const leave = 1 - ending;
+      if (mapEl) mapEl.style.opacity = String(mode === "map" ? mapIn * leave : 0);
+      if (fallbackWrap) fallbackWrap.style.opacity = String(mode === "fallback" ? mapIn * leave : 0);
+      const target = t >= T.landing ? slotRect("[data-coop-slot='map']") : null;
+      let padding = { top: 0, right: 0, bottom: 0, left: 0 };
+      let clipPath = "none";
+      if (target && handing > 0) {
+        padding = {
+          top: target.y * handing,
+          right: (vw - target.x - target.w) * handing,
+          bottom: (vh - target.y - target.h) * handing,
+          left: target.x * handing,
+        };
+        clipPath = `inset(${padding.top}px ${padding.right}px ${padding.bottom}px ${padding.left}px round ${SLOT_RADIUS * handing}px)`;
+      }
+      if (mapEl) mapEl.style.clipPath = clipPath;
+      if (fallbackWrap) fallbackWrap.style.clipPath = clipPath;
+      if (mode === "map" && map && t >= T.mapIn[0] - 0.1) {
+        const camera = cameraAt(t, T, variant);
+        if (handing > 0) {
+          map.setCamera({
+            center: [lerp(camera.center[0], OFFICE[0], handing), lerp(camera.center[1], OFFICE[1], handing)],
+            zoom: lerp(camera.zoom, handoffCamera.zoom, handing),
+            pitch: lerp(camera.pitch, 0, handing),
+            bearing: camera.bearing,
+            padding,
+          });
+        } else map.setCamera(camera);
+      }
+      if (nodes) {
+        const turn = easeInOutSine(progress(t, T.orbit));
+        if (nodes.atlantic) nodes.atlantic.style.opacity = String(1 - easeInOutCubic(progress(t, [T.zoom[0], T.zoom[0] + 0.5])));
+        if (nodes.boston) nodes.boston.style.opacity = String(dive);
+        if (nodes.city) {
+          const bearing = -20 * dive + T.orbitDegrees * turn;
+          nodes.city.style.transform = `rotate(${-bearing}deg) scale(${0.55 + 0.45 * dive + 0.06 * turn})`;
+        }
+      }
+
+      // ---- The dots, the flag, the stripes, and the logo, on one canvas ----
+      ctx.clearRect(0, 0, vw, vh);
+      ctx.save();
+      ctx.globalAlpha = leave;
+      const story = journey.draw(
+        ctx,
+        {
+          t,
+          T,
+          variant,
+          athens,
+          office,
+          route,
+          images,
+          slot: t >= T.landing ? slotRect("[data-coop-slot='logo']") : null,
+        },
+        dpr,
+      );
+      ctx.restore();
+      if (story.logoLanded && !logoSignalled) {
+        logoSignalled = true;
+        onLogoLanded();
+      }
+
+      // Where the surviving dot is: lifted beside the timeline, then over Athens.
       const lift = easeInOutCubic(progress(t, [T.collapse[0] + 0.3, T.timeline.start + 0.15]));
       const center = easeInOutCubic(progress(t, T.timeline.out));
-      const nodes = mode === "fallback" ? fallbackNodes() : null;
       const home = nodes ? atlanticToScreen(ATLANTIC_ATHENS.x, ATLANTIC_ATHENS.y, vw, vh, variant) : { x: cx, y: cy };
       let yesX = lerp(lerp(field.cx, layout.timelineX, lift), home.x, center);
       let yesY = lerp(lerp(field.cy, layout.timelineY, lift), home.y, center);
-      if (nodes?.arc && t >= T.flight[0]) {
-        const f = ribbonAt(t, T);
-        const point = nodes.arc.getPointAtLength(f * nodes.arcLength);
-        const onArc = atlanticToScreen(point.x, point.y, vw, vh, variant);
-        const boston = atlanticToScreen(ATLANTIC_BOSTON.x, ATLANTIC_BOSTON.y, vw, vh, variant);
-        const dive = easeInOutCubic(progress(t, T.zoom));
-        yesX = t < T.zoom[0] ? onArc.x : lerp(boston.x, cx, dive);
-        yesY = t < T.zoom[0] ? onArc.y : lerp(boston.y, cy, dive);
+      let yesFade = 0;
+      if (story.dot) {
+        yesX = story.dot.x;
+        yesY = story.dot.y;
+        yesFade = 1 - story.dotAlpha;
       }
-      // On the map it rides the ribbon's tip, then sits on the office as the camera dives.
-      if (mode === "map" && map && t >= T.flight[0]) {
-        const tip = map.project(tipAt(t, T));
-        yesX = tip.x;
-        yesY = tip.y;
-      }
-
-      ctx.clearRect(0, 0, vw, vh);
-      drawField(ctx, dots, field, t, T, sprite, { x: yesX, y: yesY, fade: progress(t, T.pin) });
+      drawField(ctx, dots, field, t, T, sprite, { x: yesX, y: yesY, fade: yesFade });
 
       // The search in numbers. The first counter rolls with the dots.
       counterEls.forEach((el, i) => {
@@ -381,114 +464,37 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
       });
       if (yesLabel) yesLabel.style.opacity = String(window01(t, [T.collapse[1] - 0.1, T.collapse[1] + 0.25], T.timeline.out));
 
-      // The map (or its fallback) fades in under the dot.
-      const mapIn = easeInOutCubic(progress(t, T.mapIn));
-      if (mapEl) mapEl.style.opacity = String(mode === "map" ? mapIn : 0);
-      if (fallbackWrap) fallbackWrap.style.opacity = String(mode === "fallback" ? mapIn : 0);
-      if (mode === "map" && map && t >= T.mapIn[0] - 0.1) {
-        map.setCamera(cameraAt(t, T, variant));
-        const ribbonFade = easeInOutCubic(progress(t, [T.zoom[0], lerp(T.zoom[0], T.zoom[1], 0.65)]));
-        map.setRibbon(ribbonAt(t, T), 1 - ribbonFade);
-      }
-      if (nodes) {
-        const f = ribbonAt(t, T);
-        for (const stripe of nodes.stripes) stripe.style.strokeDashoffset = String(1 - f);
-        if (nodes.glow) nodes.glow.style.strokeDashoffset = String(1 - f);
-        const dive = easeInOutCubic(progress(t, T.zoom));
-        const turn = easeInOutSine(progress(t, T.orbit));
-        if (nodes.atlantic) nodes.atlantic.style.opacity = String(1 - easeInOutCubic(progress(t, [T.zoom[0], T.zoom[0] + 0.5])));
-        if (nodes.boston) nodes.boston.style.opacity = String(dive);
-        if (nodes.city) {
-          const bearing = -20 * dive + T.orbitDegrees * turn;
-          nodes.city.style.transform = `rotate(${-bearing}deg) scale(${0.55 + 0.45 * dive + 0.06 * turn})`;
-        }
-      }
-
-      // The Greek flag appears over Athens. Its stripes squeeze to the ribbon's
-      // spacing and width, the bundle swings onto the route, and it hands over
-      // to the ribbon once the ribbon has grown longer than the flag.
-      let athens: { x: number; y: number } | null = null;
-      let heading = 0;
-      let ribbonLength = 0;
-      let band = { spacing: STRIPE_SPACING, width: STRIPE_WIDTH };
-      if (mode === "map" && map) {
-        athens = map.project(COOP_MAP.origin);
-        const ahead = map.project(ROUTE_HEADING_POINT);
-        heading = Math.atan2(ahead.y - athens.y, ahead.x - athens.x);
-        if (t >= T.flight[0]) {
-          const tip = map.project(tipAt(t, T));
-          ribbonLength = Math.hypot(tip.x - athens.x, tip.y - athens.y);
-        }
-      } else if (nodes?.arc) {
-        const start = atlanticToScreen(ATLANTIC_ATHENS.x, ATLANTIC_ATHENS.y, vw, vh, variant);
-        const aheadPoint = nodes.arc.getPointAtLength(0.04 * nodes.arcLength);
-        const ahead = atlanticToScreen(aheadPoint.x, aheadPoint.y, vw, vh, variant);
-        athens = start;
-        heading = Math.atan2(ahead.y - start.y, ahead.x - start.x);
-        if (t >= T.flight[0]) ribbonLength = ribbonAt(t, T) * nodes.arcLength * start.scale;
-        // The fallback's stripes are offset vertically, so their spacing across the route shrinks with its slope.
-        band = {
-          spacing: FALLBACK_STRIPE[variant].spacing * start.scale * Math.abs(Math.cos(heading)),
-          width: FALLBACK_STRIPE[variant].width * start.scale,
-        };
-      }
-      if (flag) {
-        const shown = clamp01(progress(t, T.flagIn) * 1.6);
-        const pop = easeOutBack(progress(t, T.flagIn));
-        const u = progress(t, T.peel);
-        const squeeze = easeInOutCubic(clamp01(u / 0.55));
-        const swing = easeInOutCubic(clamp01((u - 0.3) / 0.7));
-        const handover = clamp01((ribbonLength - size.flagW * 0.55) / (size.flagW * 0.5));
-        flag.style.opacity = String(athens ? shown * (1 - handover) : 0);
-        if (athens) {
-          const along = (swing * size.flagW) / 2;
-          const x = athens.x + Math.cos(heading) * along;
-          const y = athens.y + Math.sin(heading) * along;
-          flag.style.transform = `translate3d(${x - size.flagW / 2}px, ${y - flagH / 2}px, 0) rotate(${halfTurn(heading) * swing}rad) scale(${0.6 + 0.4 * pop})`;
-        }
-        const rest = flagH / GREEK_FLAG.stripes;
-        flagStripes.forEach((stripe, i) => {
-          const from = (i - (GREEK_FLAG.stripes - 1) / 2) * rest;
-          const to = (i - (GREEK_FLAG.stripes - 1) / 2) * band.spacing;
-          stripe.style.transform = `translate3d(0, ${(to - from) * squeeze}px, 0) scaleY(${lerp(1, band.width / rest, squeeze)})`;
-        });
-        if (flagCanton) flagCanton.style.opacity = String(1 - Math.min(1, squeeze * 1.6));
-      }
-
-      // The dot becomes a pin on the office, and the flag over it becomes the word.
+      // The pin drops on the office and rides it into the card's map panel.
       const pinP = progress(t, T.pin);
+      const pinAt = office ?? { x: cx, y: cy };
       if (pin) {
-        pin.style.opacity = String(clamp01(pinP * 3) * (1 - progress(t, T.fadeOut)));
-        pin.style.transform = `translate3d(${cx - size.pinW / 2}px, ${cy - size.pinH + lerp(-70, 0, easeOutBack(pinP))}px, 0)`;
+        pin.style.opacity = String(clamp01(pinP * 3) * leave);
+        pin.style.transform = `translate3d(${pinAt.x - size.pinW / 2}px, ${pinAt.y - size.pinH + lerp(-70, 0, easeOutBack(pinP))}px, 0) scale(${lerp(1, 0.86, handing)})`;
       }
       if (ring) {
         const r = progress(t, [T.pin[1] - 0.05, T.pin[1] + 0.9]);
         ring.style.opacity = String(r > 0 && r < 1 ? 0.6 * (1 - r) : 0);
-        ring.style.transform = `translate3d(${cx - 20}px, ${cy - 20}px, 0) scale(${0.3 + 2.2 * r})`;
+        ring.style.transform = `translate3d(${pinAt.x - 20}px, ${pinAt.y - 20}px, 0) scale(${0.3 + 2.2 * r})`;
       }
       if (officeLabel) {
-        officeLabel.style.opacity = String(window01(t, [T.pin[1], T.pin[1] + 0.35], [T.landing, T.landing + 0.4]));
-        officeLabel.style.transform = `translate3d(-50%, 0, 0) translate3d(${cx}px, ${cy + 14}px, 0)`;
-      }
-      if (morph) {
-        const m = progress(t, T.morph);
-        const pop = easeOutBack(clamp01(m / 0.22));
-        const widen = easeInOutCubic(clamp01((m - 0.22) / 0.25));
-        const slide = clamp01((m - 0.47) / 0.5);
-        const away = 1 - progress(t, [T.landing + 0.2, T.landing + 0.7]);
-        morph.style.opacity = String(m > 0 ? Math.min(1, m / 0.08) * away : 0);
-        morph.style.transform = `translate3d(${cx - size.morphW / 2}px, ${cy - size.pinH - 18 - size.morphH}px, 0) scale(${0.7 + 0.3 * pop})`;
-        if (morphCanton) morphCanton.style.opacity = String(1 - widen);
-        if (morphText) morphText.style.opacity = widen >= 1 ? "1" : "0";
-        morphStripes.forEach((stripe, i) => {
-          const local = easeInCubic(clamp01((slide - i * 0.045) / 0.6));
-          const direction = i % 2 === 0 ? -1 : 1;
-          stripe.style.transform = `translate3d(${direction * (size.morphW + 40) * local}px, 0, 0) scaleX(${lerp(1, size.morphW / morphFlagW, widen)})`;
-          stripe.style.opacity = String(1 - local);
-        });
+        officeLabel.style.opacity = String(window01(t, [T.pin[1], T.pin[1] + 0.35], [T.landing - 0.2, T.landing + 0.2]));
+        officeLabel.style.transform = `translate3d(-50%, 0, 0) translate3d(${pinAt.x}px, ${pinAt.y + 14}px, 0)`;
       }
 
-      // Once the card has landed, Skip has nothing left to skip.
+      // Two captions, one sentence across the trip.
+      const away = 1 - progress(t, [T.landing, T.landing + 0.4]);
+      if (caption1) {
+        const shown = easeOutCubic(progress(t, T.caption1));
+        caption1.style.opacity = String(shown * lerp(1, 0.5, progress(t, T.caption2)) * away);
+        caption1.style.clipPath = `inset(-20% ${(1 - shown) * 100}% -20% 0)`;
+      }
+      if (caption2) {
+        const shown = easeOutCubic(progress(t, T.caption2));
+        caption2.style.opacity = String(shown * away);
+        caption2.style.clipPath = `inset(-20% ${(1 - shown) * 100}% -20% 0)`;
+      }
+
+      // Once the card is up, Skip has nothing left to skip.
       if (skip) {
         const gone = progress(t, [T.landing, T.landing + 0.35]);
         skip.style.opacity = String(1 - gone);
@@ -502,13 +508,14 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
     let mapStarted = false;
     let landed = false;
     let slowFrames = 0;
+    let readySince: number | null = null;
     const frame = (now: number) => {
       const gap = now - last;
       // Real time down to 4 frames a second; longer stalls do not jump the story ahead.
       const dt = Math.min(0.25, gap / 1000);
       last = now;
       if (!document.hidden && !qa.hold) t += dt;
-      if (mode === "map" && !qa.hold && t >= T.mapIn[0]) {
+      if (mode === "map" && !qa.hold && t >= T.mapIn[0] && t < T.landing) {
         slowFrames = gap > 250 ? slowFrames + 1 : gap < 120 ? 0 : slowFrames;
         if (slowFrames >= 4) dropMap();
       }
@@ -516,12 +523,18 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
         mapStarted = true;
         startMap();
       }
+      // The intro lets go once the panel's map is ready under it (or after a short wait).
+      if (endFadeAt === null && t >= T.handoff[1]) {
+        if (panelReadyRef.current && readySince === null) readySince = t;
+        if (readySince !== null || t >= T.handoff[1] + MAX_WAIT_S) endFadeAt = Math.max(t, T.total - END_FADE_S);
+      }
       render(t);
       if (!landed && t >= T.landing) {
         landed = true;
-        onLanding();
+        onLanding(mode === "map" ? handoffCamera : null);
       }
-      if (t >= T.total) {
+      if (endFadeAt !== null && t >= endFadeAt + END_FADE_S) {
+        if (!logoSignalled) onLogoLanded();
         onEnd();
         return;
       }
@@ -534,7 +547,7 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
       window.removeEventListener("resize", onResize);
       stopMap?.();
     };
-  }, [variant, qa, T, size, flagH, morphFlagW, onLanding, onEnd]);
+  }, [variant, qa, T, size, onLanding, onLogoLanded, onEnd]);
 
   return (
     <div
@@ -543,8 +556,8 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
       aria-modal={cardOpen ? undefined : true}
       aria-label={cardOpen ? undefined : "Co-op announcement"}
       aria-hidden={cardOpen || undefined}
-      className="fixed inset-0 z-[100] overflow-hidden bg-[#02040a] text-white"
-      style={{ opacity: 0 }}
+      className={`fixed inset-0 z-[120] overflow-hidden text-white ${cardOpen ? "pointer-events-none" : ""}`}
+      style={{ opacity: 0, backgroundColor: "#02040a" }}
     >
       <p className="sr-only">
         An animated intro about my fall 2026 co-op search is playing. Skip intro goes straight to the
@@ -622,31 +635,8 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
           </ol>
         </div>
 
-        <div data-flag className="absolute top-0 left-0" style={{ width: size.flagW, height: flagH, opacity: 0 }}>
-          {Array.from({ length: GREEK_FLAG.stripes }, (_, i) => (
-            <span
-              key={i}
-              data-flag-stripe
-              className="absolute left-0 w-full origin-center"
-              style={{
-                top: (i * flagH) / GREEK_FLAG.stripes,
-                height: flagH / GREEK_FLAG.stripes + 0.5,
-                background: stripeColor(i),
-              }}
-            />
-          ))}
-          <span
-            data-flag-canton
-            className="absolute top-0 left-0"
-            style={{ width: (size.flagW * GREEK_FLAG.canton) / GREEK_FLAG.width, height: (flagH * GREEK_FLAG.canton) / GREEK_FLAG.height, background: GREEK_FLAG.blue }}
-          >
-            <span className="absolute inset-y-0 left-1/2 -translate-x-1/2 bg-white" style={{ width: (flagH * 2) / GREEK_FLAG.height }} />
-            <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white" style={{ height: (flagH * 2) / GREEK_FLAG.height }} />
-          </span>
-        </div>
-
         <span data-ring className="absolute top-0 left-0 h-10 w-10 rounded-full border-2 border-[#2997ff]" style={{ opacity: 0 }} />
-        <svg data-pin className="absolute top-0 left-0" width={size.pinW} height={size.pinH} viewBox="0 0 30 42" style={{ opacity: 0 }}>
+        <svg data-pin className="absolute top-0 left-0 origin-bottom" width={size.pinW} height={size.pinH} viewBox="0 0 30 42" style={{ opacity: 0 }}>
           <path d="M15 41C15 41 28 25.6 28 15A13 13 0 0 0 2 15C2 25.6 15 41 15 41Z" fill="#2997ff" stroke="#fff" strokeWidth="2" />
           <circle cx="15" cy="15" r="5" fill="#fff" />
         </svg>
@@ -654,43 +644,14 @@ export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
           {COOP_MAP.officeLabel}
         </p>
 
-        <div data-morph className="absolute top-0 left-0 origin-bottom" style={{ width: size.morphW, height: size.morphH, opacity: 0 }}>
-          <p
-            data-morph-text
-            className="absolute inset-0 flex items-center justify-center leading-none font-semibold tracking-[-0.045em] text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.7)]"
-            style={{ fontSize: size.morphFont, opacity: 0 }}
-          >
-            {COOP.company}
+        <div className="absolute inset-x-0 bottom-[max(9vh,56px)] flex flex-col items-center gap-1.5 px-6 text-center">
+          <p data-caption="1" className="text-[clamp(1.15rem,2.3vw,1.7rem)] leading-tight font-semibold tracking-[-0.03em] [text-shadow:0_2px_18px_rgba(0,0,0,0.85)]" style={{ opacity: 0 }}>
+            {COOP_CAPTIONS.origin}
           </p>
-          {Array.from({ length: GREEK_FLAG.stripes }, (_, i) => (
-            <span
-              key={i}
-              data-morph-stripe
-              className="absolute"
-              style={{
-                left: (size.morphW - morphFlagW) / 2,
-                width: morphFlagW,
-                top: (i * size.morphH) / GREEK_FLAG.stripes,
-                height: size.morphH / GREEK_FLAG.stripes + 0.5,
-                background: stripeColor(i),
-              }}
-            />
-          ))}
-          <span
-            data-morph-canton
-            className="absolute top-0"
-            style={{
-              left: (size.morphW - morphFlagW) / 2,
-              width: (morphFlagW * GREEK_FLAG.canton) / GREEK_FLAG.width,
-              height: (size.morphH * GREEK_FLAG.canton) / GREEK_FLAG.height,
-              background: GREEK_FLAG.blue,
-            }}
-          >
-            <span className="absolute inset-y-0 left-1/2 -translate-x-1/2 bg-white" style={{ width: (size.morphH * 2) / GREEK_FLAG.height }} />
-            <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white" style={{ height: (size.morphH * 2) / GREEK_FLAG.height }} />
-          </span>
+          <p data-caption="2" className="text-[clamp(1.15rem,2.3vw,1.7rem)] leading-tight font-semibold tracking-[-0.03em] [text-shadow:0_2px_18px_rgba(0,0,0,0.85)]" style={{ opacity: 0 }}>
+            {COOP_CAPTIONS.destination}
+          </p>
         </div>
-
       </div>
 
       <button
