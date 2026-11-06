@@ -1,5 +1,6 @@
 "use client";
 
+import { CoopNewsButton } from "@/components/coop/coop-news-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   SyllabusHeaderButton,
@@ -588,6 +589,7 @@ export default function ENGW1111Page() {
           </div>
 
           <div className="flex items-center gap-3">
+            <CoopNewsButton />
             <ThemeToggle />
             <button
               type="button"

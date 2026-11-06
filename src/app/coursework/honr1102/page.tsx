@@ -1,5 +1,6 @@
 "use client";
 
+import { CoopNewsButton } from "@/components/coop/coop-news-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   HONR1102_STORYMAP_EMBED_URL,
@@ -499,6 +500,7 @@ export default function HONR1102Page() {
           </div>
 
           <div className="flex items-center gap-3">
+            <CoopNewsButton />
             <ThemeToggle />
             <button
               type="button"

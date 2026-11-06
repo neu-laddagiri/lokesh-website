@@ -12,27 +12,12 @@ import {
   greeceFlights,
   type FlightFilterId,
 } from "@/lib/greece-flights";
-import { greeceHero, greeceTheme } from "@/lib/greece-2026";
+import { greeceHero } from "@/lib/greece-2026";
 import { FlightDetailPanel } from "./flight-detail-panel";
 import { FlightItinerary } from "./flight-itinerary";
 import { FlightMap } from "./flight-map";
+import { GreekFlag } from "./greek-flag";
 import { GREECE_EASE } from "./motion-presets";
-
-const BLUE = greeceTheme.accent;
-
-function GreekFlag({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 27 18" className={className} role="img" aria-label="Flag of Greece">
-      <rect width="27" height="18" fill="#ffffff" />
-      {[0, 2, 4, 6, 8].map((y) => (
-        <rect key={y} y={y * 2} width="27" height="2" fill={BLUE} />
-      ))}
-      <rect width="10" height="10" fill={BLUE} />
-      <rect x="4" width="2" height="10" fill="#ffffff" />
-      <rect y="4" width="10" height="2" fill="#ffffff" />
-    </svg>
-  );
-}
 
 function ScrollCue() {
   return (

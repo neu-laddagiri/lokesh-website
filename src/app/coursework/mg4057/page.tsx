@@ -1,5 +1,6 @@
 "use client";
 
+import { CoopNewsButton } from "@/components/coop/coop-news-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { resumeLinkProps } from "@/lib/profile-links";
 import { subpageNavLinks as navLinks } from "@/lib/site-nav";
@@ -577,6 +578,7 @@ export default function MG4057Page() {
           </div>
 
           <div className="flex items-center gap-3">
+            <CoopNewsButton />
             <ThemeToggle />
             <button
               type="button"
@@ -751,7 +753,7 @@ export default function MG4057Page() {
               </span>
 
               <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-foreground">
-                Smart Health Monitoring System (SHMS) Implementation
+                Smart Health Monitoring System Rollout Plan
               </h3>
 
               <p className="mt-4 max-w-3xl text-[17px] leading-[1.75] text-muted">
@@ -977,7 +979,7 @@ export default function MG4057Page() {
             >
               <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4 sm:px-6">
                 <p className="text-[14px] font-medium tracking-[-0.01em] text-foreground">
-                  Smart Health Monitoring System (SHMS) Implementation
+                  Smart Health Monitoring System Rollout Plan
                 </p>
                 <a
                   href={PDF_SRC}

@@ -1,5 +1,6 @@
 "use client";
 
+import { CoopNewsButton } from "@/components/coop/coop-news-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { resumeLinkProps } from "@/lib/profile-links";
 import { subpageNavLinks as navLinks } from "@/lib/site-nav";
@@ -307,6 +308,7 @@ export default function AF3116Page() {
           </div>
 
           <div className="flex items-center gap-3">
+            <CoopNewsButton />
             <ThemeToggle />
             <button
               type="button"

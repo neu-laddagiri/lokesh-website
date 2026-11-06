@@ -1,5 +1,6 @@
 "use client";
 
+import { CoopNewsButton } from "@/components/coop/coop-news-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { isNavLinkActive, subpageNavLinks } from "@/lib/site-nav";
 import { resumeLinkProps } from "@/lib/profile-links";
@@ -78,6 +79,7 @@ export function GreeceNav() {
         </div>
 
         <div className="flex items-center gap-3">
+          <CoopNewsButton />
           <ThemeToggle />
           <button
             type="button"

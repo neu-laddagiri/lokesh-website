@@ -119,7 +119,7 @@ export const projects: readonly Project[] = [
     role: "Solo build",
     period: "June 2026 to present",
     premise:
-      "A privacy-first Instagram data export analyzer. The export is parsed locally in the browser and the raw file never leaves the device. Includes an AI analyst chat that answers questions from aggregated metrics only, never the raw archive.",
+      "A privacy-first Instagram data export analyzer. The export is parsed locally in the browser, and the raw export never leaves the device. Includes an LLM analyst chat limited to aggregated metrics by default, with message access opt-in behind a disclaimer, plus opt-in LLM summaries that are off by default behind a consent toggle.",
     tagline:
       "Instagram export analyzer with an AI analyst chat. The archive is parsed locally and never leaves the device.",
     bullets: [
@@ -153,7 +153,7 @@ export const projects: readonly Project[] = [
     id: "nfl-salary",
     name: "NFL Salary vs. Team Performance",
     role: "DATA Club, project lead of a four-person team",
-    period: "Spring 2026",
+    period: "Jan to Apr 2026",
     premise:
       "Ten seasons of NFL salary allocation (2013 to 2022) modeled against team results. I built the data cleaning and merging, the scikit-learn model, and the Panel and Plotly dashboard.",
     tagline:
