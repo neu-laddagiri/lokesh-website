@@ -7,11 +7,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/projects",
   },
+  // The preview image is opengraph-image.png beside this file.
   openGraph: {
     title: "Projects | Lokesh Addagiri",
     description:
       "Live apps, source code, and written reports from data science and web engineering projects.",
-    url: "https://lokeshaddagiri.com/projects",
+    url: "/projects",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Projects | Lokesh Addagiri",
+    description:
+      "Live apps, source code, and written reports from data science and web engineering projects.",
   },
 };
 

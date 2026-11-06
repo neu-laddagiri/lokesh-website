@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = "https://lokeshaddagiri.com";
+const BASE_URL = "https://www.lokeshaddagiri.com";
 
 const courseworkRoutes = [
   "mktg2201",

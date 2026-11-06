@@ -16,6 +16,3 @@ export const resumeExternalProps = {
  * as one fails: Vercel answers that RSC request with a 404 on every subpage.
  */
 export const resumeLinkProps = { ...resumeExternalProps, prefetch: false } as const;
-
-/** Add a photo at public/images/profile.jpg to show on the LinkedIn card */
-export const PROFILE_IMAGE = "/images/profile.jpg";
