@@ -1,6 +1,6 @@
 {
   "asOf": "2026-11-05",
-  "notes": "Exact figures from Lokesh's application tracker. Do not round, inflate, or invent numbers. Hide any stat whose value is null. Logo files live in public/coop/logos/; an entry with logo null gets a text badge.",
+  "notes": "The site's copy of the co-op data: exact figures from Lokesh's application tracker, without the named list of interview invites, which the site never shows and this public repo should not carry. Do not round, inflate, or invent numbers. Hide any stat whose value is null. Logo files live in public/coop/logos/; an entry with logo null gets a text badge.",
   "search": {
     "coopApplications": 132,
     "companies": 80,
@@ -12,19 +12,6 @@
       "2026-11": 1
     },
     "interviewInvites": 11,
-    "interviewInviteList": [
-      "Citizens (recorded)",
-      "MathWorks (recorded)",
-      "Verisk BI Reports (recorded)",
-      "Verisk Technical Services (recorded, then live panel)",
-      "Verisk Helpdesk (live)",
-      "Cognition (live)",
-      "The Million Dollar Solution (phone screen)",
-      "Moderna (scheduled)",
-      "New Mountain Capital (invited)",
-      "Thinkstruct (invited)",
-      "IDC (invited)"
-    ],
     "rejected": 20,
     "withdrawn": 32,
     "rejectedOrWithdrawn": 52,

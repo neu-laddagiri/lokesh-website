@@ -42,3 +42,6 @@ next-env.d.ts
 
 # claude code (local machine settings)
 .claude/settings.local.json
+
+# working briefs (local only; the site reads src/lib/coop-data.json)
+/handoff/

@@ -1,10 +1,13 @@
-import data from "../../handoff/coop/coop-data.json";
+import data from "./coop-data.json";
 import type { LngLat } from "@/lib/geo";
 
 /**
- * Everything the co-op announcement shows comes from coop-data.json. This file
+ * Everything the co-op announcement shows comes from coop-data.json beside
+ * this file (the brief's data, minus the named interview list). This file
  * only formats and derives: no number, date, or place here is typed by hand,
- * so the intro, the card, and the Open Graph image cannot disagree.
+ * so the intro, the card, and the link-preview text cannot disagree. The
+ * preview image (src/app/opengraph-image.png) is a picture of the card, so
+ * re-render it if these numbers ever change.
  */
 
 const { search, coop, map } = data;
@@ -184,8 +187,6 @@ if (process.env.NODE_ENV !== "production") {
     problems.push("rejected + withdrawn does not equal rejectedOrWithdrawn");
   if (search.rejectedOrWithdrawn + search.stillPendingWhenAccepted + search.accepted !== search.coopApplications)
     problems.push("rejectedOrWithdrawn + stillPendingWhenAccepted + accepted does not equal coopApplications");
-  if (search.interviewInviteList.length !== search.interviewInvites)
-    problems.push("interviewInviteList length does not equal interviewInvites");
   const monthly = Object.values(search.applicationsByMonth).reduce((a, b) => a + b, 0);
   if (monthly !== search.coopApplications) problems.push("applicationsByMonth does not sum to coopApplications");
   if (problems.length) console.warn(`coop-data.json is inconsistent: ${problems.join("; ")}`);
