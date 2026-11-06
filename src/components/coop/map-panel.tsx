@@ -104,15 +104,17 @@ export function MapPanel({ paused, handoff, reveal, onReady, className = "" }: P
         const pin = document.createElement("div");
         pin.innerHTML = PIN_SVG;
         new maplibregl.Marker({ element: pin, anchor: "bottom" }).setLngLat([OFFICE[0], OFFICE[1]]).addTo(map);
-        const stopOrbit = (event: { originalEvent?: unknown }) => {
-          if (!event.originalEvent || movedRef.current) return;
+        // The orbit moves the camera every frame, and any camera move cancels a gesture in
+        // progress, so the orbit stops on the first touch of the map, before a drag can begin.
+        const stopOrbit = () => {
+          if (movedRef.current) return;
           movedRef.current = true;
           setMoved(true);
         };
-        map.on("dragstart", stopOrbit);
-        map.on("zoomstart", stopOrbit);
-        map.on("rotatestart", stopOrbit);
-        map.on("pitchstart", stopOrbit);
+        map.on("mousedown", stopOrbit);
+        map.on("touchstart", stopOrbit);
+        map.on("wheel", stopOrbit);
+        map.getCanvas().addEventListener("keydown", stopOrbit);
 
         map.once("idle", () => {
           if (cancelled) return;
@@ -155,12 +157,21 @@ export function MapPanel({ paused, handoff, reveal, onReady, className = "" }: P
       className={`rounded-[28px] border border-border bg-background p-2.5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)] ${className}`}
     >
       <div data-coop-slot="map" className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-[#04070d] md:aspect-square">
-        {mode === "fallback" && <BostonCity />}
-        <div
-          ref={hostRef}
-          className="absolute inset-0 transition-opacity duration-300"
-          style={{ opacity: mode === "map" ? 1 : 0 }}
-        />
+        {mode === "fallback" && (
+          <>
+            <BostonCity />
+            {/* The office block sits at the drawing's center; the pin marks it like the live map's. */}
+            <span
+              aria-hidden
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full"
+              dangerouslySetInnerHTML={{ __html: PIN_SVG }}
+            />
+          </>
+        )}
+        {/* MapLibre sets position: relative on its container, so it gets an inner host that fills this layer. */}
+        <div className="absolute inset-0 transition-opacity duration-300" style={{ opacity: mode === "map" ? 1 : 0 }}>
+          <div ref={hostRef} className="h-full w-full" />
+        </div>
         {mode === "map" && reveal && moved && (
           <button
             type="button"

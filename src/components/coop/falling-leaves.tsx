@@ -157,12 +157,12 @@ export function FallingLeaves({ paused }: { paused: boolean }) {
 
     const random = (a: number, b: number) => a + Math.random() * (b - a);
     const spawn = (leaf: Partial<Leaf>, anywhere: boolean): Leaf => {
-      const z = Math.random() ** 1.4;
+      const z = Math.random() ** 1.05;
       return {
         x: random(-40, width + 40),
         y: anywhere ? random(-height * 0.9, height * 0.95) : random(-120, -30),
         z,
-        size: (14 + 26 * z) * (width < 640 ? 0.85 : 1),
+        size: (18 + 32 * z) * (width < 640 ? 0.85 : 1),
         sprite: Math.floor(Math.random() * sprites.length),
         rot: random(0, Math.PI * 2),
         spin: random(-1.4, 1.4),
@@ -200,7 +200,7 @@ export function FallingLeaves({ paused }: { paused: boolean }) {
         if (leaf.y > height + 50 || leaf.x < -80 || leaf.x > width + 80) Object.assign(leaf, spawn({ z: leaf.z, size: leaf.size }, false));
         const sprite = sprites[leaf.sprite];
         ctx.save();
-        ctx.globalAlpha = fadeIn * (0.42 + 0.5 * leaf.z);
+        ctx.globalAlpha = fadeIn * (0.55 + 0.43 * leaf.z);
         ctx.translate(leaf.x, leaf.y);
         ctx.rotate(leaf.rot);
         ctx.scale(1, 0.18 + 0.82 * Math.abs(Math.cos(leaf.flip)));
