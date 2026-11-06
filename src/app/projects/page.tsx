@@ -5,7 +5,7 @@ import { fadeUp, staggerContainer, viewport } from "@/components/home/motion";
 import { ProjectCard } from "@/components/home/project-card";
 import { SubpageFooter, SubpageNav } from "@/components/subpage-nav";
 import { projects } from "@/lib/projects";
-import { CO_OP, EMAIL } from "@/lib/site-facts";
+import { AVAILABILITY, EMAIL } from "@/lib/site-facts";
 
 export default function ProjectsPage() {
   return (
@@ -83,11 +83,10 @@ export default function ProjectsPage() {
             className="glass-strong mx-auto max-w-3xl rounded-[2rem] px-8 py-10 text-center sm:px-14"
           >
             <h2 className="text-[clamp(1.5rem,3.5vw,2.25rem)] font-semibold tracking-[-0.04em] text-foreground">
-              {CO_OP.status}, {CO_OP.term}
+              {AVAILABILITY.incoming}
             </h2>
             <p className="mx-auto mt-4 max-w-md text-[16px] leading-relaxed text-muted">
-              Looking for {CO_OP.roles.slice(0, 3).join(", ")}, or similar roles
-              across industries.
+              After that, looking for {AVAILABILITY.search}.
             </p>
             <a
               href={"mailto:" + EMAIL}

@@ -1,0 +1,708 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { GREEK_FLAG, stripeColor } from "@/components/greece-2026/greek-flag";
+import {
+  CARD_STATS,
+  COOP,
+  COOP_MAP,
+  FUNNEL,
+  ORBIT_LOGOS,
+  PHONE_ORBIT_LOGOS,
+  SEARCH_COUNTERS,
+  TIMELINE,
+  type CoopLogo,
+} from "@/lib/coop";
+import {
+  ROUTE_HEADING_POINT,
+  STRIPE_SPACING,
+  STRIPE_WIDTH,
+  cameraAt,
+  loadIntroMap,
+  ribbonAt,
+  tipAt,
+  type IntroMap,
+} from "./coop-map";
+import { lockScroll } from "../scroll-lock";
+import { drawField, layoutDots, makeGlowSprite, type FieldLayout } from "./dots";
+import { ATLANTIC_ATHENS, ATLANTIC_BOSTON, FALLBACK_STRIPE, MapFallback, atlanticToScreen } from "./map-fallback";
+import {
+  TIMINGS,
+  clamp01,
+  easeInCubic,
+  easeInOutCubic,
+  easeInOutSine,
+  easeOutBack,
+  easeOutCubic,
+  lerp,
+  progress,
+  window01,
+  type Timing,
+  type Variant,
+} from "./timing";
+
+type Props = {
+  /** True once the card has risen over the intro, which then steps out of the way. */
+  cardOpen: boolean;
+  onLanding: () => void;
+  onSkip: () => void;
+  onEnd: () => void;
+};
+
+const TITLE = "Fall 2026. One co-op search.";
+const YES = CARD_STATS.find((stat) => stat.label === "yes");
+
+type Layout = {
+  vw: number;
+  vh: number;
+  field: FieldLayout;
+  orbit: { rx: number; ry: number };
+  /** The surviving dot steps left and up so the timeline below it is centered. */
+  timelineX: number;
+  timelineY: number;
+};
+
+function computeLayout(variant: Variant, vw: number, vh: number): Layout {
+  if (variant === "phone") {
+    const radius = Math.min(vw * 0.33, vh * 0.19);
+    const width = Math.min(360, vw - 40);
+    return {
+      vw,
+      vh,
+      field: { cx: vw / 2, cy: vh * 0.41, radius, dotRadius: 2.5 },
+      orbit: { rx: Math.min(radius * 1.55, vw / 2 - 26), ry: radius * 1.6 },
+      timelineX: (vw - width) / 2 + 4,
+      timelineY: vh * 0.5 - 125,
+    };
+  }
+  const radius = Math.min(vw * 0.17, vh * 0.21);
+  const width = Math.min(440, vw - 64);
+  return {
+    vw,
+    vh,
+    field: { cx: vw / 2, cy: vh * 0.43, radius, dotRadius: 3.3 },
+    orbit: { rx: radius * 2.3, ry: radius * 1.4 },
+    timelineX: (vw - width) / 2 + 4,
+    timelineY: vh * 0.5 - 105,
+  };
+}
+
+/**
+ * QA only: ?intro=1&introAt=15&introHold=1 starts at 15 s and holds there, and
+ * introMap=1 draws the map even on software WebGL (headless browsers).
+ */
+function readQa(): { start: number; hold: boolean; forceMap: boolean } {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("intro") !== "1") return { start: 0, hold: false, forceMap: false };
+  const at = Number(params.get("introAt"));
+  return {
+    start: Number.isFinite(at) && at > 0 ? at : 0,
+    hold: params.get("introHold") === "1",
+    forceMap: params.get("introMap") === "1",
+  };
+}
+
+/** The same line, turned the short way round. The flag's stripe pattern is symmetric, so either end can lead. */
+function halfTurn(angle: number): number {
+  let a = angle;
+  while (a > Math.PI / 2) a -= Math.PI;
+  while (a <= -Math.PI / 2) a += Math.PI;
+  return a;
+}
+
+function setText(el: HTMLElement | undefined, text: string) {
+  if (el && el.textContent !== text) el.textContent = text;
+}
+
+/** Morph and peel flag sizes, in CSS pixels. */
+const SIZES = {
+  desktop: { logo: 48, flagW: 120, morphW: 216, morphH: 63, morphFont: 58, pinW: 30, pinH: 42 },
+  phone: { logo: 40, flagW: 84, morphW: 164, morphH: 48, morphFont: 44, pinW: 26, pinH: 36 },
+} as const;
+
+function LogoBadge({ logo, size }: { logo: CoopLogo; size: number }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div
+      data-logo
+      className="absolute top-0 left-0 flex items-center justify-center overflow-hidden rounded-[30%] bg-white shadow-[0_10px_28px_-10px_rgba(0,0,0,0.9)] ring-1 ring-white/20 will-change-transform"
+      style={{ width: failed ? "auto" : size, height: size, opacity: 0, padding: failed ? "0 12px" : 0 }}
+    >
+      {failed ? (
+        <span className="max-w-[150px] truncate text-[11px] font-semibold tracking-[-0.01em] text-neutral-800">
+          {logo.name.split(",")[0]}
+        </span>
+      ) : (
+        <Image
+          src={logo.src}
+          alt=""
+          width={96}
+          height={96}
+          sizes={`${size}px`}
+          loading="eager"
+          draggable={false}
+          onError={() => setFailed(true)}
+          className="h-full w-full object-cover"
+        />
+      )}
+    </div>
+  );
+}
+
+/**
+ * The co-op announcement intro: the search as 132 dots that compress into one,
+ * the one becoming a pin in Boston after a flight from Athens, and the card.
+ * React renders the structure once; a single loop drives every frame from one
+ * clock, so Skip and pause are just changes to that clock.
+ */
+export function CoopIntro({ cardOpen, onLanding, onSkip, onEnd }: Props) {
+  const [variant] = useState<Variant>(() => (window.innerWidth < 640 ? "phone" : "desktop"));
+  const [qa] = useState(readQa);
+  const [mapMode, setMapMode] = useState<"pending" | "map" | "fallback">("pending");
+  const rootRef = useRef<HTMLDivElement>(null);
+  const skipRef = useRef<HTMLButtonElement>(null);
+  const T: Timing = TIMINGS[variant];
+  const size = SIZES[variant];
+  const logos = (variant === "phone" ? PHONE_ORBIT_LOGOS : ORBIT_LOGOS).slice(0, T.maxLogos);
+  const flagH = (size.flagW * GREEK_FLAG.height) / GREEK_FLAG.width;
+  const morphFlagW = (size.morphH * GREEK_FLAG.width) / GREEK_FLAG.height;
+
+  // Skip is focused first, Esc skips, and the page behind stops scrolling.
+  useEffect(() => {
+    skipRef.current?.focus({ preventScroll: true });
+    return lockScroll();
+  }, []);
+
+  useEffect(() => {
+    if (cardOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onSkip();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [cardOpen, onSkip]);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    const canvas = root?.querySelector<HTMLCanvasElement>("[data-field]");
+    const ctx = canvas?.getContext("2d");
+    if (!root || !canvas || !ctx) return;
+
+    const all = <E extends Element>(selector: string) => [...root.querySelectorAll<E>(selector)];
+    const one = <E extends Element>(selector: string) => root.querySelector<E>(selector) ?? undefined;
+
+    const dots = layoutDots();
+    const sprite = makeGlowSprite();
+    const logoEls = all<HTMLElement>("[data-logo]");
+    const counterEls = all<HTMLElement>("[data-counter]");
+    const counterValues = all<HTMLElement>("[data-counter-value]");
+    const title = one<HTMLElement>("[data-title]");
+    const funnelDim = one<HTMLElement>("[data-funnel='dim']");
+    const funnelGlow = one<HTMLElement>("[data-funnel='glow']");
+    const funnelDimValue = one<HTMLElement>("[data-funnel-value='dim']");
+    const funnelGlowValue = one<HTMLElement>("[data-funnel-value='glow']");
+    const timeline = one<HTMLElement>("[data-timeline]");
+    const timelineRows = all<HTMLElement>("[data-timeline-row]");
+    const timelineLine = one<HTMLElement>("[data-timeline-line]");
+    const yesLabel = one<HTMLElement>("[data-yes-label]");
+    const mapEl = one<HTMLElement>("[data-map]");
+    const fallbackWrap = one<HTMLElement>("[data-fallback-wrap]");
+    const flag = one<HTMLElement>("[data-flag]");
+    const flagStripes = all<HTMLElement>("[data-flag-stripe]");
+    const flagCanton = one<HTMLElement>("[data-flag-canton]");
+    const pin = one<HTMLElement>("[data-pin]");
+    const ring = one<HTMLElement>("[data-ring]");
+    const officeLabel = one<HTMLElement>("[data-office-label]");
+    const morph = one<HTMLElement>("[data-morph]");
+    const morphText = one<HTMLElement>("[data-morph-text]");
+    const morphStripes = all<HTMLElement>("[data-morph-stripe]");
+    const morphCanton = one<HTMLElement>("[data-morph-canton]");
+    const skip = one<HTMLElement>("[data-skip]");
+
+    let layout = computeLayout(variant, window.innerWidth, window.innerHeight);
+    const sizeCanvas = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(layout.vw * dpr);
+      canvas.height = Math.round(layout.vh * dpr);
+      canvas.style.width = `${layout.vw}px`;
+      canvas.style.height = `${layout.vh}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    sizeCanvas();
+    const onResize = () => {
+      layout = computeLayout(variant, window.innerWidth, window.innerHeight);
+      sizeCanvas();
+    };
+    window.addEventListener("resize", onResize);
+
+    let mode: "pending" | "map" | "fallback" = "pending";
+    let map: IntroMap | null = null;
+    let stopMap: (() => void) | null = null;
+    const startMap = () => {
+      const host = one<HTMLElement>("[data-map-host]");
+      if (!host) return;
+      stopMap = loadIntroMap(host, variant, {
+        onReady: (handle) => {
+          map = handle;
+          mode = "map";
+          setMapMode("map");
+        },
+        onFail: () => {
+          mode = "fallback";
+          setMapMode("fallback");
+        },
+        allowSoftware: qa.forceMap,
+      });
+    };
+    /** A GPU that cannot keep up with the globe hands the scene to the drawn fallback. */
+    const dropMap = () => {
+      stopMap?.();
+      stopMap = null;
+      map = null;
+      mode = "fallback";
+      setMapMode("fallback");
+    };
+
+    // Fallback nodes mount after the mode switch, so they are looked up lazily.
+    let fb: {
+      atlantic?: SVGElement;
+      boston?: SVGElement;
+      city?: SVGElement;
+      arc?: SVGPathElement;
+      arcLength: number;
+      stripes: SVGPathElement[];
+      glow?: SVGPathElement;
+    } | null = null;
+    const fallbackNodes = () => {
+      if (fb?.arc) return fb;
+      const arc = one<SVGPathElement>("[data-fb='arc']");
+      if (!arc) return null;
+      fb = {
+        atlantic: one<SVGElement>("[data-fb='atlantic']"),
+        boston: one<SVGElement>("[data-fb='boston']"),
+        city: one<SVGElement>("[data-fb='city']"),
+        arc,
+        arcLength: arc.getTotalLength(),
+        stripes: all<SVGPathElement>("[data-fb='stripe']"),
+        glow: one<SVGPathElement>("[data-fb='glow']"),
+      };
+      return fb;
+    };
+
+    const render = (t: number) => {
+      const { vw, vh, field, orbit } = layout;
+      const cx = vw / 2;
+      const cy = vh / 2;
+
+      root.style.opacity = String(Math.min(easeOutCubic(progress(t, T.mountIn)), 1 - progress(t, T.fadeOut)));
+      if (title) title.style.opacity = String(window01(t, T.title.in, T.title.out));
+
+      // Logos fly in, orbit, tighten as the search narrows, then fold into the center.
+      const spin = 0.11 * Math.max(0, t - T.logosIn[0]);
+      const tight = lerp(1, T.tightReach, easeInOutCubic(progress(t, T.tighten)));
+      const fold = easeInCubic(progress(t, T.logosOut));
+      const far = Math.max(vw, vh) * 0.85;
+      logoEls.forEach((el, i) => {
+        const angle = (i / logoEls.length) * Math.PI * 2 - Math.PI / 2 + spin;
+        const reach = tight * (1 - 0.88 * fold);
+        const tx = field.cx + Math.cos(angle) * orbit.rx * reach;
+        const ty = field.cy + Math.sin(angle) * orbit.ry * reach;
+        const delay = (i / Math.max(1, logoEls.length - 1)) * (T.logosIn[1] - T.logosIn[0] - 1.2);
+        const arrive = easeOutCubic(progress(t, [T.logosIn[0] + delay, T.logosIn[0] + delay + 1.2]));
+        const x = lerp(field.cx + Math.cos(angle) * far, tx, arrive);
+        const y = lerp(field.cy + Math.sin(angle) * far, ty, arrive);
+        const depth = 0.84 + 0.16 * ((Math.sin(angle) + 1) / 2);
+        const w = el.offsetWidth;
+        el.style.transform = `translate3d(${x - w / 2}px, ${y - size.logo / 2}px, 0) scale(${depth * (1 - 0.5 * fold)})`;
+        el.style.opacity = String(arrive * (1 - fold) * (0.5 + 0.42 * depth));
+      });
+
+      // Where the surviving dot is: lifted beside the timeline, then over Athens,
+      // which is the camera center on the map and a fixed point on the drawn fallback.
+      const lift = easeInOutCubic(progress(t, [T.collapse[0] + 0.3, T.timeline.start + 0.15]));
+      const center = easeInOutCubic(progress(t, T.timeline.out));
+      const nodes = mode === "fallback" ? fallbackNodes() : null;
+      const home = nodes ? atlanticToScreen(ATLANTIC_ATHENS.x, ATLANTIC_ATHENS.y, vw, vh, variant) : { x: cx, y: cy };
+      let yesX = lerp(lerp(field.cx, layout.timelineX, lift), home.x, center);
+      let yesY = lerp(lerp(field.cy, layout.timelineY, lift), home.y, center);
+      if (nodes?.arc && t >= T.flight[0]) {
+        const f = ribbonAt(t, T);
+        const point = nodes.arc.getPointAtLength(f * nodes.arcLength);
+        const onArc = atlanticToScreen(point.x, point.y, vw, vh, variant);
+        const boston = atlanticToScreen(ATLANTIC_BOSTON.x, ATLANTIC_BOSTON.y, vw, vh, variant);
+        const dive = easeInOutCubic(progress(t, T.zoom));
+        yesX = t < T.zoom[0] ? onArc.x : lerp(boston.x, cx, dive);
+        yesY = t < T.zoom[0] ? onArc.y : lerp(boston.y, cy, dive);
+      }
+      // On the map it rides the ribbon's tip, then sits on the office as the camera dives.
+      if (mode === "map" && map && t >= T.flight[0]) {
+        const tip = map.project(tipAt(t, T));
+        yesX = tip.x;
+        yesY = tip.y;
+      }
+
+      ctx.clearRect(0, 0, vw, vh);
+      drawField(ctx, dots, field, t, T, sprite, { x: yesX, y: yesY, fade: progress(t, T.pin) });
+
+      // The search in numbers. The first counter rolls with the dots.
+      counterEls.forEach((el, i) => {
+        const stat = SEARCH_COUNTERS[i];
+        const start = i === 0 ? T.dots[0] : T.counters.start + (i - 1) * T.counters.stagger;
+        const end = i === 0 ? T.dots[1] : start + T.counters.roll;
+        el.style.opacity = String(Math.min(clamp01((t - start) / 0.35), 1 - progress(t, T.counters.out)));
+        if (stat.kind === "number") {
+          setText(counterValues[i], String(Math.round(stat.value * easeOutCubic(progress(t, [start, end])))));
+        }
+      });
+
+      if (funnelDim && funnelGlow) {
+        funnelDim.style.opacity = String(window01(t, [T.dim[0], T.dim[0] + 0.35], T.funnelOut));
+        funnelGlow.style.opacity = String(window01(t, [T.glow[0], T.glow[0] + 0.35], T.funnelOut));
+        setText(funnelDimValue, String(Math.round(FUNNEL.dimmed.value * easeOutCubic(progress(t, T.dim)))));
+        setText(funnelGlowValue, String(Math.round(FUNNEL.glowing.value * easeOutCubic(progress(t, T.glow)))));
+      }
+
+      // The yes, and the five steps that unfold from it.
+      if (timeline) {
+        timeline.style.transform = `translate3d(${layout.timelineX}px, ${layout.timelineY}px, 0)`;
+        timeline.style.opacity = String(1 - progress(t, T.timeline.out));
+      }
+      const rowsDone = T.timeline.start + T.timeline.stagger * timelineRows.length + 0.3;
+      if (timelineLine) {
+        timelineLine.style.transform = `scaleY(${easeOutCubic(progress(t, [T.timeline.start, rowsDone]))})`;
+      }
+      timelineRows.forEach((row, i) => {
+        const at = T.timeline.start + 0.1 + i * T.timeline.stagger;
+        row.style.opacity = String(clamp01((t - at) / 0.3));
+      });
+      if (yesLabel) yesLabel.style.opacity = String(window01(t, [T.collapse[1] - 0.1, T.collapse[1] + 0.25], T.timeline.out));
+
+      // The map (or its fallback) fades in under the dot.
+      const mapIn = easeInOutCubic(progress(t, T.mapIn));
+      if (mapEl) mapEl.style.opacity = String(mode === "map" ? mapIn : 0);
+      if (fallbackWrap) fallbackWrap.style.opacity = String(mode === "fallback" ? mapIn : 0);
+      if (mode === "map" && map && t >= T.mapIn[0] - 0.1) {
+        map.setCamera(cameraAt(t, T, variant));
+        const ribbonFade = easeInOutCubic(progress(t, [T.zoom[0], lerp(T.zoom[0], T.zoom[1], 0.65)]));
+        map.setRibbon(ribbonAt(t, T), 1 - ribbonFade);
+      }
+      if (nodes) {
+        const f = ribbonAt(t, T);
+        for (const stripe of nodes.stripes) stripe.style.strokeDashoffset = String(1 - f);
+        if (nodes.glow) nodes.glow.style.strokeDashoffset = String(1 - f);
+        const dive = easeInOutCubic(progress(t, T.zoom));
+        const turn = easeInOutSine(progress(t, T.orbit));
+        if (nodes.atlantic) nodes.atlantic.style.opacity = String(1 - easeInOutCubic(progress(t, [T.zoom[0], T.zoom[0] + 0.5])));
+        if (nodes.boston) nodes.boston.style.opacity = String(dive);
+        if (nodes.city) {
+          const bearing = -20 * dive + T.orbitDegrees * turn;
+          nodes.city.style.transform = `rotate(${-bearing}deg) scale(${0.55 + 0.45 * dive + 0.06 * turn})`;
+        }
+      }
+
+      // The Greek flag appears over Athens. Its stripes squeeze to the ribbon's
+      // spacing and width, the bundle swings onto the route, and it hands over
+      // to the ribbon once the ribbon has grown longer than the flag.
+      let athens: { x: number; y: number } | null = null;
+      let heading = 0;
+      let ribbonLength = 0;
+      let band = { spacing: STRIPE_SPACING, width: STRIPE_WIDTH };
+      if (mode === "map" && map) {
+        athens = map.project(COOP_MAP.origin);
+        const ahead = map.project(ROUTE_HEADING_POINT);
+        heading = Math.atan2(ahead.y - athens.y, ahead.x - athens.x);
+        if (t >= T.flight[0]) {
+          const tip = map.project(tipAt(t, T));
+          ribbonLength = Math.hypot(tip.x - athens.x, tip.y - athens.y);
+        }
+      } else if (nodes?.arc) {
+        const start = atlanticToScreen(ATLANTIC_ATHENS.x, ATLANTIC_ATHENS.y, vw, vh, variant);
+        const aheadPoint = nodes.arc.getPointAtLength(0.04 * nodes.arcLength);
+        const ahead = atlanticToScreen(aheadPoint.x, aheadPoint.y, vw, vh, variant);
+        athens = start;
+        heading = Math.atan2(ahead.y - start.y, ahead.x - start.x);
+        if (t >= T.flight[0]) ribbonLength = ribbonAt(t, T) * nodes.arcLength * start.scale;
+        // The fallback's stripes are offset vertically, so their spacing across the route shrinks with its slope.
+        band = {
+          spacing: FALLBACK_STRIPE[variant].spacing * start.scale * Math.abs(Math.cos(heading)),
+          width: FALLBACK_STRIPE[variant].width * start.scale,
+        };
+      }
+      if (flag) {
+        const shown = clamp01(progress(t, T.flagIn) * 1.6);
+        const pop = easeOutBack(progress(t, T.flagIn));
+        const u = progress(t, T.peel);
+        const squeeze = easeInOutCubic(clamp01(u / 0.55));
+        const swing = easeInOutCubic(clamp01((u - 0.3) / 0.7));
+        const handover = clamp01((ribbonLength - size.flagW * 0.55) / (size.flagW * 0.5));
+        flag.style.opacity = String(athens ? shown * (1 - handover) : 0);
+        if (athens) {
+          const along = (swing * size.flagW) / 2;
+          const x = athens.x + Math.cos(heading) * along;
+          const y = athens.y + Math.sin(heading) * along;
+          flag.style.transform = `translate3d(${x - size.flagW / 2}px, ${y - flagH / 2}px, 0) rotate(${halfTurn(heading) * swing}rad) scale(${0.6 + 0.4 * pop})`;
+        }
+        const rest = flagH / GREEK_FLAG.stripes;
+        flagStripes.forEach((stripe, i) => {
+          const from = (i - (GREEK_FLAG.stripes - 1) / 2) * rest;
+          const to = (i - (GREEK_FLAG.stripes - 1) / 2) * band.spacing;
+          stripe.style.transform = `translate3d(0, ${(to - from) * squeeze}px, 0) scaleY(${lerp(1, band.width / rest, squeeze)})`;
+        });
+        if (flagCanton) flagCanton.style.opacity = String(1 - Math.min(1, squeeze * 1.6));
+      }
+
+      // The dot becomes a pin on the office, and the flag over it becomes the word.
+      const pinP = progress(t, T.pin);
+      if (pin) {
+        pin.style.opacity = String(clamp01(pinP * 3) * (1 - progress(t, T.fadeOut)));
+        pin.style.transform = `translate3d(${cx - size.pinW / 2}px, ${cy - size.pinH + lerp(-70, 0, easeOutBack(pinP))}px, 0)`;
+      }
+      if (ring) {
+        const r = progress(t, [T.pin[1] - 0.05, T.pin[1] + 0.9]);
+        ring.style.opacity = String(r > 0 && r < 1 ? 0.6 * (1 - r) : 0);
+        ring.style.transform = `translate3d(${cx - 20}px, ${cy - 20}px, 0) scale(${0.3 + 2.2 * r})`;
+      }
+      if (officeLabel) {
+        officeLabel.style.opacity = String(window01(t, [T.pin[1], T.pin[1] + 0.35], [T.landing, T.landing + 0.4]));
+        officeLabel.style.transform = `translate3d(-50%, 0, 0) translate3d(${cx}px, ${cy + 14}px, 0)`;
+      }
+      if (morph) {
+        const m = progress(t, T.morph);
+        const pop = easeOutBack(clamp01(m / 0.22));
+        const widen = easeInOutCubic(clamp01((m - 0.22) / 0.25));
+        const slide = clamp01((m - 0.47) / 0.5);
+        const away = 1 - progress(t, [T.landing + 0.2, T.landing + 0.7]);
+        morph.style.opacity = String(m > 0 ? Math.min(1, m / 0.08) * away : 0);
+        morph.style.transform = `translate3d(${cx - size.morphW / 2}px, ${cy - size.pinH - 18 - size.morphH}px, 0) scale(${0.7 + 0.3 * pop})`;
+        if (morphCanton) morphCanton.style.opacity = String(1 - widen);
+        if (morphText) morphText.style.opacity = widen >= 1 ? "1" : "0";
+        morphStripes.forEach((stripe, i) => {
+          const local = easeInCubic(clamp01((slide - i * 0.045) / 0.6));
+          const direction = i % 2 === 0 ? -1 : 1;
+          stripe.style.transform = `translate3d(${direction * (size.morphW + 40) * local}px, 0, 0) scaleX(${lerp(1, size.morphW / morphFlagW, widen)})`;
+          stripe.style.opacity = String(1 - local);
+        });
+      }
+
+      // Once the card has landed, Skip has nothing left to skip.
+      if (skip) {
+        const gone = progress(t, [T.landing, T.landing + 0.35]);
+        skip.style.opacity = String(1 - gone);
+        skip.style.pointerEvents = gone > 0 ? "none" : "auto";
+      }
+    };
+
+    let t = qa.start;
+    let last = performance.now();
+    let raf = 0;
+    let mapStarted = false;
+    let landed = false;
+    let slowFrames = 0;
+    const frame = (now: number) => {
+      const gap = now - last;
+      // Real time down to 4 frames a second; longer stalls do not jump the story ahead.
+      const dt = Math.min(0.25, gap / 1000);
+      last = now;
+      if (!document.hidden && !qa.hold) t += dt;
+      if (mode === "map" && !qa.hold && t >= T.mapIn[0]) {
+        slowFrames = gap > 250 ? slowFrames + 1 : gap < 120 ? 0 : slowFrames;
+        if (slowFrames >= 4) dropMap();
+      }
+      if (!mapStarted && t >= T.mapLoad) {
+        mapStarted = true;
+        startMap();
+      }
+      render(t);
+      if (!landed && t >= T.landing) {
+        landed = true;
+        onLanding();
+      }
+      if (t >= T.total) {
+        onEnd();
+        return;
+      }
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+      stopMap?.();
+    };
+  }, [variant, qa, T, size, flagH, morphFlagW, onLanding, onEnd]);
+
+  return (
+    <div
+      ref={rootRef}
+      role={cardOpen ? undefined : "dialog"}
+      aria-modal={cardOpen ? undefined : true}
+      aria-label={cardOpen ? undefined : "Co-op announcement"}
+      aria-hidden={cardOpen || undefined}
+      className="fixed inset-0 z-[100] overflow-hidden bg-[#02040a] text-white"
+      style={{ opacity: 0 }}
+    >
+      <p className="sr-only">
+        An animated intro about my fall 2026 co-op search is playing. Skip intro goes straight to the
+        announcement.
+      </p>
+
+      <div aria-hidden className="absolute inset-0">
+        {/* MapLibre sets position: relative on its container, so it gets its own inner host. */}
+        <div data-map className="absolute inset-0" style={{ opacity: 0 }}>
+          <div data-map-host className="h-full w-full" />
+        </div>
+        <div data-fallback-wrap className="absolute inset-0" style={{ opacity: 0 }}>
+          {mapMode === "fallback" && <MapFallback variant={variant} />}
+        </div>
+
+        <canvas data-field className="absolute inset-0" />
+
+        {logos.map((logo) => (
+          <LogoBadge key={logo.file} logo={logo} size={size.logo} />
+        ))}
+
+        <p
+          data-title
+          className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-6 text-center text-[clamp(1.75rem,4.6vw,3.25rem)] leading-[1.1] font-semibold tracking-[-0.04em]"
+          style={{ opacity: 0 }}
+        >
+          {TITLE}
+        </p>
+
+        <div className="absolute inset-x-0 bottom-[max(4vh,20px)] mx-auto grid max-w-[1100px] grid-cols-3 gap-x-4 gap-y-4 px-5 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-10">
+          {SEARCH_COUNTERS.map((stat) => (
+            <div key={stat.label} data-counter className="text-center sm:min-w-[120px]" style={{ opacity: 0 }}>
+              <p className="text-[clamp(1.4rem,3vw,2.15rem)] leading-none font-semibold tracking-[-0.03em] tabular-nums">
+                <span data-counter-value>{stat.kind === "date" ? (variant === "phone" ? stat.short : stat.value) : "0"}</span>
+              </p>
+              <p className="mt-1.5 text-[clamp(11px,1.2vw,13px)] leading-snug text-white/65">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="absolute inset-x-0 bottom-[max(5vh,24px)] flex justify-center gap-10 px-5 sm:gap-16">
+          <div data-funnel="dim" className="text-center sm:flex sm:items-center sm:gap-3 sm:text-left" style={{ opacity: 0 }}>
+            <p className="flex items-center justify-center gap-2.5 sm:contents">
+              <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
+              <span data-funnel-value="dim" className="text-[clamp(1.4rem,3vw,2.15rem)] leading-none font-semibold tracking-[-0.03em] tabular-nums">0</span>
+            </p>
+            <p className="mt-1.5 text-[clamp(12px,1.3vw,14px)] text-white/65 sm:mt-0">{FUNNEL.dimmed.label}</p>
+          </div>
+          <div data-funnel="glow" className="text-center sm:flex sm:items-center sm:gap-3 sm:text-left" style={{ opacity: 0 }}>
+            <p className="flex items-center justify-center gap-2.5 sm:contents">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#9ccbff] shadow-[0_0_12px_3px_rgba(41,151,255,0.7)]" />
+              <span data-funnel-value="glow" className="text-[clamp(1.4rem,3vw,2.15rem)] leading-none font-semibold tracking-[-0.03em] tabular-nums">0</span>
+            </p>
+            <p className="mt-1.5 text-[clamp(12px,1.3vw,14px)] text-white/65 sm:mt-0">{FUNNEL.glowing.label}</p>
+          </div>
+        </div>
+
+        <div data-timeline className="absolute top-0 left-0" style={{ opacity: 0 }}>
+          <p data-yes-label className="absolute top-0 left-6 -translate-y-1/2 text-[17px] font-semibold tracking-[-0.02em] whitespace-nowrap" style={{ opacity: 0 }}>
+            {YES ? `${YES.value} ${YES.label}` : ""}
+          </p>
+          <span data-timeline-line className="absolute top-3 left-0 h-[calc(100%+4px)] w-px origin-top -translate-x-1/2 bg-white/25" style={{ transform: "scaleY(0)" }} />
+          <ol className="relative mt-9 w-[min(440px,calc(100vw-64px))] space-y-3 pl-6">
+            {TIMELINE.map((step, i) => (
+              <li key={`${step.iso}-${step.label}`} data-timeline-row className="relative flex gap-3 text-[14px] leading-[1.45]" style={{ opacity: 0 }}>
+                <span
+                  className={`absolute top-[7px] -left-6 h-2 w-2 -translate-x-1/2 rounded-full ${
+                    i === TIMELINE.length - 1 ? "bg-[#9ccbff] shadow-[0_0_10px_2px_rgba(41,151,255,0.75)]" : "bg-white/70"
+                  }`}
+                />
+                <span className="w-12 shrink-0 font-medium tabular-nums">{step.date}</span>
+                <span className="text-white/75">{step.label}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div data-flag className="absolute top-0 left-0" style={{ width: size.flagW, height: flagH, opacity: 0 }}>
+          {Array.from({ length: GREEK_FLAG.stripes }, (_, i) => (
+            <span
+              key={i}
+              data-flag-stripe
+              className="absolute left-0 w-full origin-center"
+              style={{
+                top: (i * flagH) / GREEK_FLAG.stripes,
+                height: flagH / GREEK_FLAG.stripes + 0.5,
+                background: stripeColor(i),
+              }}
+            />
+          ))}
+          <span
+            data-flag-canton
+            className="absolute top-0 left-0"
+            style={{ width: (size.flagW * GREEK_FLAG.canton) / GREEK_FLAG.width, height: (flagH * GREEK_FLAG.canton) / GREEK_FLAG.height, background: GREEK_FLAG.blue }}
+          >
+            <span className="absolute inset-y-0 left-1/2 -translate-x-1/2 bg-white" style={{ width: (flagH * 2) / GREEK_FLAG.height }} />
+            <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white" style={{ height: (flagH * 2) / GREEK_FLAG.height }} />
+          </span>
+        </div>
+
+        <span data-ring className="absolute top-0 left-0 h-10 w-10 rounded-full border-2 border-[#2997ff]" style={{ opacity: 0 }} />
+        <svg data-pin className="absolute top-0 left-0" width={size.pinW} height={size.pinH} viewBox="0 0 30 42" style={{ opacity: 0 }}>
+          <path d="M15 41C15 41 28 25.6 28 15A13 13 0 0 0 2 15C2 25.6 15 41 15 41Z" fill="#2997ff" stroke="#fff" strokeWidth="2" />
+          <circle cx="15" cy="15" r="5" fill="#fff" />
+        </svg>
+        <p data-office-label className="absolute top-0 left-0 text-[12.5px] font-medium whitespace-nowrap text-white/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]" style={{ opacity: 0 }}>
+          {COOP_MAP.officeLabel}
+        </p>
+
+        <div data-morph className="absolute top-0 left-0 origin-bottom" style={{ width: size.morphW, height: size.morphH, opacity: 0 }}>
+          <p
+            data-morph-text
+            className="absolute inset-0 flex items-center justify-center leading-none font-semibold tracking-[-0.045em] text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.7)]"
+            style={{ fontSize: size.morphFont, opacity: 0 }}
+          >
+            {COOP.company}
+          </p>
+          {Array.from({ length: GREEK_FLAG.stripes }, (_, i) => (
+            <span
+              key={i}
+              data-morph-stripe
+              className="absolute"
+              style={{
+                left: (size.morphW - morphFlagW) / 2,
+                width: morphFlagW,
+                top: (i * size.morphH) / GREEK_FLAG.stripes,
+                height: size.morphH / GREEK_FLAG.stripes + 0.5,
+                background: stripeColor(i),
+              }}
+            />
+          ))}
+          <span
+            data-morph-canton
+            className="absolute top-0"
+            style={{
+              left: (size.morphW - morphFlagW) / 2,
+              width: (morphFlagW * GREEK_FLAG.canton) / GREEK_FLAG.width,
+              height: (size.morphH * GREEK_FLAG.canton) / GREEK_FLAG.height,
+              background: GREEK_FLAG.blue,
+            }}
+          >
+            <span className="absolute inset-y-0 left-1/2 -translate-x-1/2 bg-white" style={{ width: (size.morphH * 2) / GREEK_FLAG.height }} />
+            <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white" style={{ height: (size.morphH * 2) / GREEK_FLAG.height }} />
+          </span>
+        </div>
+
+      </div>
+
+      <button
+        ref={skipRef}
+        data-skip
+        type="button"
+        onClick={onSkip}
+        tabIndex={cardOpen ? -1 : 0}
+        className="absolute top-4 right-4 z-10 inline-flex h-10 items-center rounded-full border border-white/20 bg-black/40 px-4 text-[14px] font-medium text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:top-6 sm:right-6"
+      >
+        Skip intro
+      </button>
+    </div>
+  );
+}

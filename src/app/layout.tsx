@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { CoopProvider } from "@/components/coop/coop-provider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { COOP } from "@/lib/coop";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,16 +17,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_TITLE = "Lokesh Addagiri | Data Science and Business Administration";
+const SITE_DESCRIPTION = `${COOP.incoming}. Northeastern University Data Science and Business Administration student. Projects, coursework archive, and reports.`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://lokeshaddagiri.com"),
+  // The bare domain redirects here, so absolute URLs (like the preview image) skip the redirect.
+  metadataBase: new URL("https://www.lokeshaddagiri.com"),
 
   title: {
-    default: "Lokesh Addagiri | Data Science and Business Administration",
+    default: SITE_TITLE,
     template: "%s | Lokesh Addagiri",
   },
 
-  description:
-    "Northeastern University Data Science and Business Administration student, available for a January to June 2027 co-op. Projects, coursework archive, and reports.",
+  description: SITE_DESCRIPTION,
 
   keywords: [
     "Lokesh Addagiri",
@@ -51,31 +56,20 @@ export const metadata: Metadata = {
 
   // Favicon is served automatically from src/app/favicon.ico (App Router file convention).
 
-  // TODO: Add OG image at public/og-image.png (served as https://lokeshaddagiri.com/og-image.png)
+  // The preview image is src/app/opengraph-image.png (with its alt text beside it).
   openGraph: {
-    title: "Lokesh Addagiri | Data Science and Business Administration",
-    description:
-      "Northeastern University student available for a January to June 2027 co-op. Data pipelines, web apps, and a full coursework archive.",
-    url: "https://lokeshaddagiri.com",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
     siteName: "Lokesh Addagiri",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Lokesh Addagiri, Data Science and Business Administration portfolio",
-      },
-    ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Lokesh Addagiri | Data Science and Business Administration",
-    description:
-      "Northeastern University student available for a January to June 2027 co-op. Data pipelines, web apps, and a full coursework archive.",
-    images: ["/og-image.png"],
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
 
   robots: {
@@ -96,7 +90,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <CoopProvider>{children}</CoopProvider>
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

@@ -1,3 +1,4 @@
+import { COOP } from "@/lib/coop";
 import { academicSemesters, inProgressCourses } from "@/lib/coursework-archive";
 
 /**
@@ -8,17 +9,27 @@ import { academicSemesters, inProgressCourses } from "@/lib/coursework-archive";
 
 export const EMAIL = "addagiri.l@northeastern.edu";
 
-export const CO_OP = {
-  status: "Available for co-op",
-  term: "January to June 2027",
+/**
+ * What comes next. The Verisk co-op itself lives in coop-data.json (through
+ * src/lib/coop.ts); after it, the search is for a summer internship.
+ */
+export const AVAILABILITY = {
+  /** Hero pill on wide screens: "Incoming Technology Services Group Co-op at Verisk". */
+  incoming: COOP.incoming,
+  /** The same pill on phones, where the full title would wrap inside it. */
+  incomingShort: `Incoming co-op at ${COOP.company}`,
+  /** "Jan to Jun 2027", for the hero snapshot. */
+  coopPeriod: COOP.period,
+  /** Lead line of the hero's Looking for card. */
+  searchHeadline: "Summer internship, starting July 2027",
+  /** Completes "Looking for ..." in the contact section and on /projects. */
+  search: "a summer internship starting in July 2027 in data, analytics, or operations",
   roles: [
     "Data Scientist",
     "Data Analyst",
     "Operations Analyst",
     "Business Intelligence Analyst",
   ],
-  /** Completes "Looking for a January to June 2027 co-op in ..." in the contact section. */
-  focus: "data science, analytics, or operations",
   /** Shown under the role list in the hero. */
   outlook:
     "Open to any industry where data drives business decisions, including supply chain, e-commerce, healthcare, and financial services.",
@@ -37,7 +48,7 @@ export const EDUCATION = {
   studyAbroad: "American College of Greece, Athens, May to June 2026",
   languages: [
     "Telugu (native)",
-    "Spanish (limited working)",
+    "Spanish (limited working proficiency)",
     "Greek (elementary)",
   ],
 } as const;
@@ -97,7 +108,7 @@ export type SkillGroup = {
   items: readonly string[];
 };
 
-/** Matches the Skills section of the resume. Update both together. */
+/** Matches the skills on the resume and LinkedIn. Update them together. */
 export const skillGroups: readonly SkillGroup[] = [
   {
     label: "Data and Analysis",
@@ -117,6 +128,19 @@ export const skillGroups: readonly SkillGroup[] = [
     ],
   },
   {
+    label: "Methods",
+    items: [
+      "Machine Learning",
+      "Exploratory Data Analysis",
+      "Statistical Data Analysis",
+      "Monte Carlo Simulation",
+      "Data Visualization",
+      "Data Cleaning and Preprocessing",
+      "ETL",
+      "Data Pipelines",
+    ],
+  },
+  {
     label: "Engineering",
     items: [
       "TypeScript",
@@ -133,17 +157,36 @@ export const skillGroups: readonly SkillGroup[] = [
   },
   {
     label: "Testing and Tooling",
-    items: ["Vitest", "GitHub Actions", "Git", "Vercel", "Microsoft Project"],
+    items: [
+      "Vitest",
+      "Unit Testing",
+      "GitHub Actions",
+      "Git",
+      "Vercel",
+      "Microsoft Project",
+      "Technical Documentation",
+      "Troubleshooting",
+    ],
   },
   {
     label: "AI Tools",
     items: [
       "LLM APIs",
+      "Prompt Engineering",
       "Claude Code",
       "ChatGPT",
       "Gemini",
       "GitHub Copilot",
       "Cursor",
+    ],
+  },
+  {
+    label: "Business and Operations",
+    items: [
+      "Market Research",
+      "Competitor Analysis",
+      "Risk Assessment",
+      "Supply Chain Analysis",
     ],
   },
 ] as const;
@@ -156,17 +199,17 @@ export type ExperienceEntry = {
   points: readonly string[];
 };
 
-/** Ordered by end date, most recent first, to match the resume. */
+/** Newest first, as on the resume and LinkedIn. Future tense until the co-op starts. */
 export const experience: readonly ExperienceEntry[] = [
   {
-    role: "Junior Technology Consultant",
-    org: "Family Business Consulting Club",
-    location: "Boston, MA",
-    period: "Sep 2026 to present",
+    role: `${COOP.title} (incoming)`,
+    org: COOP.company,
+    location: COOP.location,
+    period: COOP.period,
     points: [
-      "Selected through case interviews for a newly created technical role at a 30-member student consultancy.",
-      "Support consulting teams of 8 to 15 on data workstreams for clients in specialty finance, adtech, and consumer software.",
-      "Own the club's client-facing website, auditing it and ranking six fixes by priority in a remediation plan.",
+      "Selected after an eight-person panel interview for one of two spring co-op openings on the Technology Services team.",
+      "Will support insurance clients running AIR's catastrophe-modeling software, installing, upgrading, and troubleshooting it.",
+      "Will partner with software QA to find and resolve issues, write test plans, and build virtual machine libraries of AIR products.",
     ],
   },
   {
@@ -181,6 +224,17 @@ export const experience: readonly ExperienceEntry[] = [
     ],
   },
   {
+    role: "Junior Technology Consultant",
+    org: "Family Business Consulting Club, Northeastern University",
+    location: "Boston, MA",
+    period: "Sep 2026 to present",
+    points: [
+      "Selected through case interviews for a newly created technical role at a 30-member student consultancy.",
+      "Support consulting teams of 8 to 15 on data workstreams for clients in specialty finance, adtech, and consumer software.",
+      "Own the club's client-facing website, auditing it and ranking six fixes by priority in a remediation plan.",
+    ],
+  },
+  {
     role: "Project Lead",
     org: "DATA Club @ Northeastern University",
     location: "Boston, MA",
@@ -192,22 +246,12 @@ export const experience: readonly ExperienceEntry[] = [
     ],
   },
   {
-    role: "USSF Certified Soccer Referee",
-    org: "U.S. Soccer Federation",
-    location: "Weymouth, MA",
-    period: "Sep 2019 to May 2025",
-    points: [
-      "Seven seasons and several hundred matches, usually the only official on the field.",
-      "Made real-time calls under pressure and de-escalated disputes among players, coaches, and spectators.",
-    ],
-  },
-  {
     role: "Youth Basketball Coach",
     org: "Milford Biddy Basketball",
     location: "Milford, MA",
     period: "Nov 2024 to Feb 2025",
     points: [
-      "Coached a 7th and 8th grade team of roughly twelve athletes through a full season.",
+      "Coached a 7th and 8th grade team of roughly twelve athletes through a full season, running practices, managing game-day rotations, and developing players across a wide range of skill levels.",
     ],
   },
   {
@@ -219,6 +263,16 @@ export const experience: readonly ExperienceEntry[] = [
       "Eight-week Work-Based Learning Alliance consulting engagement.",
       "Led CAD development for a redesigned lacrosse helmet prototype in a four-person team.",
       "Conducted product and competitor research and design reviews, presenting recommendations directly to the company founder.",
+    ],
+  },
+  {
+    role: "USSF Certified Soccer Referee",
+    org: "U.S. Soccer Federation",
+    location: "Weymouth, MA",
+    period: "Sep 2019 to May 2025",
+    points: [
+      "Seven seasons and several hundred matches, usually the only official on the field.",
+      "Made real-time calls under pressure and de-escalated disputes among players, coaches, and spectators.",
     ],
   },
 ] as const;

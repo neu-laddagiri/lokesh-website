@@ -2,7 +2,7 @@
 
 Portfolio and academic archive for Lokesh Addagiri, a Data Science and Business Administration combined major at Northeastern University (expected May 2029), with concentrations in Supply Chain Management and International Business.
 
-**Available for a January to June 2027 co-op**, targeting data science, data analytics, and operations analytics roles across industries.
+**Incoming Technology Services Group Co-op at Verisk**, January 6 to June 25, 2027. After that, looking for a summer internship starting in July 2027 in data, analytics, or operations.
 
 Live site: [lokeshaddagiri.com](https://www.lokeshaddagiri.com)
 

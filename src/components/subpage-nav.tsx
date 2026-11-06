@@ -4,6 +4,7 @@ import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { CoopNewsButton } from "@/components/coop/coop-news-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { EASE } from "@/components/home/motion";
 import { resumeLinkProps } from "@/lib/profile-links";
@@ -76,6 +77,7 @@ export function SubpageNav() {
         </div>
 
         <div className="flex items-center gap-3">
+          <CoopNewsButton />
           <ThemeToggle />
           <button
             type="button"

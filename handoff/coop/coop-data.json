@@ -1,0 +1,192 @@
+{
+  "asOf": "2026-11-05",
+  "notes": "Exact figures from Lokesh's application tracker. Do not round, inflate, or invent numbers. Hide any stat whose value is null. Logo files live in public/coop/logos/; an entry with logo null gets a text badge.",
+  "search": {
+    "coopApplications": 132,
+    "companies": 80,
+    "firstApplication": "2026-09-29",
+    "lastApplication": "2026-11-02",
+    "applicationsByMonth": {
+      "2026-09": 3,
+      "2026-10": 128,
+      "2026-11": 1
+    },
+    "interviewInvites": 11,
+    "interviewInviteList": [
+      "Citizens (recorded)",
+      "MathWorks (recorded)",
+      "Verisk BI Reports (recorded)",
+      "Verisk Technical Services (recorded, then live panel)",
+      "Verisk Helpdesk (live)",
+      "Cognition (live)",
+      "The Million Dollar Solution (phone screen)",
+      "Moderna (scheduled)",
+      "New Mountain Capital (invited)",
+      "Thinkstruct (invited)",
+      "IDC (invited)"
+    ],
+    "rejected": 20,
+    "withdrawn": 32,
+    "rejectedOrWithdrawn": 52,
+    "stillPendingWhenAccepted": 79,
+    "accepted": 1,
+    "tailoredResumes": 127,
+    "networkingContacts": 53,
+    "careerFairsAttended": null,
+    "daysFromFirstApplicationToAcceptance": 36,
+    "daysFromVeriskApplicationToOffer": 22
+  },
+  "coop": {
+    "company": "Verisk",
+    "title": "Technology Services Group Co-op",
+    "team": "Technology Services Group",
+    "location": "Boston, MA",
+    "officeName": "Lafayette City Center, Downtown Crossing",
+    "start": "2027-01-06",
+    "end": "2027-06-25",
+    "hoursPerWeek": 40,
+    "summary": "Supporting the catastrophe-modeling software insurers use to understand disaster risk.",
+    "timeline": [
+      {
+        "date": "2026-10-11",
+        "label": "Applied"
+      },
+      {
+        "date": "2026-10-14",
+        "label": "Invited to a recorded video interview and Excel assessment"
+      },
+      {
+        "date": "2026-11-02",
+        "label": "Panel interview with eight interviewers"
+      },
+      {
+        "date": "2026-11-02",
+        "label": "Offer, the same afternoon"
+      },
+      {
+        "date": "2026-11-04",
+        "label": "Accepted"
+      }
+    ]
+  },
+  "map": {
+    "office": {
+      "label": "Lafayette City Center, Boston",
+      "address": "2 Avenue de Lafayette, Boston, MA 02111",
+      "approxLngLat": [
+        -71.0613,
+        42.3529
+      ],
+      "verifyCoordinates": false,
+      "lngLat": [
+        -71.0613,
+        42.35368
+      ],
+      "verifiedWith": "OpenStreetMap Nominatim address point for 2 Avenue de Lafayette, checked 2026-11-05. The approximate point sat 87 m south of the building."
+    },
+    "campus": {
+      "label": "Northeastern University",
+      "approxLngLat": [
+        -71.0892,
+        42.3398
+      ],
+      "verifyCoordinates": false,
+      "lngLat": [
+        -71.0892,
+        42.3398
+      ],
+      "verifiedWith": "Checked against OpenStreetMap on 2026-11-05: inside the Northeastern campus. Not shown at street level."
+    },
+    "origin": {
+      "label": "Athens, Greece (Summer 2026 study abroad)",
+      "approxLngLat": [
+        23.7275,
+        37.9838
+      ],
+      "verifyCoordinates": false,
+      "lngLat": [
+        23.7275,
+        37.9838
+      ],
+      "verifiedWith": "Checked against OpenStreetMap on 2026-11-05: central Athens, about 1 km from the city node. The map only shows Athens at globe scale."
+    }
+  },
+  "organizations": [
+    {
+      "name": "Khoury College of Computer Sciences, Northeastern University",
+      "role": "Data Science half of my combined major",
+      "logo": "khoury.png"
+    },
+    {
+      "name": "D'Amore-McKim School of Business, Northeastern University",
+      "role": "Business half of my combined major",
+      "logo": "dmsb.png"
+    },
+    {
+      "name": "John Martinson Honors Program",
+      "role": "Honors student",
+      "logo": "honors.jpeg"
+    },
+    {
+      "name": "Family Business Consulting Club",
+      "role": "Junior Technology Consultant",
+      "dates": "Sep 2026 to present",
+      "logo": "fbc.jpg"
+    },
+    {
+      "name": "INFORMS at Northeastern",
+      "role": "Webmaster",
+      "dates": "Oct 2026 to present",
+      "logo": "informs.png"
+    },
+    {
+      "name": "DATA Club @ Northeastern University",
+      "role": "Project Lead",
+      "dates": "Jan to Apr 2026",
+      "logo": "data-club.jpeg"
+    },
+    {
+      "name": "Alliance of Civically Engaged Students (NU|ACES)",
+      "role": "Civic Engagement Volunteer",
+      "dates": "Sep to Dec 2025",
+      "logo": "nu-aces.png"
+    },
+    {
+      "name": "Lead360 at Northeastern",
+      "role": "Blueprint Participant",
+      "dates": "Sep to Dec 2025",
+      "logo": "lead360.jpeg"
+    },
+    {
+      "name": "NU Votes",
+      "role": "General Ambassador",
+      "dates": "Sep to Dec 2025",
+      "logo": "nu-votes.png"
+    },
+    {
+      "name": "The American College of Greece",
+      "role": "Summer 2026 study abroad, Athens",
+      "logo": "acg.jpg"
+    }
+  ],
+  "links": {
+    "site": "https://lokeshaddagiri.com",
+    "linkedin": "https://www.linkedin.com/in/lokeshaddagiri",
+    "github": "https://github.com/neu-laddagiri",
+    "email": "addagiri.l@northeastern.edu"
+  },
+  "projects": [
+    {
+      "name": "IG Wrapped",
+      "logo": "ig-wrapped.png"
+    },
+    {
+      "name": "CardEdge",
+      "logo": "cardedge.png"
+    },
+    {
+      "name": "lokeshaddagiri.com",
+      "logo": "site-icon.png"
+    }
+  ]
+}

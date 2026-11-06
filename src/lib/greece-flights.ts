@@ -1,3 +1,6 @@
+import { greatCircle } from "@/lib/geo";
+import { NIGHT_LIGHTS_ATTRIBUTION, NIGHT_LIGHTS_TILES } from "@/lib/map-tiles";
+
 export type AirportCode = "BOS" | "DUB" | "ATH" | "JTR" | "CHQ" | "FCO";
 
 export type FlightCategory = "main" | "santorini" | "crete" | "rome";
@@ -364,9 +367,6 @@ export function computeTotalJourneyTime(
   return mins === 0 ? `${hours}h` : `${hours}h ${mins}m`;
 }
 
-const toRad = (deg: number) => (deg * Math.PI) / 180;
-const toDeg = (rad: number) => (rad * 180) / Math.PI;
-
 export function greatCirclePath(
   from: AirportCode,
   to: AirportCode,
@@ -374,35 +374,7 @@ export function greatCirclePath(
 ): [number, number][] {
   const a = greeceAirports[from];
   const b = greeceAirports[to];
-  const lat1 = toRad(a.lat);
-  const lon1 = toRad(a.lng);
-  const lat2 = toRad(b.lat);
-  const lon2 = toRad(b.lng);
-
-  const d =
-    2 *
-    Math.asin(
-      Math.sqrt(
-        Math.sin((lat2 - lat1) / 2) ** 2 +
-          Math.cos(lat1) * Math.cos(lat2) * Math.sin((lon2 - lon1) / 2) ** 2,
-      ),
-    );
-
-  if (d === 0) return [[a.lng, a.lat]];
-
-  const points: [number, number][] = [];
-  for (let i = 0; i <= steps; i++) {
-    const f = i / steps;
-    const A = Math.sin((1 - f) * d) / Math.sin(d);
-    const B = Math.sin(f * d) / Math.sin(d);
-    const x =
-      A * Math.cos(lat1) * Math.cos(lon1) + B * Math.cos(lat2) * Math.cos(lon2);
-    const y =
-      A * Math.cos(lat1) * Math.sin(lon1) + B * Math.cos(lat2) * Math.sin(lon2);
-    const z = A * Math.sin(lat1) + B * Math.sin(lat2);
-    points.push([toDeg(Math.atan2(y, x)), toDeg(Math.atan2(z, Math.sqrt(x * x + y * y)))]);
-  }
-  return points;
+  return greatCircle([a.lng, a.lat], [b.lng, b.lat], steps);
 }
 
 export type LngLatBounds = [[number, number], [number, number]];
@@ -462,11 +434,9 @@ export const NIGHT_EARTH_MAP_STYLE = {
   sources: {
     night: {
       type: "raster" as const,
-      tiles: [
-        "https://gibs-a.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png",
-      ],
+      tiles: [NIGHT_LIGHTS_TILES],
       tileSize: 256,
-      attribution: "NASA EOSDIS GIBS",
+      attribution: NIGHT_LIGHTS_ATTRIBUTION,
       maxzoom: 8,
     },
     terrain: {

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { fadeUp, staggerContainer, viewport } from "@/components/home/motion";
 import { SectionHeader } from "@/components/home/section";
 import { PROFILE_IMAGE, PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
-import { CO_OP, EMAIL } from "@/lib/site-facts";
+import { AVAILABILITY, EMAIL } from "@/lib/site-facts";
 
 function MailIcon() {
   return (
@@ -143,8 +143,8 @@ export function ConnectSection() {
       <div className="mx-auto max-w-6xl">
         <SectionHeader
           label="Contact"
-          title="Let's talk about January 2027."
-          description={`Looking for a ${CO_OP.term} co-op in ${CO_OP.focus}. Email is fastest.`}
+          title="Let's talk about summer 2027."
+          description={`Looking for ${AVAILABILITY.search}. Email is fastest.`}
         />
 
         <motion.div

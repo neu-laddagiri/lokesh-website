@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { fadeUp, staggerContainer } from "@/components/home/motion";
 import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
-import { CO_OP, EDUCATION, EMAIL, HEADLINE_EVIDENCE } from "@/lib/site-facts";
+import { AVAILABILITY, EDUCATION, EMAIL, HEADLINE_EVIDENCE } from "@/lib/site-facts";
 
 function BriefcaseIcon() {
   return (
@@ -64,8 +64,8 @@ function ResumeIcon() {
 }
 
 const snapshot = [
-  { label: "Co-op term", value: CO_OP.term },
-  { label: "Based in", value: CO_OP.location },
+  { label: "Verisk co-op", value: AVAILABILITY.coopPeriod },
+  { label: "Based in", value: AVAILABILITY.location },
   { label: "Graduating", value: EDUCATION.graduation },
   { label: "GPA", value: EDUCATION.gpa },
 ] as const;
@@ -105,7 +105,8 @@ export function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#34c759] opacity-70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#34c759]" />
               </span>
-              {CO_OP.status}, {CO_OP.term}
+              <span className="sm:hidden">{AVAILABILITY.incomingShort}</span>
+              <span className="hidden sm:inline">{AVAILABILITY.incoming}</span>
             </span>
           </motion.div>
 
@@ -180,8 +181,11 @@ export function Hero() {
           <p className="text-[11px] font-semibold tracking-[0.16em] text-muted uppercase">
             Looking for
           </p>
+          <p className="mt-3 text-[17px] leading-snug font-semibold tracking-[-0.02em] text-foreground">
+            {AVAILABILITY.searchHeadline}
+          </p>
           <ul className="mt-4 space-y-2.5">
-            {CO_OP.roles.map((role) => (
+            {AVAILABILITY.roles.map((role) => (
               <li
                 key={role}
                 className="flex items-center gap-2.5 text-[15px] leading-snug font-medium tracking-[-0.01em] text-foreground"
@@ -193,7 +197,7 @@ export function Hero() {
           </ul>
 
           <p className="mt-5 border-t border-border pt-5 text-[14px] leading-[1.6] text-muted">
-            {CO_OP.outlook}
+            {AVAILABILITY.outlook}
           </p>
 
           <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-border pt-6">
