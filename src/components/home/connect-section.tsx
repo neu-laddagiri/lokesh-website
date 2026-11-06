@@ -1,11 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import { fadeUp, staggerContainer, viewport } from "@/components/home/motion";
 import { SectionHeader } from "@/components/home/section";
-import { PROFILE_IMAGE, PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
+import { PROFILE_LINKS, resumeExternalProps } from "@/lib/profile-links";
 import { AVAILABILITY, EMAIL } from "@/lib/site-facts";
 
 function MailIcon() {
@@ -62,32 +60,6 @@ function DocumentIcon() {
   );
 }
 
-function ProfileAvatar() {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  useEffect(() => {
-    const image = new window.Image();
-    image.src = PROFILE_IMAGE;
-    image.onload = () => setImageLoaded(true);
-  }, []);
-
-  if (!imageLoaded) {
-    return <LinkedInIcon />;
-  }
-
-  return (
-    <div className="relative h-6 w-6 overflow-hidden rounded-full border border-border">
-      <Image
-        src={PROFILE_IMAGE}
-        alt="Lokesh Addagiri"
-        fill
-        sizes="24px"
-        className="object-cover"
-      />
-    </div>
-  );
-}
-
 type ConnectCard = {
   title: string;
   detail: string;
@@ -112,7 +84,7 @@ const cards: readonly ConnectCard[] = [
     title: "LinkedIn",
     detail: "Experience and projects",
     href: PROFILE_LINKS.linkedin,
-    icon: <ProfileAvatar />,
+    icon: <LinkedInIcon />,
     iconClassName: "text-[#0A66C2]",
     glowClassName: "bg-[#0A66C2]/12",
     newTab: true,

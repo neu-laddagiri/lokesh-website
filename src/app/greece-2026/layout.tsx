@@ -10,7 +10,15 @@ export const metadata: Metadata = {
   title: "Greece 2026",
   description:
     "Study abroad in Athens, Greece. Academic growth, international business, and unforgettable experiences at the American College of Greece.",
+  // The preview image is opengraph-image.png beside this file.
   openGraph: {
+    title: "Greece 2026 | Lokesh Addagiri",
+    description:
+      "A documentary-style archive of my study abroad experience in Athens, Greece.",
+    url: "/greece-2026",
+  },
+  twitter: {
+    card: "summary_large_image",
     title: "Greece 2026 | Lokesh Addagiri",
     description:
       "A documentary-style archive of my study abroad experience in Athens, Greece.",
