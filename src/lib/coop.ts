@@ -127,6 +127,12 @@ export const CARD_STATS: readonly CoopStat[] = present([
   { kind: "number", value: search.accepted, label: "yes" },
 ]);
 
+/** The map scene's two captions: one sentence, read across the trip from Athens to the office. */
+export const COOP_CAPTIONS = {
+  origin: "From a summer studying abroad in Athens",
+  destination: `to ${coop.company}'s office in downtown ${city}`,
+} as const;
+
 /** "a, b, and c" */
 function listSentence(items: readonly string[]): string {
   if (items.length <= 2) return items.join(" and ");
