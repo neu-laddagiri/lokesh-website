@@ -4,8 +4,10 @@ import { useEffect, useRef } from "react";
 
 /**
  * Verisk's jack-o'-lantern: their logo carved into a pumpkin, from their
- * Halloween video. It loops silently; the dialog's pause control stops it, and
- * with reduced motion it stays on the still frame.
+ * Halloween video. It never makes a sound: the file has no audio track, and
+ * the element is held muted besides, so even an old cached copy that still
+ * had audio stays silent. The dialog's pause control stops it, and with
+ * reduced motion it stays on the still frame.
  */
 
 const VIDEO = { src: "/coop/verisk/pumpkin.mp4", poster: "/coop/verisk/pumpkin-poster.jpg" } as const;
@@ -15,11 +17,23 @@ const FOCUS = "51.4% 50%";
 export function PumpkinPanel({ paused, className = "" }: { paused: boolean; className?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Anything that unmutes it or raises the volume is undone at once.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video.muted = true;
+    const silence = () => {
+      if (!video.muted) video.muted = true;
+      if (video.volume !== 0) video.volume = 0;
+    };
     video.defaultMuted = true;
+    silence();
+    video.addEventListener("volumechange", silence);
+    return () => video.removeEventListener("volumechange", silence);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
     const still = paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (still) video.pause();
     else void video.play().catch(() => {});
@@ -33,6 +47,8 @@ export function PumpkinPanel({ paused, className = "" }: { paused: boolean; clas
           muted
           loop
           playsInline
+          disablePictureInPicture
+          disableRemotePlayback
           preload="auto"
           poster={VIDEO.poster}
           aria-hidden
