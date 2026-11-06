@@ -45,7 +45,7 @@ export function loadLogoImages(): Promise<LogoImages> {
 
 const SIZE = {
   desktop: { flagH: 80, poleH: 134, stackH: 72, ribbon: 1.05, spread: 1, drop: 190, pinH: 42, rope: 18 },
-  phone: { flagH: 60, poleH: 100, stackH: 58, ribbon: 1.05, spread: 0.62, drop: 140, pinH: 36, rope: 13 },
+  phone: { flagH: 60, poleH: 100, stackH: 58, ribbon: 1.05, spread: 0.48, drop: 140, pinH: 36, rope: 13 },
 } as const;
 
 const STRIPES = GREEK_FLAG.stripes;
